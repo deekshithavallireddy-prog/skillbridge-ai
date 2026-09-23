@@ -1,227 +1,1227 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>GATE CS Prep Hub - SkillBridge AI</title>
-    <style>
-        :root {
-            --primary: #2563eb;
-            --text-dark: #1e293b;
-            --text-light: #64748b;
-            --bg-body: #f8fafc;
-            --bg-card: #ffffff;
-            --border: #e2e8f0;
-            --success: #10b981;
-        }
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { display: flex; min-height: 100vh; background: var(--bg-body); color: var(--text-dark); }
-        
-        /* Sidebar */
-        .sidebar { width: 220px; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 0; position: fixed; height: 100vh; }
-        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); padding: 0 1.5rem; margin-bottom: 2rem; }
-        .nav-item { display: block; padding: 0.75rem 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 500; }
-        .nav-item:hover, .nav-item.active { background: #eff6ff; color: var(--primary); border-right: 3px solid var(--primary); }
-        
-        /* Main */
-        .main-content { margin-left: 220px; margin-right: 250px; flex: 1; padding: 2rem; overflow-y: auto; }
-        .hero { background: var(--primary); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
-        .hero h1 { margin-bottom: 0.5rem; font-size: 2rem; }
-        .hero p { opacity: 0.9; margin-bottom: 1.5rem; }
-        
-        .progress-container { background: rgba(255,255,255,0.2); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 0.5rem; }
-        .progress-bar { background: white; height: 100%; width: 0%; transition: width 0.3s; }
-        
-        /* Subject Tabs */
-        .tabs { display: flex; overflow-x: auto; gap: 0.5rem; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
-        .tab { padding: 0.5rem 1rem; white-space: nowrap; cursor: pointer; border-radius: 6px; font-weight: 500; color: var(--text-light); }
-        .tab.active { background: var(--primary); color: white; }
-        .tab:hover:not(.active) { background: #e2e8f0; }
-        
-        /* Content Card */
-        .subject-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 1.5rem; display: none; }
-        .subject-card.active { display: block; }
-        .subject-card h2 { margin-bottom: 1rem; color: var(--text-dark); }
-        .subject-meta { display: flex; gap: 1rem; color: var(--text-light); font-size: 0.875rem; margin-bottom: 1.5rem; }
-        
-        .topic-list { list-style: none; }
-        .topic-item { display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--border); }
-        .topic-item:last-child { border-bottom: none; }
-        .topic-item input[type="checkbox"] { margin-right: 1rem; width: 1.25rem; height: 1.25rem; cursor: pointer; }
-        .topic-item span { flex: 1; }
-        .topic-item.completed span { color: var(--success); text-decoration: line-through; }
-        
-        /* Right Sidebar */
-        .right-sidebar { width: 250px; background: var(--bg-card); border-left: 1px solid var(--border); padding: 1.5rem; position: fixed; right: 0; height: 100vh; }
-        .widget { margin-bottom: 2rem; }
-        .widget h3 { font-size: 1rem; margin-bottom: 1rem; color: var(--text-dark); }
-        .streak { font-size: 2rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 0.5rem; }
-        .link-list { list-style: none; }
-        .link-list li { margin-bottom: 0.5rem; }
-        .link-list a { color: var(--primary); text-decoration: none; font-size: 0.875rem; }
-        .predictor-box { background: #eff6ff; padding: 1rem; border-radius: 8px; border: 1px solid #bfdbfe; text-align: center; }
-        .predictor-score { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0.5rem 0; }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GATE Prep - SkillBridge AI</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --text-muted: #64748b;
+      --border: #e2e8f0;
+      --success: #10b981;
+      --danger: #ef4444;
+      --warning: #f59e0b;
+      --sidebar-width: 256px;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Sidebar Styles */
+    .sidebar {
+      width: var(--sidebar-width);
+      background-color: var(--surface);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      flex-shrink: 0;
+    }
+
+    .sb-logo {
+      padding: 24px;
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--text);
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-logo span { color: var(--primary); }
+
+    .sb-user {
+      padding: 20px 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--border);
+    }
+    .sb-av {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 18px;
+    }
+    .sb-info h4 { font-size: 14px; font-weight: 600; }
+    .sb-info span { font-size: 12px; color: var(--text-muted); }
+
+    .sb-nav {
+      flex: 1;
+      padding: 24px 16px;
+      overflow-y: auto;
+    }
+    .nav-label {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      margin: 16px 0 8px 12px;
+      letter-spacing: 0.05em;
+    }
+    .nav-i {
+      display: flex;
+      align-items: center;
+      padding: 10px 12px;
+      color: var(--text);
+      text-decoration: none;
+      border-radius: 8px;
+      margin-bottom: 4px;
+      font-size: 14px;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-i:hover { background: #f1f5f9; }
+    .nav-i.active {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+    .ni-icon { margin-right: 12px; font-size: 18px; }
+
+    .sb-logout {
+      margin: 16px;
+      padding: 12px;
+      background: transparent;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      color: var(--text);
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sb-logout:hover { background: #f1f5f9; color: var(--danger); border-color: var(--danger); }
+
+    /* Main Content Area */
+    .main-content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    /* Top Header / Subject Tabs */
+    .header-area {
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+
+    .top-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .page-title {
+      font-size: 20px;
+      font-weight: 700;
+    }
+
+    .tools-row {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .search-box {
+      padding: 8px 16px;
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      font-size: 14px;
+      width: 250px;
+      outline: none;
+    }
+    .search-box:focus { border-color: var(--primary); }
+
+    .marks-calc {
+      background: #eff6ff;
+      color: var(--primary);
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    /* Tabs */
+    .subject-tabs {
+      display: flex;
+      gap: 24px;
+      overflow-x: auto;
+      scrollbar-width: none;
+      padding-top: 16px;
+    }
+    .subject-tabs::-webkit-scrollbar { display: none; }
+    
+    .tab-btn {
+      background: none;
+      border: none;
+      padding: 12px 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-muted);
+      cursor: pointer;
+      white-space: nowrap;
+      border-bottom: 2px solid transparent;
+      transition: all 0.2s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active {
+      color: var(--primary);
+      border-bottom-color: var(--primary);
+    }
+
+    /* Content Area */
+    .content-area {
+      flex: 1;
+      padding: 24px;
+      overflow-y: auto;
+    }
+
+    .two-col-layout {
+      display: grid;
+      grid-template-columns: 1fr 300px;
+      gap: 24px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    /* Subject Overview Card */
+    .overview-card, .sidebar-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 24px;
+      margin-bottom: 24px;
+    }
+
+    .overview-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .overview-title { font-size: 20px; font-weight: 700; }
+    .overview-stats {
+      display: flex;
+      gap: 16px;
+      margin-bottom: 20px;
+    }
+    .stat-badge {
+      background: #f1f5f9;
+      padding: 8px 12px;
+      border-radius: 8px;
+      font-size: 13px;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .progress-wrap {
+      background: #f1f5f9;
+      height: 8px;
+      border-radius: 4px;
+      overflow: hidden;
+      margin-top: 8px;
+    }
+    .progress-bar {
+      background: var(--primary);
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s;
+    }
+    .progress-text {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-muted);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    /* Topics List */
+    .topics-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .topic-item {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+    }
+
+    .topic-header {
+      padding: 16px 20px;
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      transition: background 0.2s;
+    }
+    .topic-header:hover { background: #f8fafc; }
+
+    .topic-checkbox {
+      width: 20px;
+      height: 20px;
+      margin-right: 16px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+
+    .topic-title {
+      font-weight: 600;
+      flex: 1;
+    }
+
+    .topic-toggle-icon {
+      color: var(--text-muted);
+      font-size: 20px;
+      transition: transform 0.3s;
+    }
+    .topic-item.expanded .topic-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .topic-content {
+      display: none;
+      padding: 0 20px 20px 56px;
+      border-top: 1px solid var(--border);
+      background: #fdfdfd;
+    }
+    .topic-item.expanded .topic-content { display: block; padding-top: 20px; }
+
+    .content-section { margin-bottom: 20px; }
+    .content-section h5 {
+      font-size: 14px;
+      color: var(--primary);
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .content-section p, .content-section li {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text);
+    }
+    .content-section ul { padding-left: 20px; }
+
+    .resource-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      background: #eff6ff;
+      color: var(--primary);
+      text-decoration: none;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 500;
+      margin-right: 8px;
+      margin-bottom: 8px;
+    }
+    .resource-link:hover { background: #dbeafe; }
+
+    /* Practice Questions */
+    .mcq-box {
+      background: #ffffff;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 12px;
+    }
+    .mcq-q {
+      font-weight: 600;
+      font-size: 14px;
+      margin-bottom: 12px;
+    }
+    .mcq-options {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .mcq-opt {
+      padding: 10px 12px;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: all 0.2s;
+      background: #f8fafc;
+    }
+    .mcq-opt:hover:not(.disabled) { border-color: var(--primary); background: white; }
+    
+    .mcq-opt.correct { background: #ecfdf5; border-color: var(--success); color: #065f46; font-weight: 500; }
+    .mcq-opt.wrong { background: #fef2f2; border-color: var(--danger); color: #991b1b; }
+    .mcq-opt.disabled { cursor: default; pointer-events: none; }
+
+    .mcq-exp {
+      margin-top: 12px;
+      padding: 12px;
+      background: #f1f5f9;
+      border-radius: 6px;
+      font-size: 13px;
+      display: none;
+    }
+
+    /* Sidebar info block */
+    .sidebar-card h3 { font-size: 16px; margin-bottom: 12px; }
+    .book-rec {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+      font-size: 14px;
+    }
+    
+    @media(max-width: 768px) {
+      .sidebar { display: none; }
+      .two-col-layout { grid-template-columns: 1fr; }
+      .search-box { display: none; }
+    }
+  </style>
 </head>
 <body>
 
-    <div class="sidebar">
-        <div class="logo">SkillBridge AI</div>
-        <a href="#" class="nav-item">Dashboard</a>
-        <a href="#" class="nav-item">Profile</a>
-        <a href="#" class="nav-item">Roadmap</a>
-        <a href="gate.html" class="nav-item active">GATE Prep</a>
-        <a href="ai-questions.html" class="nav-item">AI Questions</a>
-        <a href="my-progress.html" class="nav-item">My Progress</a>
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="sb-logo">⚡ Skill<span>Bridge AI</span></div>
+    <div class="sb-user">
+      <div class="sb-av" id="sbAv">S</div>
+      <div class="sb-info">
+        <h4 id="sbName">Student</h4>
+        <span>SkillBridge AI</span>
+      </div>
+    </div>
+    <nav class="sb-nav">
+      <p class="nav-label">MAIN</p>
+      <a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a>
+      <a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a>
+      <a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a>
+      <a href="roadmap.html" class="nav-i"><span class="ni-icon">🗺️</span> Roadmap</a>
+      <p class="nav-label">LEARNING</p>
+      <a href="gate.html" class="nav-i active"><span class="ni-icon">🎓</span> GATE Prep</a>
+      <a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> AI Questions</a>
+      <a href="interview.html" class="nav-i"><span class="ni-icon">🎤</span> Interview Prep</a>
+      <a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a>
+      <p class="nav-label">TOOLS</p>
+      <a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a>
+      <a href="projects.html" class="nav-i"><span class="ni-icon">💻</span> Projects</a>
+    </nav>
+    <button class="sb-logout" onclick="localStorage.clear();window.location.href='login.html'">🚪 Logout</button>
+  </aside>
+
+  <!-- Main Content -->
+  <div class="main-content">
+    
+    <!-- Header Area -->
+    <div class="header-area">
+      <div class="top-bar">
+        <h1 class="page-title">GATE Preparation</h1>
+        <div class="tools-row">
+          <input type="text" id="searchInput" class="search-box" placeholder="Search topics..." onkeyup="filterTopics()">
+          <div class="marks-calc" id="marksCalc">🎯 Est. Score: 0/100</div>
+        </div>
+      </div>
+      
+      <!-- Subject Tabs -->
+      <div class="subject-tabs" id="subjectTabs">
+        <!-- Generated by JS -->
+      </div>
     </div>
 
-    <div class="main-content">
-        <div class="hero">
-            <h1>GATE CS 2025 Preparation Hub</h1>
-            <p>Track your syllabus completion and stay organized.</p>
-            <div>Overall Progress: <span id="overall-pct">0</span>%</div>
-            <div class="progress-container"><div class="progress-bar" id="overall-bar"></div></div>
-        </div>
-
-        <div class="tabs" id="subject-tabs">
-            <!-- Rendered via JS -->
-        </div>
-
-        <div id="subjects-container">
-            <!-- Rendered via JS -->
-        </div>
-    </div>
-
-    <div class="right-sidebar">
-        <div class="widget">
-            <h3>Study Streak</h3>
-            <div class="streak">🔥 12 Days</div>
-        </div>
-        <div class="widget">
-            <h3>Quick Links</h3>
-            <ul class="link-list">
-                <li><a href="#">GATE 2024 Question Paper</a></li>
-                <li><a href="#">GATE 2023 Question Paper</a></li>
-                <li><a href="#">Official Syllabus</a></li>
-            </ul>
-        </div>
-        <div class="widget">
-            <h3>GATE Score Predictor</h3>
-            <div class="predictor-box">
-                <div style="font-size:0.875rem; color:var(--text-light)">Based on topics completed</div>
-                <div class="predictor-score" id="pred-score">--</div>
-                <div style="font-size:0.75rem; color:var(--text-light)">Max: 100</div>
+    <!-- Content Area -->
+    <div class="content-area">
+      <div class="two-col-layout">
+        
+        <!-- Left Col: Topics -->
+        <div>
+          <div class="overview-card">
+            <div class="overview-header">
+              <h2 class="overview-title" id="ovTitle">Operating Systems</h2>
             </div>
+            <div class="overview-stats" id="ovStats">
+              <!-- JS -->
+            </div>
+            <div class="progress-text">
+              <span>Topic Progress</span>
+              <span id="ovProgressText">0 / 0 Completed</span>
+            </div>
+            <div class="progress-wrap">
+              <div class="progress-bar" id="ovProgressBar" style="width: 0%"></div>
+            </div>
+          </div>
+
+          <div class="topics-list" id="topicsContainer">
+            <!-- Topics Generated via JS -->
+          </div>
         </div>
+
+        <!-- Right Col: Resources / Sidebar -->
+        <div>
+          <div class="sidebar-card">
+            <h3>📚 Standard Books</h3>
+            <div id="booksContainer">
+              <!-- JS -->
+            </div>
+          </div>
+          
+          <div class="sidebar-card">
+            <h3>💡 GATE Study Tip</h3>
+            <p style="font-size:14px; color:var(--text-muted); line-height: 1.5;">
+              Solve at least 10 years of previous year questions (PYQs) for this subject. Pay special attention to numericals. Make short notes for formulas.
+            </p>
+          </div>
+        </div>
+
+      </div>
     </div>
+  </div>
 
-    <script>
-        const token = localStorage.getItem('sb_token');
-        if (!token && false) window.location.href = 'login.html'; // Remove '&& false' in prod
+  <script>
+    // --- GATE DATA ---
+    const GATE_DATA = {
+      'OS': {
+        name: 'Operating Systems',
+        weightage: 9,
+        questions: '6-8',
+        difficulty: 'Medium',
+        books: ['Galvin, Silberschatz - Operating System Concepts'],
+        topics: [
+          {
+            id: 'os_1',
+            name: 'Process Management',
+            concepts: 'Process states (New→Ready→Running→Waiting→Terminated), PCB structure, process creation (fork), process scheduling. Scheduling algorithms: FCFS, SJF, SRTF, Round Robin, Priority.',
+            formulas: 'Turnaround Time = Completion - Arrival\nWaiting Time = Turnaround - Burst\nResponse Time = First CPU - Arrival',
+            gateTips: 'Gantt chart problems, calculate avg waiting/turnaround time. Watch out for preemptive vs non-preemptive.',
+            resources: [
+              {type:'video', label:'Gate Smashers OS', url:'https://www.youtube.com/playlist?list=PLmXKhU9FNesSFvj6gASuWmQd23Ul5omtD'},
+              {type:'article', label:'GFG - Process Management', url:'https://www.geeksforgeeks.org/process-management-in-os/'}
+            ],
+            revision: ['PCB stores context', 'SJF gives min avg waiting time', 'Round Robin relies on time quantum'],
+            questions: [
+              {q:'3 processes P1(burst=6), P2(burst=2), P3(burst=8) FCFS. Avg waiting time?', opts:['4.67ms','5.33ms','6.0ms','3.33ms'], ans:0, exp:'Arrival=0. P1 waits 0. P2 waits 6. P3 waits 8. (0+6+8)/3 = 14/3 = 4.67ms'},
+              {q:'Which scheduling is optimal for minimum avg waiting time?', opts:['FCFS','Round Robin','SJF','Priority'], ans:2, exp:'Shortest Job First (SJF) always yields minimum average waiting time.'},
+              {q:'In Round Robin with quantum=2, P1(burst=5),P2(burst=3). How many context switches?', opts:['2','3','4','5'], ans:2, exp:'Execution: P1(2) -> P2(2) -> P1(2) -> P2(1) -> P1(1). Switches occur between these blocks.'},
+              {q:'What is stored in PCB?', opts:['Process ID','CPU registers','Memory limits','All of above'], ans:3, exp:'Process Control Block contains all metadata related to a process.'},
+              {q:'Preemptive SJF is also called?', opts:['SRTF','Round Robin','Priority','LRTF'], ans:0, exp:'Shortest Remaining Time First (SRTF) is the preemptive version of SJF.'}
+            ]
+          },
+          {
+            id: 'os_2',
+            name: 'Memory Management',
+            concepts: 'Paging (logical→physical via page table), Segmentation, TLB, Virtual Memory. Page replacement: FIFO, LRU, Optimal, Clock. Thrashing occurs when CPU spends more time paging than executing.',
+            formulas: 'Effective Access Time = hit_ratio × TLB_time + (1-hit_ratio) × (TLB_time + mem_time)',
+            gateTips: 'Page fault calculation, effective access time numericals, logical to physical address translation.',
+            resources: [
+              {type:'video', label:'Neso Academy OS', url:'https://www.youtube.com/playlist?list=PLBlnK6fEyqRiVhbXDGLXDk_OQAeuVcp2O'},
+              {type:'article', label:'GFG - Memory Mgmt', url:'https://www.geeksforgeeks.org/memory-management-in-operating-system/'}
+            ],
+            revision: ['TLB is associative memory', 'Optimal page replacement has no Belady anomaly', 'Thrashing decreases CPU utilization'],
+            questions: [
+              {q:'Page size=4KB, logical address=32bits. Max pages in page table?', opts:['1M','2M','4M','512K'], ans:0, exp:'Page size = 2^12 bytes. Num pages = 2^32 / 2^12 = 2^20 = 1M pages.'},
+              {q:'Belady\'s anomaly occurs in which algorithm?', opts:['LRU','Optimal','FIFO','MRU'], ans:2, exp:'FIFO can suffer from Belady\'s anomaly where more frames lead to more page faults.'},
+              {q:'TLB hit ratio=80%, TLB access=10ns, RAM access=100ns. EAT?', opts:['20ns','30ns','40ns','110ns'], ans:1, exp:'EAT = 0.8*10 + 0.2*(10+100) = 8 + 22 = 30ns'},
+              {q:'Which is NOT a page replacement algorithm?', opts:['FIFO','LRU','Optimal','Round Robin'], ans:3, exp:'Round Robin is a CPU scheduling algorithm, not page replacement.'},
+              {q:'FIFO with 3 frames, reference string 1,2,3,4,1,2,5,1,2,3,4,5. Page faults?', opts:['7','8','9','10'], ans:2, exp:'Trace it: 1(M), 2(M), 3(M), 4(M), 1(M), 2(M), 5(M), 1(M), 2(M), 3(H), 4(H), 5(H). 9 faults.'}
+            ]
+          },
+          {
+            id: 'os_3',
+            name: 'Deadlocks',
+            concepts: '4 Coffman conditions: Mutual Exclusion, Hold&Wait, No Preemption, Circular Wait. Banker\'s Algorithm for avoidance. Detection using Resource Allocation Graph (RAG).',
+            formulas: 'Need = Max - Allocation',
+            gateTips: 'Find safe sequence using Banker\'s algorithm. Check for deadlock in given RAG.',
+            resources: [
+              {type:'article', label:'GFG - Deadlocks', url:'https://www.geeksforgeeks.org/deadlock-in-os/'}
+            ],
+            revision: ['Cycle in single-instance RAG = Deadlock', 'Avoidance uses Banker\'s'],
+            questions: [
+              {q:'Which condition is broken by allowing preemption?', opts:['Mutual Exclusion','Hold & Wait','No Preemption','Circular Wait'], ans:2, exp:'If resources can be preempted, the No Preemption condition is broken.'},
+              {q:'Banker\'s algorithm is used for?', opts:['Deadlock Prevention','Deadlock Avoidance','Deadlock Detection','Deadlock Recovery'], ans:1, exp:'Banker\'s algorithm dynamically avoids deadlock by keeping system in safe state.'},
+              {q:'In RAG with single-instance resources, deadlock iff?', opts:['Cycle exists','No cycle exists','Graph is complete','Bipartite graph'], ans:0, exp:'A cycle is necessary and sufficient for deadlock in single-instance RAG.'},
+              {q:'Which breaks Hold&Wait condition?', opts:['Request all resources at start','Preempt resources','Order resources','Allow sharing'], ans:0, exp:'Requesting all resources initially prevents holding some while waiting for others.'},
+              {q:'Deadlock recovery method?', opts:['Kill process','Preempt resources','Both','Neither'], ans:2, exp:'Both aborting processes and preempting resources are valid recovery methods.'}
+            ]
+          },
+          {
+            id: 'os_4',
+            name: 'Synchronization',
+            concepts: 'Critical section properties: Mutual Exclusion, Progress, Bounded Waiting. Semaphores (binary, counting), mutex. Classical problems: Dining Philosophers, Producer-Consumer.',
+            formulas: 'N/A',
+            gateTips: 'Trace semaphore P() and V() operations. Check if deadlocks can occur in given code.',
+            resources: [
+              {type:'article', label:'GFG - Synchronization', url:'https://www.geeksforgeeks.org/process-synchronization-set-1/'}
+            ],
+            revision: ['P=Wait/Decrement, V=Signal/Increment', 'Monitor provides automatic mutual exclusion'],
+            questions: [
+              {q:'Binary semaphore can have values?', opts:['Any integer','0 and 1 only','Positive only','Negative only'], ans:1, exp:'Binary semaphores act like mutex locks with values 0 or 1.'},
+              {q:'P operation on semaphore does?', opts:['Increment','Decrement and wait if <0','Reset','None'], ans:1, exp:'P (Wait) decrements the semaphore and blocks if value becomes negative.'},
+              {q:'Critical section property that prevents starvation?', opts:['Mutual Exclusion','Progress','Bounded Waiting','Portability'], ans:2, exp:'Bounded waiting ensures a process will eventually enter its critical section.'},
+              {q:'Dining Philosophers solution with N-1 philosophers seated prevents?', opts:['Starvation','Deadlock','Race Condition','None'], ans:1, exp:'Limiting to N-1 ensures at least one philosopher can get both forks, preventing deadlock.'},
+              {q:'Monitor provides?', opts:['Deadlock detection','Mutual Exclusion automatically','Context switching','None'], ans:1, exp:'Monitors abstract mutual exclusion so only one process is active inside it.'}
+            ]
+          },
+          {
+            id: 'os_5',
+            name: 'File Systems',
+            concepts: 'Inode (stores metadata NOT filename). Allocation: Contiguous, Linked, Indexed. Disk scheduling: FCFS, SSTF, SCAN, C-SCAN, LOOK.',
+            formulas: 'Seek time calculation based on track movements.',
+            gateTips: 'Calculate total head movement for disk scheduling algorithms.',
+            resources: [
+              {type:'article', label:'GFG - File Systems', url:'https://www.geeksforgeeks.org/file-system-os/'}
+            ],
+            revision: ['Contiguous suffers external fragmentation', 'SCAN = Elevator algorithm'],
+            questions: [
+              {q:'Inode stores?', opts:['File content','File metadata','Filename','Directory path'], ans:1, exp:'Inodes store metadata like permissions, size, blocks, but NOT the filename (which is in dir entry).'},
+              {q:'Contiguous allocation problem?', opts:['Internal fragmentation','External fragmentation','Slow access','No random access'], ans:1, exp:'It leads to external fragmentation over time as files are deleted and created.'},
+              {q:'Which disk scheduling is most fair?', opts:['SSTF','SCAN','FCFS','C-SCAN'], ans:3, exp:'C-SCAN (Circular SCAN) provides more uniform wait times than SCAN.'},
+              {q:'SSTF stands for?', opts:['Shortest Seek Time First','Standard Seek Time First','Shortest Sector Time First','None'], ans:0, exp:'SSTF selects the request closest to the current head position.'},
+              {q:'FAT stands for?', opts:['File Allocation Table','Fast Allocation Table','File Access Time','Folder Allocation Table'], ans:0, exp:'FAT is a linked allocation method using a table.'}
+            ]
+          }
+        ]
+      },
+      'DBMS': {
+        name: 'Database Management Systems',
+        weightage: 10,
+        questions: '7-9',
+        difficulty: 'Medium-Hard',
+        books: ['Korth, Silberschatz - Database System Concepts', 'Navathe - Fundamentals of Database Systems'],
+        topics: [
+          {
+            id: 'dbms_1',
+            name: 'SQL Queries',
+            concepts: 'SELECT, WHERE, GROUP BY, HAVING, ORDER BY, JOINs (INNER, LEFT, RIGHT, FULL). Aggregate functions, Nested queries, EXISTS, IN.',
+            formulas: '',
+            gateTips: 'Trace complex nested SQL queries. Understand difference between WHERE and HAVING.',
+            resources: [
+              {type:'video', label:'Gate Smashers DBMS', url:'https://www.youtube.com/playlist?list=PLmXKhU9FNesSEqrZMSzPjB3EL7yxVHIAY'},
+              {type:'article', label:'W3Schools SQL', url:'https://www.w3schools.com/sql/'}
+            ],
+            revision: ['HAVING applies to groups', 'COUNT(*) counts nulls, COUNT(col) doesn\'t'],
+            questions: [
+              {q:'HAVING clause filters?', opts:['Rows','Columns','Groups','Tables'], ans:2, exp:'HAVING is used to filter groups created by GROUP BY.'},
+              {q:'INNER JOIN returns?', opts:['All rows','Matching rows from both','Left rows','Right rows'], ans:1, exp:'INNER JOIN returns only records that have matching values in both tables.'},
+              {q:'SELECT COUNT(*) vs COUNT(col)?', opts:['Same','COUNT(*) ignores nulls','COUNT(col) ignores nulls','None'], ans:2, exp:'COUNT(col) ignores NULL values in that column.'},
+              {q:'Query for 2nd highest salary?', opts:['MAX(sal)','MAX(sal) WHERE sal < (SELECT MAX(sal))','LIMIT 2','None'], ans:1, exp:'Find max salary which is strictly less than the overall max salary.'},
+              {q:'FULL OUTER JOIN returns?', opts:['Matching only','All rows with NULLs for non-matches','Cross product','None'], ans:1, exp:'Returns all records when there is a match in either left or right table.'}
+            ]
+          },
+          {
+            id: 'dbms_2',
+            name: 'Normalization',
+            concepts: 'Functional Dependencies, Keys. 1NF (atomic), 2NF (no partial dep), 3NF (no transitive dep), BCNF (X->Y implies X is superkey).',
+            formulas: '',
+            gateTips: 'Find candidate keys via closure. Check which normal form a relation satisfies.',
+            resources: [
+              {type:'video', label:'Neso Academy DBMS', url:'https://www.youtube.com/playlist?list=PLBlnK6fEyqRi_CUQ-FXxgzKQ1dwr_ZJWZ'}
+            ],
+            revision: ['BCNF is stricter than 3NF', 'Lossless join requires common attribute to be key'],
+            questions: [
+              {q:'2NF removes?', opts:['Transitive dependencies','Partial dependencies','Multi-valued','None'], ans:1, exp:'2NF ensures no non-prime attribute is partially dependent on any candidate key.'},
+              {q:'3NF removes?', opts:['Transitive dependencies','Partial dependencies','Multi-valued','None'], ans:0, exp:'3NF ensures no non-prime attribute transitively depends on primary key.'},
+              {q:'BCNF is stricter than?', opts:['1NF','2NF','3NF','4NF'], ans:2, exp:'Every BCNF relation is in 3NF, but not vice versa.'},
+              {q:'R(A,B,C), FDs: A→B, B→C. Highest NF?', opts:['1NF','2NF','3NF','BCNF'], ans:1, exp:'Key is A. B->C is a transitive dependency (non-prime to non-prime), violating 3NF.'},
+              {q:'Lossless decomposition requires?', opts:['Same attributes','Common attribute is key in one','No FDs','None'], ans:1, exp:'The intersection of decomposed relations must be a superkey of at least one relation.'}
+            ]
+          },
+          {
+            id: 'dbms_3',
+            name: 'Transactions & ACID',
+            concepts: 'Atomicity, Consistency, Isolation, Durability. Serializability (conflict/view). 2 Phase Locking (2PL).',
+            formulas: '',
+            gateTips: 'Draw precedence graph to check conflict serializability. Cycle = Not conflict serializable.',
+            resources: [
+              {type:'article', label:'GFG - Transactions', url:'https://www.geeksforgeeks.org/transaction-management/'}
+            ],
+            revision: ['2PL guarantees serializability but not deadlock-freedom', 'Durability survives crashes'],
+            questions: [
+              {q:'2PL guarantees?', opts:['Deadlock freedom','Starvation freedom','Conflict serializability','None'], ans:2, exp:'2PL ensures conflict serializability.'},
+              {q:'Dirty read problem occurs when?', opts:['Read uncommitted data','Read committed data','Update lost','None'], ans:0, exp:'Reading data from a transaction that later aborts is a dirty read.'},
+              {q:'Durability means?', opts:['No deadlocks','Committed data survives crashes','All or nothing','None'], ans:1, exp:'Durability ensures successful commits are permanently recorded.'},
+              {q:'Conflict serializable iff?', opts:['Graph has cycle','Graph is acyclic','Graph is tree','None'], ans:1, exp:'Acyclic precedence graph implies conflict serializability.'},
+              {q:'Isolation prevents?', opts:['Crashes','Concurrency anomalies','Deadlocks','None'], ans:1, exp:'Isolation hides uncommitted changes from other transactions.'}
+            ]
+          },
+          {
+            id: 'dbms_4',
+            name: 'Indexing & B+ Trees',
+            concepts: 'Dense/Sparse index. B+ Trees: data only at leaves, linked leaves. B-Tree: data at all nodes.',
+            formulas: 'B+ Tree order m: max m children, min ⌈m/2⌉ children',
+            gateTips: 'Calculate levels of B+ tree, min/max keys per node.',
+            resources: [
+              {type:'article', label:'GFG - B+ Trees', url:'https://www.geeksforgeeks.org/introduction-of-b-tree-2/'}
+            ],
+            revision: ['B+ tree leaves are a linked list', 'Primary index is sparse'],
+            questions: [
+              {q:'B+ tree vs B tree diff?', opts:['Same','B+ stores data at leaves only','B stores data at leaves only','None'], ans:1, exp:'B+ tree keeps all records in leaves and uses internal nodes just for routing.'},
+              {q:'Clustered index means?', opts:['Data scattered','Physical order matches index','Hash based','None'], ans:1, exp:'Clustered index dictates the physical sorting of records.'},
+              {q:'B+ tree of order 3, max keys per node?', opts:['1','2','3','4'], ans:1, exp:'Max keys = order - 1 = 3 - 1 = 2.'},
+              {q:'Which supports range queries better?', opts:['Hash','B Tree','B+ Tree','None'], ans:2, exp:'B+ tree linked leaves make sequential traversal for range queries very fast.'},
+              {q:'Primary index is?', opts:['Dense','Sparse and on ordered key','On un-ordered non-key','None'], ans:1, exp:'Primary index is built on ordering key and is typically sparse.'}
+            ]
+          }
+        ]
+      },
+      'CN': {
+        name: 'Computer Networks',
+        weightage: 9,
+        questions: '6-8',
+        difficulty: 'Hard',
+        books: ['Kurose & Ross', 'Forouzan - Data Communications'],
+        topics: [
+          {
+            id: 'cn_1',
+            name: 'OSI & TCP/IP Model',
+            concepts: '7 Layers OSI. Protocols per layer: HTTP/DNS (App), TCP/UDP (Transport), IP (Network), Ethernet (Data Link).',
+            formulas: '',
+            gateTips: 'Match protocol to layer. Port numbers (HTTP 80, HTTPS 443, DNS 53).',
+            resources: [
+              {type:'video', label:'Gate Smashers CN', url:'https://www.youtube.com/playlist?list=PLmXKhU9FNesStmEMW4oMRAlxMFyjVQtQ9'}
+            ],
+            revision: ['Data Link PDU = Frame, Network = Packet, Transport = Segment'],
+            questions: [
+              {q:'Which layer does routing?', opts:['Data Link','Network','Transport','Session'], ans:1, exp:'Layer 3 (Network) handles IP routing.'},
+              {q:'TCP operates at?', opts:['Application','Network','Transport','Physical'], ans:2, exp:'TCP is a Transport Layer protocol.'},
+              {q:'DNS port number?', opts:['80','53','21','22'], ans:1, exp:'DNS uses UDP/TCP port 53.'},
+              {q:'PDU at Data Link layer?', opts:['Packet','Segment','Frame','Bit'], ans:2, exp:'Data Link layer packages bits into Frames.'},
+              {q:'HTTP is stateless means?', opts:['No IPs','No session memory','No routing','None'], ans:1, exp:'Server treats each request independently.'}
+            ]
+          },
+          {
+            id: 'cn_2',
+            name: 'IP Addressing & Subnetting',
+            concepts: 'IPv4 Classes, CIDR notation, Subnet mask. Usable hosts = 2^h - 2.',
+            formulas: 'Usable hosts = 2^hostbits - 2',
+            gateTips: 'Find subnet ID, broadcast address, valid host ranges for a given CIDR.',
+            resources: [
+              {type:'video', label:'Neso Academy CN', url:'https://www.youtube.com/playlist?list=PLBlnK6fEyqRjx1C-BFQtHaVKX6fTiJ5yk'}
+            ],
+            revision: ['Class A starts 0, B starts 10, C starts 110', '127.0.0.1 is Loopback'],
+            questions: [
+              {q:'/28 subnet → usable hosts?', opts:['16','14','32','30'], ans:1, exp:'32-28 = 4 host bits. 2^4 - 2 = 14 usable hosts.'},
+              {q:'Class B default mask?', opts:['255.0.0.0','255.255.0.0','255.255.255.0','None'], ans:1, exp:'Class B uses 16 bits for network, so /16 or 255.255.0.0'},
+              {q:'192.168.5.0/24, broadcast address?', opts:['192.168.5.1','192.168.5.254','192.168.5.255','192.168.255.255'], ans:2, exp:'Set all host bits to 1 -> .255'},
+              {q:'ARP resolves?', opts:['MAC to IP','IP to MAC','Domain to IP','None'], ans:1, exp:'Address Resolution Protocol finds MAC given IP.'},
+              {q:'Loopback address?', opts:['0.0.0.0','127.0.0.1','255.255.255.255','None'], ans:1, exp:'127.0.0.0/8 block is reserved for loopback.'}
+            ]
+          },
+          {
+            id: 'cn_3',
+            name: 'TCP vs UDP',
+            concepts: 'TCP: connection-oriented, reliable, flow/congestion control. 3-way handshake. UDP: connectionless, fast.',
+            formulas: '',
+            gateTips: 'TCP congestion window sizes, Slow start vs Congestion avoidance.',
+            resources: [
+              {type:'article', label:'GFG - TCP vs UDP', url:'https://www.geeksforgeeks.org/differences-between-tcp-and-udp/'}
+            ],
+            revision: ['SYN, SYN-ACK, ACK', 'UDP is stateless'],
+            questions: [
+              {q:'TCP 3-way handshake?', opts:['SYN-ACK-FIN','SYN-SYNACK-ACK','ACK-SYN-ACK','None'], ans:1, exp:'SYN -> SYN-ACK -> ACK'},
+              {q:'UDP used for?', opts:['Email','File transfer','Video streaming','Web browsing'], ans:2, exp:'Speed is preferred over reliability for streaming.'},
+              {q:'TCP window size=1 implies?', opts:['Stop-and-Wait','Go-Back-N','Selective Repeat','None'], ans:0, exp:'Sender sends 1 packet and waits for ACK before sending next.'},
+              {q:'Which is stateless?', opts:['TCP','UDP','Both','Neither'], ans:1, exp:'UDP maintains no connection state.'},
+              {q:'TCP FIN handshake uses?', opts:['2 msgs','3 msgs','4 msgs','None'], ans:2, exp:'FIN, ACK, FIN, ACK'}
+            ]
+          },
+          {
+            id: 'cn_4',
+            name: 'Routing Algorithms',
+            concepts: 'Distance Vector (RIP, Bellman-Ford, count-to-infinity). Link State (OSPF, Dijkstra).',
+            formulas: '',
+            gateTips: 'Count to infinity problem in DV. Apply Dijkstra to find shortest path.',
+            resources: [
+              {type:'article', label:'GFG - Routing', url:'https://www.geeksforgeeks.org/dijkstras-shortest-path-algorithm-greedy-algo-7/'}
+            ],
+            revision: ['OSPF uses Link State', 'RIP uses Distance Vector'],
+            questions: [
+              {q:'Dijkstra fails when?', opts:['Cycles exist','Negative weights','Directed graph','None'], ans:1, exp:'Greedy approach assumes path weight only increases.'},
+              {q:'RIP uses?', opts:['Link State','Distance Vector','Path Vector','None'], ans:1, exp:'Routing Information Protocol uses Bellman-Ford (DV).'},
+              {q:'OSPF is a?', opts:['Distance Vector','Path Vector','Link State','None'], ans:2, exp:'Open Shortest Path First uses Dijkstra (LS).'},
+              {q:'Count-to-infinity in?', opts:['Link State','Distance Vector','BGP','None'], ans:1, exp:'Slow convergence in DV causes this routing loop issue.'},
+              {q:'Bellman-Ford time?', opts:['O(V+E)','O(E log V)','O(VE)','O(V^2)'], ans:2, exp:'Relaxes E edges V-1 times.'}
+            ]
+          }
+        ]
+      },
+      'Algorithms': {
+        name: 'Algorithms',
+        weightage: 10,
+        questions: '7-9',
+        difficulty: 'Medium-Hard',
+        books: ['Cormen (CLRS) - Introduction to Algorithms'],
+        topics: [
+          {
+            id: 'algo_1',
+            name: 'Asymptotic Analysis',
+            concepts: 'Big-O, Omega, Theta. Master Theorem for divide and conquer recurrences.',
+            formulas: 'T(n) = aT(n/b) + f(n)',
+            gateTips: 'Directly apply Master Theorem. Know standard bounds like log n < n < n log n.',
+            resources: [
+              {type:'video', label:'Abdul Bari Algorithms', url:'https://www.youtube.com/playlist?list=PLDN4rrl48XKpZkf03iYFl-O29szjTrs_O'}
+            ],
+            revision: ['Theta is tight bound', 'Binary search is O(log n)'],
+            questions: [
+              {q:'T(n)=2T(n/2)+n ?', opts:['O(n)','O(n log n)','O(n^2)','O(log n)'], ans:1, exp:'Master Theorem Case 2: a=2, b=2, f(n)=n. Bound is O(n log n).'},
+              {q:'T(n)=T(n-1)+1 ?', opts:['O(1)','O(log n)','O(n)','O(n^2)'], ans:2, exp:'Reduces by 1 each step, cost 1. Total steps n. O(n).'},
+              {q:'Tightest bound for n^2+5n?', opts:['O(n^3)','O(n^2)','Theta(n^2)','Omega(n)'], ans:2, exp:'Theta gives the exact asymptotic behavior.'},
+              {q:'O(n log n) algo?', opts:['Insertion Sort','Merge Sort','Bubble Sort','Selection Sort'], ans:1, exp:'Merge sort divides in half and merges in linear time.'},
+              {q:'Recurrence for Binary Search?', opts:['T(n)=T(n/2)+n','T(n)=2T(n/2)+1','T(n)=T(n/2)+1','None'], ans:2, exp:'One subproblem of half size, O(1) comparison cost.'}
+            ]
+          },
+          {
+            id: 'algo_2',
+            name: 'Sorting Algorithms',
+            concepts: 'QuickSort (O(n log n) avg, O(n^2) worst). MergeSort (stable, O(n log n)). HeapSort (in-place).',
+            formulas: 'Lower bound for comparison sort = Omega(n log n)',
+            gateTips: 'Questions on stability and worst-case inputs for QuickSort.',
+            resources: [
+              {type:'article', label:'GFG - Sorting', url:'https://www.geeksforgeeks.org/sorting-algorithms/'}
+            ],
+            revision: ['MergeSort is stable', 'HeapSort is O(1) space'],
+            questions: [
+              {q:'Stable AND O(n log n) worst?', opts:['QuickSort','HeapSort','MergeSort','None'], ans:2, exp:'MergeSort maintains order and always takes O(n log n).'},
+              {q:'QuickSort worst case?', opts:['Random data','Already sorted data','Reverse sorted','Both B & C'], ans:3, exp:'If pivot is min or max, splits are highly unbalanced (n-1 and 0).'},
+              {q:'Best for nearly sorted?', opts:['QuickSort','MergeSort','Insertion Sort','HeapSort'], ans:2, exp:'Insertion sort runs in O(n) when elements are near correct positions.'},
+              {q:'HeapSort space?', opts:['O(n)','O(log n)','O(1)','O(n^2)'], ans:2, exp:'HeapSort is an in-place algorithm.'},
+              {q:'NOT in-place?', opts:['QuickSort','HeapSort','Insertion Sort','MergeSort'], ans:3, exp:'MergeSort needs O(n) auxiliary space to merge.'}
+            ]
+          },
+          {
+            id: 'algo_3',
+            name: 'Graph Algorithms',
+            concepts: 'BFS (Queue), DFS (Stack). Dijkstra (Shortest path), Kruskal/Prim (MST).',
+            formulas: '',
+            gateTips: 'Calculate MST weight. Identify if graph has topological sort (DAG).',
+            resources: [
+              {type:'video', label:'Gate Smashers Algo', url:'https://www.youtube.com/playlist?list=PLmXKhU9FNesSFvj6gASuWmQd23Ul5omtD'}
+            ],
+            revision: ['Kruskal uses Union-Find', 'Floyd-Warshall is all-pairs'],
+            questions: [
+              {q:'BFS finds shortest path in?', opts:['Weighted graphs','Unweighted graphs','DAGs only','None'], ans:1, exp:'BFS expands radially, perfect for uniform weights.'},
+              {q:'Kruskal uses?', opts:['Queue','Stack','Union-Find','Heap only'], ans:2, exp:'Union-Find quickly detects cycles when adding edges.'},
+              {q:'Floyd-Warshall finds?', opts:['MST','All-pairs shortest path','Max flow','None'], ans:1, exp:'Uses DP to find shortest paths between all pairs of vertices.'},
+              {q:'Topological sort requires?', opts:['DAG','Tree','Bipartite graph','Complete graph'], ans:0, exp:'Directed Acyclic Graph is mandatory for valid precedence ordering.'},
+              {q:'DFS time on adj list?', opts:['O(V)','O(E)','O(V+E)','O(V^2)'], ans:2, exp:'Visits each vertex and edge once.'}
+            ]
+          }
+        ]
+      },
+      'Data Structures': {
+        name: 'Data Structures',
+        weightage: 8,
+        questions: '5-7',
+        difficulty: 'Medium',
+        books: ['Bailey - Data Structures', 'Cormen'],
+        topics: [
+          {
+            id: 'ds_1',
+            name: 'Trees & Binary Trees',
+            concepts: 'BST (inorder is sorted), AVL (balanced), Heap (complete tree). Traversals.',
+            formulas: 'Max nodes at height h = 2^h',
+            gateTips: 'Trace traversals, reconstruct tree from inorder + preorder.',
+            resources: [
+              {type:'article', label:'GFG - Trees', url:'https://www.geeksforgeeks.org/binary-tree-data-structure/'}
+            ],
+            revision: ['Inorder BST is ascending', 'AVL balance factor is -1, 0, or 1'],
+            questions: [
+              {q:'Inorder of BST gives?', opts:['Random','Sorted ascending','Sorted descending','Level order'], ans:1, exp:'Left < Root < Right structure inherently sorts the data.'},
+              {q:'AVL balance factor?', opts:['0 only','-1,0,1','-2 to 2','None'], ans:1, exp:'Height difference of left and right subtrees must be <= 1.'},
+              {q:'Build heap time?', opts:['O(n)','O(n log n)','O(log n)','O(n^2)'], ans:0, exp:'Bottom-up heapify runs in tight O(n) bound.'},
+              {q:'Traversal visiting root last?', opts:['Preorder','Inorder','Postorder','None'], ans:2, exp:'Postorder is Left -> Right -> Root.'},
+              {q:'Complete tree 15 nodes, height?', opts:['2','3','4','5'], ans:1, exp:'Nodes = 2^(h+1)-1. 15 = 2^4 - 1 => h=3.'}
+            ]
+          },
+          {
+            id: 'ds_2',
+            name: 'Stacks & Queues',
+            concepts: 'LIFO (Stack), FIFO (Queue). Circular queue, Priority queue.',
+            formulas: '',
+            gateTips: 'Convert infix to postfix using stack. Check circular queue full condition.',
+            resources: [
+              {type:'article', label:'GFG - Stacks', url:'https://www.geeksforgeeks.org/stack-data-structure/'}
+            ],
+            revision: ['Stack used for recursion', 'Queue for BFS'],
+            questions: [
+              {q:'Stack application?', opts:['BFS','Function calls','Shortest path','None'], ans:1, exp:'Call stack manages function execution context.'},
+              {q:'Circular queue (size N) max elements?', opts:['N','N-1','N+1','N/2'], ans:1, exp:'One slot is kept empty to distinguish full from empty.'},
+              {q:'Infix: A+B*C, Postfix?', opts:['+A*BC','ABC*+','AB+C*','None'], ans:1, exp:'Multiplication has higher precedence. (A+(B*C)) -> ABC*+'},
+              {q:'Priority queue implementation?', opts:['Array','Linked List','Heap','Stack'], ans:2, exp:'Heap provides O(log n) insert and extract-max.'},
+              {q:'Deque supports?', opts:['Insert front only','Insert rear only','Insert/delete both ends','None'], ans:2, exp:'Double Ended Queue allows operations at both extremities.'}
+            ]
+          }
+        ]
+      },
+      'Engg Maths': { name: 'Engineering Maths', weightage: 15, topics: [] },
+      'Digital Logic': { name: 'Digital Logic', weightage: 5, topics: [] },
+      'COA': { name: 'Computer Org & Arch', weightage: 8, topics: [] },
+      'TOC': { name: 'Theory of Computation', weightage: 8, topics: [] },
+      'Compiler Design': { name: 'Compiler Design', weightage: 5, topics: [] }
+    };
 
-        const subjects = [
-            { id: 'maths', name: 'Engineering Maths', weightage: '15 marks', topics: ['Linear Algebra', 'Calculus', 'Probability', 'Combinatorics', 'Graph Theory', 'Set Theory'] },
-            { id: 'dl', name: 'Digital Logic', weightage: '4-5 marks', topics: ['Boolean Algebra', 'K-Maps', 'Combinational Circuits', 'Sequential Circuits', 'Number Systems'] },
-            { id: 'coa', name: 'COA', weightage: '8-9 marks', topics: ['ISA', 'Pipelining', 'Cache Memory', 'Memory Organization', 'I/O Organization'] },
-            { id: 'ds', name: 'Programming & DS', weightage: '10-12 marks', topics: ['C Programming', 'Arrays', 'Linked Lists', 'Trees', 'Graphs', 'Hashing', 'Stacks & Queues'] },
-            { id: 'algo', name: 'Algorithms', weightage: '6-8 marks', topics: ['Asymptotic Analysis', 'Sorting', 'Searching', 'Graph Algorithms', 'DP', 'Greedy', 'Divide & Conquer'] },
-            { id: 'toc', name: 'Theory of Computation', weightage: '8-9 marks', topics: ['Regular Languages', 'CFG', 'Pushdown Automata', 'Turing Machine', 'Decidability'] },
-            { id: 'cd', name: 'Compiler Design', weightage: '4-6 marks', topics: ['Lexical Analysis', 'Parsing', 'Syntax-Directed Translation', 'Code Generation', 'Optimization'] },
-            { id: 'os', name: 'OS', weightage: '8-10 marks', topics: ['Process Management', 'Memory Management', 'File Systems', 'Deadlocks', 'Synchronization'] },
-            { id: 'dbms', name: 'DBMS', weightage: '7-9 marks', topics: ['Relational Model', 'SQL', 'Normalization', 'Transactions', 'Indexing'] },
-            { id: 'cn', name: 'Computer Networks', weightage: '7-9 marks', topics: ['Network Layers', 'Data Link', 'Network Layer', 'Transport Layer', 'Application Layer'] }
-        ];
+    // --- STATE ---
+    let currentSubject = 'OS';
+    let completedTopics = {};
+    let scores = {}; // topicId -> score
 
-        let progressData = {}; // { subjectId: [topic1, topic2] }
+    // --- INIT ---
+    document.addEventListener('DOMContentLoaded', () => {
+      // 1. Load User
+      const user = localStorage.getItem('sb_user') || 'Student';
+      document.getElementById('sbName').innerText = user;
+      document.getElementById('sbAv').innerText = user.charAt(0).toUpperCase();
 
-        async function init() {
-            // Mock fetching progress
-            progressData = { os: ['Process Management', 'Deadlocks'], dbms: ['SQL'] }; 
-            renderTabs();
-            renderSubjects();
-            updateProgress();
+      // 2. Load Progress from API / Local
+      const storedProgress = localStorage.getItem('sb_gate_progress');
+      if (storedProgress) {
+        completedTopics = JSON.parse(storedProgress);
+      }
+      
+      // Attempt API sync (mocking the fetch as requested)
+      const token = localStorage.getItem('sb_token');
+      if (token) {
+        fetch('/api/gate/progress', {
+          headers: { 'Authorization': `Bearer ${token}` }
+        }).then(res => res.json()).then(data => {
+           if(data && data.completed) {
+             completedTopics = data.completed; // merge logic ideally
+             updateUI();
+           }
+        }).catch(err => console.log('API not available, using local storage', err));
+      }
+
+      // 3. Render Tabs
+      renderTabs();
+      
+      // 4. Load initial subject
+      loadSubject('OS');
+    });
+
+    // --- RENDER TABS ---
+    function renderTabs() {
+      const tabsContainer = document.getElementById('subjectTabs');
+      tabsContainer.innerHTML = '';
+      
+      Object.keys(GATE_DATA).forEach(key => {
+        const btn = document.createElement('button');
+        btn.className = `tab-btn ${key === currentSubject ? 'active' : ''}`;
+        btn.innerText = GATE_DATA[key].name;
+        btn.onclick = () => {
+          document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          btn.classList.add('active');
+          loadSubject(key);
+        };
+        tabsContainer.appendChild(btn);
+      });
+    }
+
+    // --- LOAD SUBJECT ---
+    function loadSubject(subjectKey) {
+      currentSubject = subjectKey;
+      const data = GATE_DATA[subjectKey];
+
+      // Reset search
+      document.getElementById('searchInput').value = '';
+
+      // Overview Card
+      document.getElementById('ovTitle').innerText = data.name;
+      
+      let statsHtml = `
+        <div class="stat-badge">🎯 Weightage: ~${data.weightage} marks</div>
+      `;
+      if(data.questions) statsHtml += `<div class="stat-badge">📝 ${data.questions} Qs</div>`;
+      if(data.difficulty) statsHtml += `<div class="stat-badge">⚡ ${data.difficulty}</div>`;
+      
+      document.getElementById('ovStats').innerHTML = statsHtml;
+
+      // Books Sidebar
+      const booksBox = document.getElementById('booksContainer');
+      if(data.books && data.books.length > 0) {
+        booksBox.innerHTML = data.books.map(b => `<div class="book-rec">📘 ${b}</div>`).join('');
+      } else {
+        booksBox.innerHTML = '<p style="font-size:13px;color:#64748b;">Standard materials apply.</p>';
+      }
+
+      renderTopics();
+      updateProgress();
+    }
+
+    // --- RENDER TOPICS ---
+    function renderTopics(filterText = '') {
+      const data = GATE_DATA[currentSubject];
+      const container = document.getElementById('topicsContainer');
+      container.innerHTML = '';
+
+      if (!data.topics || data.topics.length === 0) {
+        container.innerHTML = `
+          <div style="padding: 40px; text-align: center; color: var(--text-muted); background: white; border-radius: 12px; border: 1px dashed var(--border);">
+            <h3>🚧 Content Coming Soon</h3>
+            <p style="margin-top: 8px; font-size: 14px;">Our AI is generating study material for ${data.name}. Check back later!</p>
+          </div>
+        `;
+        return;
+      }
+
+      data.topics.forEach((topic, idx) => {
+        if (filterText && !topic.name.toLowerCase().includes(filterText.toLowerCase())) return;
+
+        const isChecked = completedTopics[topic.id] ? 'checked' : '';
+        
+        const div = document.createElement('div');
+        div.className = 'topic-item';
+        div.id = `topic_${topic.id}`;
+        
+        // Header
+        const header = document.createElement('div');
+        header.className = 'topic-header';
+        
+        const checkbox = document.createElement('input');
+        checkbox.type = 'checkbox';
+        checkbox.className = 'topic-checkbox';
+        checkbox.checked = !!completedTopics[topic.id];
+        checkbox.onclick = (e) => {
+          e.stopPropagation();
+          toggleTopicCompletion(topic.id, checkbox.checked);
+        };
+
+        const title = document.createElement('div');
+        title.className = 'topic-title';
+        title.innerText = `${idx + 1}. ${topic.name}`;
+
+        const icon = document.createElement('div');
+        icon.className = 'topic-toggle-icon';
+        icon.innerHTML = '▼';
+
+        header.appendChild(checkbox);
+        header.appendChild(title);
+        header.appendChild(icon);
+        
+        header.onclick = () => {
+          div.classList.toggle('expanded');
+        };
+
+        // Content
+        const content = document.createElement('div');
+        content.className = 'topic-content';
+
+        // Concepts
+        let contentHtml = `
+          <div class="content-section">
+            <h5>Key Concepts</h5>
+            <p>${topic.concepts}</p>
+          </div>
+        `;
+
+        if (topic.formulas) {
+          contentHtml += `
+            <div class="content-section">
+              <h5>Formulas & Key Rules</h5>
+              <p style="background:#f8fafc; padding:12px; border-radius:8px; border-left:4px solid var(--primary); font-family:monospace; white-space:pre-wrap;">${topic.formulas}</p>
+            </div>
+          `;
         }
 
-        function renderTabs() {
-            const tabsDiv = document.getElementById('subject-tabs');
-            tabsDiv.innerHTML = subjects.map((s, i) => 
-                `<div class="tab ${i===0?'active':''}" onclick="selectTab('${s.id}')" id="tab-${s.id}">${s.name}</div>`
-            ).join('');
+        if (topic.gateTips) {
+          contentHtml += `
+            <div class="content-section">
+              <h5>🎯 GATE Tips</h5>
+              <p>${topic.gateTips}</p>
+            </div>
+          `;
         }
 
-        function renderSubjects() {
-            const container = document.getElementById('subjects-container');
-            container.innerHTML = subjects.map((s, i) => `
-                <div class="subject-card ${i===0?'active':''}" id="card-${s.id}">
-                    <h2>${s.name}</h2>
-                    <div class="subject-meta">
-                        <span>Weightage: ${s.weightage}</span>
-                        <span>Topics: ${s.topics.length}</span>
-                    </div>
-                    <ul class="topic-list">
-                        ${s.topics.map(t => {
-                            const isDone = progressData[s.id]?.includes(t);
-                            return `
-                            <li class="topic-item ${isDone?'completed':''}">
-                                <input type="checkbox" ${isDone?'checked':''} onchange="toggleTopic('${s.id}', '${t}', this)">
-                                <span>${t}</span>
-                            </li>
-                            `;
-                        }).join('')}
-                    </ul>
-                </div>
-            `).join('');
+        if (topic.revision) {
+          contentHtml += `
+            <div class="content-section">
+              <h5>Quick Revision</h5>
+              <ul>${topic.revision.map(r => `<li>${r}</li>`).join('')}</ul>
+            </div>
+          `;
         }
 
-        function selectTab(id) {
-            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
-            document.querySelectorAll('.subject-card').forEach(el => el.classList.remove('active'));
-            document.getElementById(`tab-${id}`).classList.add('active');
-            document.getElementById(`card-${id}`).classList.add('active');
+        if (topic.resources) {
+          contentHtml += `
+            <div class="content-section">
+              <h5>Resources</h5>
+              <div>
+                ${topic.resources.map(r => `
+                  <a href="${r.url}" target="_blank" class="resource-link">
+                    ${r.type === 'video' ? '▶️' : '📄'} ${r.label}
+                  </a>
+                `).join('')}
+              </div>
+            </div>
+          `;
         }
 
-        async function toggleTopic(subjId, topic, checkbox) {
-            const status = checkbox.checked ? 'completed' : 'pending';
-            const li = checkbox.closest('li');
+        // Practice Questions
+        if (topic.questions) {
+          contentHtml += `
+            <div class="content-section">
+              <h5>Practice Questions</h5>
+              <div id="qs_${topic.id}"></div>
+            </div>
+          `;
+        }
+
+        content.innerHTML = contentHtml;
+        div.appendChild(header);
+        div.appendChild(content);
+        container.appendChild(div);
+
+        // Render Qs after attaching
+        if (topic.questions) {
+          renderQuestions(topic.id, topic.questions);
+        }
+      });
+    }
+
+    // --- RENDER QUESTIONS ---
+    function renderQuestions(topicId, questions) {
+      const qContainer = document.getElementById(`qs_${topicId}`);
+      if (!qContainer) return;
+
+      questions.forEach((q, qIdx) => {
+        const box = document.createElement('div');
+        box.className = 'mcq-box';
+        
+        const qText = document.createElement('div');
+        qText.className = 'mcq-q';
+        qText.innerText = `Q${qIdx+1}: ${q.q}`;
+        box.appendChild(qText);
+
+        const optsDiv = document.createElement('div');
+        optsDiv.className = 'mcq-options';
+
+        const expDiv = document.createElement('div');
+        expDiv.className = 'mcq-exp';
+        expDiv.innerText = `Explanation: ${q.exp}`;
+
+        q.opts.forEach((optText, oIdx) => {
+          const opt = document.createElement('div');
+          opt.className = 'mcq-opt';
+          opt.innerText = optText;
+          
+          opt.onclick = () => {
+            // Disable all siblings
+            Array.from(optsDiv.children).forEach(c => c.classList.add('disabled'));
             
-            if (status === 'completed') li.classList.add('completed');
-            else li.classList.remove('completed');
-
-            if (!progressData[subjId]) progressData[subjId] = [];
-            if (status === 'completed') progressData[subjId].push(topic);
-            else progressData[subjId] = progressData[subjId].filter(t => t !== topic);
-
-            updateProgress();
-
-            // API Call
-            try {
-                await fetch('/api/gate/progress', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
-                    body: JSON.stringify({ subject: subjId, topic, status })
-                });
-            } catch (e) {
-                console.log('Mocked POST /api/gate/progress');
+            if (oIdx === q.ans) {
+              opt.classList.add('correct');
+              opt.innerText = optText + ' ✅ Correct!';
+            } else {
+              opt.classList.add('wrong');
+              opt.innerText = optText + ' ❌ Wrong';
+              // highlight correct
+              optsDiv.children[q.ans].classList.add('correct');
             }
-        }
+            expDiv.style.display = 'block';
+          };
+          optsDiv.appendChild(opt);
+        });
 
-        function updateProgress() {
-            let totalTopics = 0;
-            let doneTopics = 0;
-            subjects.forEach(s => {
-                totalTopics += s.topics.length;
-                doneTopics += (progressData[s.id] || []).length;
-            });
-            const pct = totalTopics === 0 ? 0 : Math.round((doneTopics / totalTopics) * 100);
-            
-            document.getElementById('overall-pct').textContent = pct;
-            document.getElementById('overall-bar').style.width = pct + '%';
-            
-            // simple predictor logic
-            document.getElementById('pred-score').textContent = Math.round(pct * 0.85); 
-        }
+        box.appendChild(optsDiv);
+        box.appendChild(expDiv);
+        qContainer.appendChild(box);
+      });
+    }
 
-        init();
-    </script>
+    // --- TOGGLE COMPLETION ---
+    function toggleTopicCompletion(topicId, isChecked) {
+      if (isChecked) {
+        completedTopics[topicId] = true;
+      } else {
+        delete completedTopics[topicId];
+      }
+      
+      // Save local
+      localStorage.setItem('sb_gate_progress', JSON.stringify(completedTopics));
+
+      // API Call
+      const token = localStorage.getItem('sb_token');
+      if (token) {
+        fetch('http://localhost:3000/api/gate/progress', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${token}`
+          },
+          body: JSON.stringify({
+            subject: currentSubject,
+            topic: topicId,
+            status: isChecked ? 'completed' : 'pending'
+          })
+        }).catch(err => console.log('API Error:', err));
+      }
+
+      updateProgress();
+    }
+
+    // --- UPDATE PROGRESS UI ---
+    function updateProgress() {
+      const data = GATE_DATA[currentSubject];
+      if (!data.topics) return;
+
+      const total = data.topics.length;
+      if (total === 0) return;
+
+      const completed = data.topics.filter(t => completedTopics[t.id]).length;
+      const pct = Math.round((completed / total) * 100);
+
+      document.getElementById('ovProgressText').innerText = `${completed} / ${total} Completed (${pct}%)`;
+      document.getElementById('ovProgressBar').style.width = `${pct}%`;
+
+      // Update Global Score Estimate
+      let totalEst = 0;
+      Object.keys(GATE_DATA).forEach(subj => {
+        const d = GATE_DATA[subj];
+        if (d.topics && d.topics.length > 0) {
+          const c = d.topics.filter(t => completedTopics[t.id]).length;
+          const p = c / d.topics.length;
+          totalEst += p * d.weightage;
+        }
+      });
+      document.getElementById('marksCalc').innerText = `🎯 Est. Score: ${Math.round(totalEst)}/100`;
+    }
+
+    // --- SEARCH ---
+    function filterTopics() {
+      const val = document.getElementById('searchInput').value;
+      renderTopics(val);
+    }
+  </script>
 </body>
 </html>

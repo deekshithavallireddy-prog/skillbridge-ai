@@ -897,37 +897,55 @@
     let completedTopics = {};
     let scores = {}; // topicId -> score
 
+    // --- MCQ SCORE STATE ---
+    let mcqScores = {}; // { topicId: {correct:0, wrong:0, total:0} }
+
     // --- INIT ---
     document.addEventListener('DOMContentLoaded', () => {
-      // 1. Load User
-      const user = localStorage.getItem('sb_user') || 'Student';
+      // Load User name
+      const user = localStorage.getItem('sb_name') || localStorage.getItem('sb_user') || 'Student';
       document.getElementById('sbName').innerText = user;
       document.getElementById('sbAv').innerText = user.charAt(0).toUpperCase();
 
-      // 2. Load Progress from API / Local
+      // Load stored progress from localStorage first (instant display)
       const storedProgress = localStorage.getItem('sb_gate_progress');
       if (storedProgress) {
-        completedTopics = JSON.parse(storedProgress);
+        try { completedTopics = JSON.parse(storedProgress); } catch(e) { completedTopics = {}; }
       }
-      
-      // Attempt API sync (mocking the fetch as requested)
+
+      // Load real MCQ scores from localStorage
+      const storedScores = localStorage.getItem('sb_gate_mcq_scores');
+      if (storedScores) {
+        try { mcqScores = JSON.parse(storedScores); } catch(e) { mcqScores = {}; }
+      }
+
+      // Sync with backend (real data, not fake)
       const token = localStorage.getItem('sb_token');
       if (token) {
         fetch('/api/gate/progress', {
-          headers: { 'Authorization': `Bearer ${token}` }
-        }).then(res => res.json()).then(data => {
-           if(data && data.completed) {
-             completedTopics = data.completed; // merge logic ideally
-             updateUI();
-           }
-        }).catch(err => console.log('API not available, using local storage', err));
+          headers: { 'Authorization': 'Bearer ' + token }
+        })
+        .then(res => { if(!res.ok) throw new Error('not ok'); return res.json(); })
+        .then(rows => {
+          // Backend returns: [{id, user_id, subject, topic, status, updated_at}]
+          if (Array.isArray(rows)) {
+            rows.forEach(row => {
+              if (row.status === 'completed' && row.subject && row.topic) {
+                completedTopics[row.subject + '__' + row.topic] = true;
+              }
+            });
+            localStorage.setItem('sb_gate_progress', JSON.stringify(completedTopics));
+          }
+        })
+        .catch(() => {}) // Silently fall back to localStorage
+        .finally(() => {
+          renderTabs();
+          loadSubject(currentSubject);
+        });
+      } else {
+        renderTabs();
+        loadSubject(currentSubject);
       }
-
-      // 3. Render Tabs
-      renderTabs();
-      
-      // 4. Load initial subject
-      loadSubject('OS');
     });
 
     // --- RENDER TABS ---
@@ -1109,15 +1127,29 @@
       });
     }
 
-    // --- RENDER QUESTIONS ---
+    // --- RENDER QUESTIONS (with REAL score tracking) ---
     function renderQuestions(topicId, questions) {
       const qContainer = document.getElementById(`qs_${topicId}`);
       if (!qContainer) return;
 
+      // Show existing score if already attempted
+      if (mcqScores[topicId]) {
+        const sc = mcqScores[topicId];
+        const pct = Math.round((sc.correct / sc.total) * 100);
+        const badge = document.createElement('div');
+        badge.style.cssText = 'background:#f0fdf4;border:1px solid #bbf7d0;border-radius:8px;padding:8px 14px;font-size:13px;font-weight:600;color:#15803d;margin-bottom:12px;display:flex;gap:8px;align-items:center;';
+        badge.innerHTML = `✅ Previously attempted: ${sc.correct}/${sc.total} correct (${pct}%) <button onclick="retakeQuiz('${topicId}')" style="margin-left:auto;background:#2563eb;color:white;border:none;border-radius:6px;padding:4px 10px;font-size:12px;cursor:pointer;">Retake</button>`;
+        qContainer.appendChild(badge);
+      }
+
+      let sessionCorrect = 0, sessionTotal = 0;
+      const answered = {};
+
       questions.forEach((q, qIdx) => {
         const box = document.createElement('div');
         box.className = 'mcq-box';
-        
+        box.id = `mcq_${topicId}_${qIdx}`;
+
         const qText = document.createElement('div');
         qText.className = 'mcq-q';
         qText.innerText = `Q${qIdx+1}: ${q.q}`;
@@ -1128,63 +1160,141 @@
 
         const expDiv = document.createElement('div');
         expDiv.className = 'mcq-exp';
-        expDiv.innerText = `Explanation: ${q.exp}`;
+        expDiv.innerText = `💡 Explanation: ${q.exp}`;
+
+        // Score display for this question
+        const scoreSpan = document.createElement('div');
+        scoreSpan.style.cssText = 'font-size:12px;font-weight:600;margin-top:6px;display:none;';
 
         q.opts.forEach((optText, oIdx) => {
           const opt = document.createElement('div');
           opt.className = 'mcq-opt';
           opt.innerText = optText;
-          
+
           opt.onclick = () => {
-            // Disable all siblings
-            Array.from(optsDiv.children).forEach(c => c.classList.add('disabled'));
-            
-            if (oIdx === q.ans) {
+            if (answered[qIdx]) return; // prevent re-answering
+            answered[qIdx] = true;
+            sessionTotal++;
+
+            // Disable all options
+            Array.from(optsDiv.children).forEach(c => {
+              c.style.pointerEvents = 'none';
+              c.style.opacity = '0.7';
+            });
+
+            const isCorrect = (oIdx === q.ans);
+            if (isCorrect) {
               opt.classList.add('correct');
-              opt.innerText = optText + ' ✅ Correct!';
+              opt.innerText = '✅ ' + optText + ' (Correct!)';
+              opt.style.opacity = '1';
+              sessionCorrect++;
+              scoreSpan.style.color = '#15803d';
+              scoreSpan.innerText = '✅ Correct!';
             } else {
               opt.classList.add('wrong');
-              opt.innerText = optText + ' ❌ Wrong';
-              // highlight correct
+              opt.innerText = '❌ ' + optText + ' (Wrong)';
+              opt.style.opacity = '1';
+              // Highlight correct answer
               optsDiv.children[q.ans].classList.add('correct');
+              optsDiv.children[q.ans].style.opacity = '1';
+              optsDiv.children[q.ans].innerText = '✅ ' + q.opts[q.ans] + ' (Correct Answer)';
+              scoreSpan.style.color = '#dc2626';
+              scoreSpan.innerText = '❌ Incorrect';
             }
+            scoreSpan.style.display = 'block';
             expDiv.style.display = 'block';
+
+            // Save score after answering last question
+            if (Object.keys(answered).length === questions.length) {
+              saveTopicMcqScore(topicId, sessionCorrect, questions.length);
+            }
           };
           optsDiv.appendChild(opt);
         });
 
         box.appendChild(optsDiv);
+        box.appendChild(scoreSpan);
         box.appendChild(expDiv);
         qContainer.appendChild(box);
       });
     }
 
-    // --- TOGGLE COMPLETION ---
-    function toggleTopicCompletion(topicId, isChecked) {
-      if (isChecked) {
-        completedTopics[topicId] = true;
-      } else {
-        delete completedTopics[topicId];
-      }
-      
-      // Save local
-      localStorage.setItem('sb_gate_progress', JSON.stringify(completedTopics));
+    // Save MCQ score for a topic
+    function saveTopicMcqScore(topicId, correct, total) {
+      mcqScores[topicId] = { correct, total, wrong: total - correct, date: new Date().toISOString() };
+      localStorage.setItem('sb_gate_mcq_scores', JSON.stringify(mcqScores));
 
-      // API Call
+      // Also save to backend practice log (real data)
       const token = localStorage.getItem('sb_token');
       if (token) {
-        fetch('http://localhost:3000/api/gate/progress', {
+        const subjectName = currentSubject;
+        const score = Math.round((correct / total) * 100);
+        fetch('/api/practice/log', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+          body: JSON.stringify({
+            subject: subjectName,
+            topic: topicId,
+            questions_attempted: total,
+            correct: correct,
+            wrong: total - correct,
+            score: score,
+            duration_seconds: 0
+          })
+        }).catch(() => {});
+      }
+
+      // Show a summary toast
+      const pct = Math.round((correct / total) * 100);
+      const toast = document.createElement('div');
+      toast.style.cssText = 'position:fixed;bottom:24px;right:24px;background:#1e293b;color:white;padding:14px 20px;border-radius:12px;font-size:14px;font-weight:600;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,0.2);';
+      toast.innerHTML = `📊 Topic Score: ${correct}/${total} (${pct}%) — Saved!`;
+      document.body.appendChild(toast);
+      setTimeout(() => toast.remove(), 3500);
+    }
+
+    // Retake quiz for a topic
+    function retakeQuiz(topicId) {
+      delete mcqScores[topicId];
+      localStorage.setItem('sb_gate_mcq_scores', JSON.stringify(mcqScores));
+      // Re-render current subject to reset questions
+      loadSubject(currentSubject);
+    }
+
+    // --- TOGGLE COMPLETION ---
+    function toggleTopicCompletion(topicId, isChecked) {
+      // Find topic name from GATE_DATA for readable storage
+      const data = GATE_DATA[currentSubject];
+      const topicObj = data && data.topics ? data.topics.find(t => t.id === topicId) : null;
+      const topicName = topicObj ? topicObj.name : topicId;
+      const storeKey = currentSubject + '__' + topicName;
+
+      if (isChecked) {
+        completedTopics[storeKey] = true;
+        completedTopics[topicId] = true; // keep id-based key too
+      } else {
+        delete completedTopics[storeKey];
+        delete completedTopics[topicId];
+      }
+
+      // Save to localStorage
+      localStorage.setItem('sb_gate_progress', JSON.stringify(completedTopics));
+
+      // Save to backend (real API call)
+      const token = localStorage.getItem('sb_token');
+      if (token) {
+        fetch('/api/gate/progress', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${token}`
+            'Authorization': 'Bearer ' + token
           },
           body: JSON.stringify({
             subject: currentSubject,
-            topic: topicId,
+            topic: topicName,
             status: isChecked ? 'completed' : 'pending'
           })
-        }).catch(err => console.log('API Error:', err));
+        }).catch(() => {}); // fail silently, localStorage already saved
       }
 
       updateProgress();

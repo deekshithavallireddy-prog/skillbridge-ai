@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - SkillBridge AI</title>
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --accent: #2563eb;
+            --accent-hover: #1d4ed8;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+        }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { background-color: var(--bg-color); color: var(--text-main); display: flex; height: 100vh; overflow: hidden; }
+        
+        /* Sidebar */
+        .sidebar { width: 250px; background-color: var(--sidebar-bg); border-right: 1px solid var(--border-color); display: flex; flex-direction: column; overflow-y: auto; }
+        .logo { padding: 20px; font-size: 1.5rem; font-weight: bold; color: var(--accent); border-bottom: 1px solid var(--border-color); text-align: center; }
+        .nav-group { margin: 10px 0; }
+        .nav-label { padding: 10px 20px; font-size: 0.8rem; font-weight: bold; color: var(--text-muted); letter-spacing: 1px; }
+        .nav-link { display: flex; align-items: center; padding: 12px 20px; color: var(--text-main); text-decoration: none; transition: background-color 0.2s; }
+        .nav-link:hover { background-color: var(--bg-color); color: var(--accent); }
+        .nav-link.active { background-color: #eff6ff; color: var(--accent); border-right: 3px solid var(--accent); }
+        .nav-link span { margin-right: 10px; }
+        .logout-btn { margin-top: auto; padding: 15px 20px; border-top: 1px solid var(--border-color); background: none; border: none; cursor: pointer; text-align: left; font-size: 1rem; color: #ef4444; display: flex; align-items: center; }
+        .logout-btn:hover { background-color: #fef2f2; }
+
+        /* Main Content */
+        .main-content { flex: 1; overflow-y: auto; padding: 30px; }
+        .header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; }
+        .header h1 { font-size: 1.8rem; }
+        
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+        .card { background-color: var(--card-bg); border: 1px solid var(--border-color); border-radius: 8px; padding: 24px; box-shadow: var(--shadow); }
+        .card h2 { font-size: 1.25rem; margin-bottom: 16px; color: var(--text-main); }
+        
+        /* Profile Hero */
+        .profile-hero { display: flex; align-items: center; gap: 24px; }
+        .avatar { width: 80px; height: 80px; background: linear-gradient(135deg, #3b82f6, #1d4ed8); color: white; font-size: 2.5rem; display: flex; align-items: center; justify-content: center; border-radius: 50%; font-weight: bold; }
+        .user-info h2 { margin: 0; font-size: 1.5rem; }
+        .user-info p { margin: 4px 0; color: var(--text-muted); }
+        .goal-badge { display: inline-block; padding: 4px 12px; background-color: #dbeafe; color: var(--accent); border-radius: 16px; font-size: 0.875rem; font-weight: 500; margin-top: 8px; }
+        .btn { padding: 8px 16px; background-color: var(--accent); color: white; border: none; border-radius: 6px; cursor: pointer; font-size: 0.9rem; transition: background-color 0.2s; }
+        .btn:hover { background-color: var(--accent-hover); }
+        .btn-outline { background-color: transparent; border: 1px solid var(--accent); color: var(--accent); }
+        .btn-outline:hover { background-color: #eff6ff; }
+        
+        /* Form */
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; margin-bottom: 8px; font-weight: 500; color: var(--text-main); font-size: 0.9rem; }
+        .form-group input, .form-group select { width: 100%; padding: 10px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 1rem; color: var(--text-main); background-color: var(--card-bg); }
+        .form-group input:disabled { background-color: #f1f5f9; color: var(--text-muted); }
+        
+        /* Skills */
+        .skills-list { display: flex; flex-direction: column; gap: 12px; margin-bottom: 16px; }
+        .skill-item { margin-bottom: 8px; }
+        .skill-header { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 0.9rem; font-weight: 500; }
+        .skill-bar-bg { width: 100%; height: 8px; background-color: var(--border-color); border-radius: 4px; overflow: hidden; }
+        .skill-bar-fill { height: 100%; background-color: var(--accent); border-radius: 4px; }
+        .add-skill-form { display: flex; gap: 8px; margin-top: 16px; }
+        .add-skill-form select, .add-skill-form input { flex: 1; padding: 8px; border: 1px solid var(--border-color); border-radius: 6px; }
+        
+        /* Stats & Cards */
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+        .stat-box { background-color: var(--bg-color); padding: 16px; border-radius: 8px; text-align: center; border: 1px solid var(--border-color); }
+        .stat-value { font-size: 1.5rem; font-weight: bold; color: var(--accent); margin-bottom: 4px; }
+        .stat-label { font-size: 0.875rem; color: var(--text-muted); }
+
+        .progress-circle { width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--border-color) 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; position: relative; }
+        .progress-inner { width: 80px; height: 80px; background-color: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--text-main); }
+    </style>
+</head>
+<body>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo">SkillBridge AI</div>
+        <a href="dashboard.html" class="nav-link"><span>📊</span> Dashboard</a>
+        <a href="my-progress.html" class="nav-link"><span>📈</span> My Progress</a>
+        <a href="profile.html" class="nav-link active"><span>👤</span> Profile</a>
+        <a href="roadmap.html" class="nav-link"><span>🗺️</span> Roadmap</a>
+        
+        <div class="nav-group">
+            <div class="nav-label">--- LEARNING ---</div>
+            <a href="gate.html" class="nav-link"><span>🎓</span> GATE Prep</a>
+            <a href="ai-questions.html" class="nav-link"><span>🤖</span> AI Questions</a>
+            <a href="interview.html" class="nav-link"><span>🎤</span> Interview Prep</a>
+            <a href="quiz.html" class="nav-link"><span>🧠</span> Skill Quiz</a>
+        </div>
+        
+        <div class="nav-group">
+            <div class="nav-label">--- TOOLS ---</div>
+            <a href="resume.html" class="nav-link"><span>📄</span> Resume</a>
+            <a href="projects.html" class="nav-link"><span>💻</span> Projects</a>
+        </div>
+        
+        <button class="logout-btn" onclick="logout()"><span>🚪</span> Logout</button>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="header">
+            <h1>My Profile</h1>
+        </div>
+
+        <div class="grid-container">
+            <!-- Left Column -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Profile Hero -->
+                <div class="card">
+                    <div class="profile-hero">
+                        <div class="avatar" id="hero-avatar">U</div>
+                        <div class="user-info">
+                            <h2 id="hero-name">User Name</h2>
+                            <p id="hero-status">Active Student • <span id="hero-course">B.Tech</span>, <span id="hero-year">3rd Year</span></p>
+                            <div class="goal-badge" id="hero-goal">Software Engineer</div>
+                        </div>
+                        <div style="margin-left: auto;">
+                            <button class="btn btn-outline" onclick="toggleEdit()">Edit Profile</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Editable Profile Form -->
+                <div class="card" id="edit-form-card" style="display: block;">
+                    <h2>Profile Details</h2>
+                    <form id="profile-form" onsubmit="saveProfile(event)">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="input-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="input-email" disabled>
+                        </div>
+                        <div class="form-group">
+                            <label>Course</label>
+                            <select id="input-course">
+                                <option value="B.Tech">B.Tech</option>
+                                <option value="M.Tech">M.Tech</option>
+                                <option value="BCA">BCA</option>
+                                <option value="MCA">MCA</option>
+                                <option value="B.Sc">B.Sc</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Year of Study</label>
+                            <select id="input-year">
+                                <option value="1st Year">1st Year</option>
+                                <option value="2nd Year">2nd Year</option>
+                                <option value="3rd Year">3rd Year</option>
+                                <option value="4th Year">4th Year</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Primary Goal</label>
+                            <select id="input-goal">
+                                <option value="Software Engineer">Software Engineer</option>
+                                <option value="Data Scientist">Data Scientist</option>
+                                <option value="GATE Aspirant">GATE Aspirant</option>
+                                <option value="Web Developer">Web Developer</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="btn" id="save-btn">Save Changes</button>
+                        <span id="save-status" style="margin-left: 10px; color: #16a34a; display: none;">Saved!</span>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Right Column -->
+            <div style="display: flex; flex-direction: column; gap: 24px;">
+                <!-- Account Stats -->
+                <div class="card">
+                    <h2>Account Stats</h2>
+                    <div class="stats-grid">
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-sessions">0</div>
+                            <div class="stat-label">Practice Sessions</div>
+                        </div>
+                        <div class="stat-box">
+                            <div class="stat-value" id="stat-score">0%</div>
+                            <div class="stat-label">Best Score</div>
+                        </div>
+                        <div class="stat-box" style="grid-column: span 2;">
+                            <div class="stat-value" id="stat-member-since">-</div>
+                            <div class="stat-label">Member Since</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Section -->
+                <div class="card">
+                    <h2>My Skills</h2>
+                    <div class="skills-list" id="skills-container">
+                        <!-- Skills will be populated here -->
+                    </div>
+                    <div style="border-top: 1px solid var(--border-color); padding-top: 16px; margin-top: 16px;">
+                        <div style="font-size: 0.9rem; font-weight: 500; margin-bottom: 8px;">Add New Skill</div>
+                        <div class="add-skill-form">
+                            <input type="text" id="new-skill-name" placeholder="E.g. React, Python">
+                            <select id="new-skill-level">
+                                <option value="Beginner">Beginner (30%)</option>
+                                <option value="Intermediate">Intermediate (60%)</option>
+                                <option value="Advanced">Advanced (90%)</option>
+                            </select>
+                            <button class="btn" onclick="addSkill()">Add</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- GATE Prep Progress -->
+                <div class="card">
+                    <h2>GATE Prep Progress</h2>
+                    <div class="progress-circle" id="gate-progress-circle">
+                        <div class="progress-inner" id="gate-progress-text">0%</div>
+                    </div>
+                    <div style="text-align: center; margin-bottom: 16px; color: var(--text-muted);">
+                        Topics Completed
+                    </div>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="window.location.href='gate.html'">Continue Preparation</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = '/api';
+        
+        // On page load
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('sb_token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            // Load initial from localStorage
+            loadProfileFromLocal();
+            renderSkills();
+
+            // Fetch latest from API
+            await fetchProfile(token);
+            await fetchStats(token);
+            await fetchGateProgress(token);
+        });
+
+        function logout() {
+            localStorage.removeItem('sb_token');
+            window.location.href = 'login.html';
+        }
+
+        function loadProfileFromLocal() {
+            const name = localStorage.getItem('sb_name') || 'Student';
+            const profileStr = localStorage.getItem('sb_profile');
+            let profile = { course: 'B.Tech', year: '3rd Year', goal: 'Software Engineer', email: '' };
+            if (profileStr) {
+                try { profile = JSON.parse(profileStr); } catch (e) {}
+            }
+            updateHero(name, profile);
+            fillForm(name, profile);
+        }
+
+        function updateHero(name, profile) {
+            document.getElementById('hero-name').textContent = name;
+            document.getElementById('hero-avatar').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('hero-course').textContent = profile.course || 'B.Tech';
+            document.getElementById('hero-year').textContent = profile.year || '3rd Year';
+            document.getElementById('hero-goal').textContent = profile.goal || 'Software Engineer';
+        }
+
+        function fillForm(name, profile) {
+            document.getElementById('input-name').value = name;
+            document.getElementById('input-email').value = profile.email || localStorage.getItem('sb_email') || '';
+            document.getElementById('input-course').value = profile.course || 'B.Tech';
+            document.getElementById('input-year').value = profile.year || '3rd Year';
+            document.getElementById('input-goal').value = profile.goal || 'Software Engineer';
+        }
+
+        function toggleEdit() {
+            const formCard = document.getElementById('edit-form-card');
+            formCard.style.display = 'block';
+            document.getElementById('input-name').focus();
+        }
+
+        async function fetchProfile(token) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/user/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('sb_name', data.name);
+                    localStorage.setItem('sb_profile', JSON.stringify(data.profile || {}));
+                    if(data.email) localStorage.setItem('sb_email', data.email);
+                    loadProfileFromLocal();
+                }
+            } catch (error) {
+                console.error("Failed to fetch profile", error);
+            }
+        }
+
+        async function saveProfile(e) {
+            e.preventDefault();
+            const btn = document.getElementById('save-btn');
+            btn.textContent = 'Saving...';
+            btn.disabled = true;
+
+            const name = document.getElementById('input-name').value;
+            const profile = {
+                course: document.getElementById('input-course').value,
+                year: document.getElementById('input-year').value,
+                goal: document.getElementById('input-goal').value,
+                email: document.getElementById('input-email').value
+            };
+
+            const token = localStorage.getItem('sb_token');
+            try {
+                const res = await fetch(`${API_BASE_URL}/user/profile`, {
+                    method: 'PUT',
+                    headers: { 
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, profile })
+                });
+
+                if (res.ok) {
+                    localStorage.setItem('sb_name', name);
+                    localStorage.setItem('sb_profile', JSON.stringify(profile));
+                    updateHero(name, profile);
+                    
+                    const status = document.getElementById('save-status');
+                    status.style.display = 'inline';
+                    setTimeout(() => status.style.display = 'none', 3000);
+                }
+            } catch (error) {
+                console.error("Failed to save profile", error);
+                alert("Failed to save profile. Saved locally.");
+                localStorage.setItem('sb_name', name);
+                localStorage.setItem('sb_profile', JSON.stringify(profile));
+                updateHero(name, profile);
+            } finally {
+                btn.textContent = 'Save Changes';
+                btn.disabled = false;
+            }
+        }
+
+        // Skills
+        function getSkills() {
+            const skillsStr = localStorage.getItem('sb_skill_levels');
+            let skills = [
+                { name: 'JavaScript', level: 'Intermediate', percent: 60 },
+                { name: 'Data Structures', level: 'Beginner', percent: 30 }
+            ];
+            if (skillsStr) {
+                try { skills = JSON.parse(skillsStr); } catch (e) {}
+            }
+            return skills;
+        }
+
+        function saveSkills(skills) {
+            localStorage.setItem('sb_skill_levels', JSON.stringify(skills));
+        }
+
+        function renderSkills() {
+            const container = document.getElementById('skills-container');
+            const skills = getSkills();
+            
+            if (skills.length === 0) {
+                container.innerHTML = '<p style="color: var(--text-muted); font-size: 0.9rem;">No skills added yet.</p>';
+                return;
+            }
+
+            container.innerHTML = skills.map((skill, index) => {
+                let percent = skill.percent;
+                if (!percent) {
+                    percent = skill.level === 'Advanced' ? 90 : (skill.level === 'Intermediate' ? 60 : 30);
+                }
+                return `
+                <div class="skill-item">
+                    <div class="skill-header">
+                        <span>${skill.name} <small style="color:var(--text-muted)">(${skill.level})</small></span>
+                        <span style="color: #ef4444; cursor: pointer;" onclick="removeSkill(${index})">×</span>
+                    </div>
+                    <div class="skill-bar-bg">
+                        <div class="skill-bar-fill" style="width: ${percent}%;"></div>
+                    </div>
+                </div>`;
+            }).join('');
+        }
+
+        function addSkill() {
+            const nameInput = document.getElementById('new-skill-name');
+            const levelSelect = document.getElementById('new-skill-level');
+            
+            const name = nameInput.value.trim();
+            const level = levelSelect.value;
+            const percent = level === 'Advanced' ? 90 : (level === 'Intermediate' ? 60 : 30);
+            
+            if (name) {
+                const skills = getSkills();
+                skills.push({ name, level, percent });
+                saveSkills(skills);
+                renderSkills();
+                nameInput.value = '';
+            }
+        }
+
+        function removeSkill(index) {
+            const skills = getSkills();
+            skills.splice(index, 1);
+            saveSkills(skills);
+            renderSkills();
+        }
+
+        // Stats
+        async function fetchStats(token) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/practice/stats`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                
+                let stats = { sessions: 0, bestScore: 0, memberSince: '-' };
+                if (res.ok) {
+                    const data = await res.json();
+                    stats.sessions = data.totalSessions || 0;
+                    stats.bestScore = data.bestScore || 0;
+                    if(data.memberSince) {
+                        stats.memberSince = new Date(data.memberSince).toLocaleDateString();
+                    }
+                } else {
+                    // Fallback to local
+                    stats.sessions = localStorage.getItem('sb_sessions_count') || 0;
+                    stats.bestScore = localStorage.getItem('sb_quiz_scores') || '0';
+                    stats.memberSince = 'Recent';
+                }
+                
+                document.getElementById('stat-sessions').textContent = stats.sessions;
+                document.getElementById('stat-score').textContent = stats.bestScore + '%';
+                document.getElementById('stat-member-since').textContent = stats.memberSince;
+                
+            } catch (error) {
+                console.error("Failed to fetch stats", error);
+                document.getElementById('stat-sessions').textContent = localStorage.getItem('sb_sessions_count') || 0;
+                document.getElementById('stat-score').textContent = (localStorage.getItem('sb_quiz_scores') || 0) + '%';
+                document.getElementById('stat-member-since').textContent = 'Recent';
+            }
+        }
+
+        // GATE Progress
+        async function fetchGateProgress(token) {
+            try {
+                const res = await fetch(`${API_BASE_URL}/gate/progress`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                let progress = 0;
+                if (res.ok) {
+                    const data = await res.json();
+                    progress = data.progress || 0;
+                }
+                updateGateProgress(progress);
+            } catch (error) {
+                console.error("Failed to fetch GATE progress", error);
+                // Fallback to local
+                const localProg = localStorage.getItem('sb_gate_progress') || 0;
+                updateGateProgress(localProg);
+            }
+        }
+        
+        function updateGateProgress(progress) {
+            document.getElementById('gate-progress-text').textContent = progress + '%';
+            document.getElementById('gate-progress-circle').style.background = `conic-gradient(var(--accent) ${progress}%, var(--border-color) 0)`;
+        }
+    </script>
+</body>
+</html>

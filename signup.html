@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Sign Up — SkillBridge AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:white;border-radius:20px;padding:44px 40px;width:100%;max-width:480px;box-shadow:0 4px 24px rgba(0,0,0,0.08);border:1px solid #e2e8f0;}
+.logo{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:28px;font-size:22px;font-weight:900;color:#1e293b;}
+.logo span{color:#2563eb;}
+h1{font-size:24px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:6px;}
+.sub{color:#64748b;font-size:14px;text-align:center;margin-bottom:26px;}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+.ig{margin-bottom:16px;}
+.ig label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+.ig input{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;color:#1e293b;outline:none;transition:border 0.2s,box-shadow 0.2s;}
+.ig input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.ig input::placeholder{color:#94a3b8;}
+.btn{width:100%;padding:13px;border:none;border-radius:11px;background:#2563eb;color:white;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;margin-top:4px;}
+.btn:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.3);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.err{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:14px;display:none;text-align:center;}
+.links{text-align:center;margin-top:18px;font-size:13.5px;color:#64748b;}
+.links a{color:#2563eb;font-weight:600;text-decoration:none;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">⚡ Skill<span>Bridge AI</span></div>
+  <h1>Create your account</h1>
+  <p class="sub">Join thousands of students on their career journey</p>
+  <div class="err" id="errBox"></div>
+  <div class="row2">
+    <div class="ig"><label>First Name</label><input type="text" id="fname" placeholder="Deeksha"></div>
+    <div class="ig"><label>Last Name</label><input type="text" id="lname" placeholder="Sharma"></div>
+  </div>
+  <div class="ig"><label>Email Address</label><input type="email" id="email" placeholder="you@email.com"></div>
+  <div class="ig"><label>Password <span style="color:#94a3b8;font-weight:400;">(min 6 chars)</span></label><input type="password" id="password" placeholder="Create a strong password"></div>
+  <button class="btn" id="signupBtn" onclick="doSignup()">Create Account & Continue →</button>
+  <div class="links">Already have an account? <a href="login.html">Sign in →</a></div>
+</div>
+<script>
+const API='/api';
+async function doSignup(){
+  const fname=document.getElementById('fname').value.trim();
+  const lname=document.getElementById('lname').value.trim();
+  const email=document.getElementById('email').value.trim();
+  const pass=document.getElementById('password').value;
+  const btn=document.getElementById('signupBtn');
+  const err=document.getElementById('errBox');
+  err.style.display='none';
+  if(!fname||!email||!pass){showErr('Please fill in all required fields.');return;}
+  if(!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email address.');return;}
+  if(pass.length<6){showErr('Password must be at least 6 characters.');return;}
+  const fullName=fname+(lname?' '+lname:'');
+  btn.disabled=true;btn.textContent='Creating account...';
+  try{
+    const r=await fetch(API+'/auth/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fullName,email,password:pass})});
+    const d=await r.json();
+    if(!r.ok){showErr(d.error||'Signup failed. Please try again.');btn.disabled=false;btn.textContent='Create Account & Continue →';return;}
+    localStorage.setItem('sb_token',d.token);
+    localStorage.setItem('sb_name',fullName);
+    localStorage.setItem('sb_user',JSON.stringify(d.user));
+    window.location.href='onboard.html';
+  }catch(e){
+    // Fallback localStorage
+    const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
+    if(accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){showErr('Email already registered. Please login.');btn.disabled=false;btn.textContent='Create Account & Continue →';return;}
+    accounts.push({name:fullName,email,password:pass});
+    localStorage.setItem('sb_accounts',JSON.stringify(accounts));
+    localStorage.setItem('sb_name',fullName);
+    window.location.href='onboard.html';
+  }
+}
+function showErr(msg){const e=document.getElementById('errBox');e.textContent=msg;e.style.display='block';}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
+</script>
+</body>
+</html>

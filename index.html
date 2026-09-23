@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>SkillBridge AI — Build Skills. Bridge Career Gaps.</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{--primary:#2563eb;--primary-dark:#1d4ed8;--primary-light:#eff6ff;--text:#1e293b;--muted:#64748b;--border:#e2e8f0;--bg:#f8fafc;}
+html{scroll-behavior:smooth;}
+body{font-family:'Inter',sans-serif;background:#fff;color:var(--text);overflow-x:hidden;}
+
+/* NAVBAR */
+nav{position:fixed;top:0;left:0;right:0;z-index:1000;height:68px;display:flex;align-items:center;padding:0 6%;background:rgba(255,255,255,0.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--border);box-shadow:0 1px 12px rgba(0,0,0,0.06);}
+.nav-inner{width:100%;display:flex;justify-content:space-between;align-items:center;}
+.logo{font-size:20px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px;text-decoration:none;}
+.logo span{color:var(--primary);}
+.nav-links{display:flex;align-items:center;gap:28px;}
+.nav-links a{text-decoration:none;color:var(--muted);font-size:14px;font-weight:500;transition:color 0.2s;}
+.nav-links a:hover{color:var(--primary);}
+.nav-cta{background:var(--primary);color:white!important;padding:10px 20px;border-radius:10px;font-weight:700!important;transition:all 0.2s!important;box-shadow:0 2px 8px rgba(37,99,235,0.3);}
+.nav-cta:hover{background:var(--primary-dark)!important;transform:translateY(-1px);box-shadow:0 6px 16px rgba(37,99,235,0.35)!important;}
+
+/* HERO */
+.hero{min-height:100vh;background:linear-gradient(135deg,#f0f7ff 0%,#e8f4ff 40%,#f5f0ff 100%);display:flex;align-items:center;padding-top:68px;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;width:600px;height:600px;background:radial-gradient(circle,rgba(37,99,235,0.08),transparent);top:-200px;right:-100px;border-radius:50%;}
+.hero-inner{max-width:1200px;margin:0 auto;padding:80px 6%;display:flex;align-items:center;justify-content:space-between;gap:60px;width:100%;}
+.hero-left{max-width:560px;}
+.hero-badge{display:inline-flex;align-items:center;gap:7px;background:var(--primary-light);border:1px solid #bfdbfe;color:var(--primary);padding:8px 16px;border-radius:30px;font-size:13px;font-weight:600;margin-bottom:24px;}
+.badge-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;animation:blink 2s infinite;}
+@keyframes blink{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.5;transform:scale(1.4)}}
+.hero-title{font-size:54px;font-weight:900;color:var(--text);line-height:1.08;letter-spacing:-2px;margin-bottom:20px;}
+.grad-text{background:linear-gradient(135deg,#2563eb,#7c3aed);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
+.hero-desc{font-size:17px;color:var(--muted);line-height:1.75;margin-bottom:32px;}
+.hero-desc strong{color:var(--text);}
+.hero-btns{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:36px;}
+.btn-main{display:inline-flex;align-items:center;gap:8px;background:var(--primary);color:white;text-decoration:none;padding:14px 26px;border-radius:11px;font-size:15px;font-weight:700;box-shadow:0 4px 16px rgba(37,99,235,0.35);transition:all 0.25s;}
+.btn-main:hover{background:var(--primary-dark);transform:translateY(-2px);box-shadow:0 8px 24px rgba(37,99,235,0.4);}
+.btn-outline{display:inline-flex;align-items:center;gap:8px;background:white;color:var(--text);text-decoration:none;padding:14px 26px;border-radius:11px;font-size:15px;font-weight:600;border:1.5px solid var(--border);transition:all 0.25s;box-shadow:0 2px 8px rgba(0,0,0,0.04);}
+.btn-outline:hover{border-color:var(--primary);color:var(--primary);transform:translateY(-2px);}
+
+/* HERO CARD */
+.hero-card{background:white;border-radius:20px;padding:28px;width:360px;flex-shrink:0;box-shadow:0 20px 60px rgba(37,99,235,0.12);border:1px solid var(--border);animation:float 5s ease-in-out infinite;}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hc-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+.hc-title{font-size:14px;font-weight:700;color:var(--text);display:flex;align-items:center;gap:7px;}
+.hc-live{background:#f0fdf4;color:#16a34a;font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px;letter-spacing:0.5px;border:1px solid #bbf7d0;}
+.hc-skill{margin-bottom:14px;}
+.hc-si{display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:6px;color:var(--muted);}
+.hc-si b{color:var(--text);font-weight:700;}
+.hc-bar{height:7px;background:#f1f5f9;border-radius:10px;overflow:hidden;}
+.hc-fill{height:100%;border-radius:10px;transition:width 1.8s ease;}
+.hc-ai{background:var(--primary-light);border:1px solid #bfdbfe;border-radius:12px;padding:14px;display:flex;gap:10px;margin-bottom:16px;}
+.hc-ai-text span{font-size:10px;font-weight:800;color:var(--primary);text-transform:uppercase;letter-spacing:0.5px;display:block;margin-bottom:3px;}
+.hc-ai-text p{font-size:12.5px;color:var(--muted);line-height:1.5;}
+.hc-stats{display:flex;gap:10px;border-top:1px solid var(--border);padding-top:14px;}
+.hc-stat{flex:1;text-align:center;}
+.hc-stat b{display:block;font-size:16px;font-weight:900;color:var(--primary);}
+.hc-stat span{font-size:10.5px;color:var(--muted);}
+.hc-div{width:1px;background:var(--border);}
+
+/* STATS BAR */
+.stats-bar{background:var(--text);padding:44px 6%;}
+.stats-inner{max-width:900px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;gap:16px;}
+.si{text-align:center;flex:1;}
+.si h3{font-size:38px;font-weight:900;letter-spacing:-1.5px;color:white;}
+.si p{color:rgba(255,255,255,0.5);font-size:13px;margin-top:4px;}
+.si-div{width:1px;height:44px;background:rgba(255,255,255,0.1);}
+
+/* FEATURES */
+.features{padding:100px 6%;background:var(--bg);}
+.sec-center{text-align:center;margin-bottom:56px;}
+.sec-badge{font-size:12px;font-weight:800;letter-spacing:2px;text-transform:uppercase;color:var(--primary);display:block;margin-bottom:12px;}
+.sec-center h2{font-size:38px;font-weight:900;letter-spacing:-1px;color:var(--text);margin-bottom:12px;}
+.sec-center p{color:var(--muted);font-size:16px;max-width:480px;margin:0 auto;line-height:1.7;}
+.feat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px;max-width:1100px;margin:0 auto;}
+.feat-card{background:white;border-radius:18px;padding:28px;border:1px solid var(--border);transition:all 0.3s;position:relative;overflow:hidden;}
+.feat-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,var(--primary),#7c3aed);opacity:0;transition:opacity 0.3s;}
+.feat-card:hover{transform:translateY(-6px);box-shadow:0 20px 48px rgba(37,99,235,0.1);border-color:#bfdbfe;}
+.feat-card:hover::before{opacity:1;}
+.feat-ico{width:50px;height:50px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:24px;margin-bottom:18px;}
+.feat-card h3{font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.feat-card p{color:var(--muted);font-size:13.5px;line-height:1.65;margin-bottom:16px;}
+.feat-link{color:var(--primary);text-decoration:none;font-size:13.5px;font-weight:700;}
+
+/* HOW IT WORKS */
+.how{padding:100px 6%;background:white;}
+.steps-wrap{display:flex;align-items:center;gap:14px;max-width:1100px;margin:0 auto;flex-wrap:wrap;}
+.step-card{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:18px;padding:28px 22px;text-align:center;transition:all 0.25s;min-width:200px;}
+.step-card:hover{background:var(--primary-light);border-color:#bfdbfe;transform:translateY(-4px);}
+.step-num{font-size:11px;font-weight:800;color:var(--primary);letter-spacing:1px;background:var(--primary-light);display:inline-block;padding:4px 12px;border-radius:20px;margin-bottom:14px;}
+.step-emoji{font-size:32px;margin-bottom:12px;}
+.step-card h3{font-size:15px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.step-card p{color:var(--muted);font-size:13px;line-height:1.6;}
+.step-arrow{font-size:22px;color:var(--border);flex-shrink:0;}
+
+/* GATE HIGHLIGHT */
+.gate-section{padding:80px 6%;background:linear-gradient(135deg,#1e40af,#2563eb);}
+.gate-inner{max-width:1100px;margin:0 auto;display:flex;align-items:center;gap:60px;flex-wrap:wrap;}
+.gate-left{flex:1;min-width:280px;color:white;}
+.gate-left h2{font-size:36px;font-weight:900;letter-spacing:-1px;margin-bottom:14px;}
+.gate-left p{font-size:16px;opacity:0.85;line-height:1.7;margin-bottom:28px;}
+.gate-subjects{display:flex;flex-wrap:wrap;gap:8px;}
+.gs-chip{background:rgba(255,255,255,0.15);color:white;padding:6px 14px;border-radius:20px;font-size:12.5px;font-weight:600;border:1px solid rgba(255,255,255,0.25);}
+.gate-right{flex:1;min-width:280px;}
+.gate-card{background:white;border-radius:18px;padding:28px;}
+.gc-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:18px;}
+.gc-item{display:flex;align-items:center;gap:12px;padding:12px;background:var(--bg);border-radius:11px;margin-bottom:10px;border:1px solid var(--border);}
+.gc-icon{font-size:22px;flex-shrink:0;}
+.gc-info h4{font-size:13px;font-weight:700;color:var(--text);}
+.gc-info span{font-size:12px;color:var(--muted);}
+.gc-arrow{margin-left:auto;color:var(--primary);font-weight:800;}
+
+/* CTA */
+.cta{background:var(--bg);padding:100px 6%;text-align:center;}
+.cta h2{font-size:40px;font-weight:900;letter-spacing:-1.5px;color:var(--text);margin-bottom:12px;}
+.cta p{color:var(--muted);font-size:16px;margin-bottom:32px;}
+
+/* FOOTER */
+footer{background:var(--text);padding:60px 6% 28px;}
+.footer-top{display:flex;justify-content:space-between;gap:40px;max-width:1100px;margin:0 auto 44px;flex-wrap:wrap;}
+.footer-brand p{color:rgba(255,255,255,0.4);font-size:13.5px;line-height:1.7;margin-top:12px;max-width:260px;}
+.footer-links{display:flex;gap:50px;flex-wrap:wrap;}
+.footer-col{display:flex;flex-direction:column;gap:10px;}
+.footer-col h4{color:white;font-size:13px;font-weight:700;margin-bottom:4px;}
+.footer-col a{color:rgba(255,255,255,0.4);text-decoration:none;font-size:13px;transition:color 0.2s;}
+.footer-col a:hover{color:white;}
+.footer-bottom{border-top:1px solid rgba(255,255,255,0.08);padding-top:22px;text-align:center;max-width:1100px;margin:0 auto;}
+.footer-bottom p{color:rgba(255,255,255,0.25);font-size:12.5px;}
+
+/* RESPONSIVE */
+@media(max-width:900px){.hero-inner{flex-direction:column;text-align:center;}.hero-btns{justify-content:center;}.hero-card{width:100%;max-width:380px;animation:none;}.hero-title{font-size:38px;}.feat-grid{grid-template-columns:1fr 1fr;}}
+@media(max-width:600px){.hero-title{font-size:30px;letter-spacing:-1px;}.feat-grid{grid-template-columns:1fr;}.nav-links a:not(.nav-cta){display:none;}.stats-inner{flex-wrap:wrap;gap:20px;}.si-div{display:none;}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="nav-inner">
+    <a class="logo" href="index.html">⚡ Skill<span>Bridge AI</span></a>
+    <div class="nav-links">
+      <a href="#features">Features</a>
+      <a href="#gate">GATE Prep</a>
+      <a href="#how">How It Works</a>
+      <a href="login.html" class="nav-cta">Get Started →</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-inner">
+    <div class="hero-left">
+      <div class="hero-badge"><span class="badge-dot"></span> ✨ AI-Powered Career Platform</div>
+      <h1 class="hero-title">Build Your Skills.<br><span class="grad-text">Bridge Your Career Gap.</span></h1>
+      <p class="hero-desc">SkillBridge AI analyzes your profile, generates <strong>personalized roadmaps</strong>, and prepares you for <strong>GATE, placements & interviews</strong> with AI-powered practice.</p>
+      <div class="hero-btns">
+        <a href="signup.html" class="btn-main">Start Free →</a>
+        <a href="#features" class="btn-outline">Explore Features ↓</a>
+      </div>
+    </div>
+    <div class="hero-card">
+      <div class="hc-head">
+        <div class="hc-title">🤖 AI Skill Analysis</div>
+        <span class="hc-live">LIVE</span>
+      </div>
+      <div class="hc-skill"><div class="hc-si"><span>Data Structures</span><b>85%</b></div><div class="hc-bar"><div class="hc-fill" data-w="85%" style="background:#2563eb;width:0;"></div></div></div>
+      <div class="hc-skill"><div class="hc-si"><span>Algorithms</span><b>72%</b></div><div class="hc-bar"><div class="hc-fill" data-w="72%" style="background:#7c3aed;width:0;"></div></div></div>
+      <div class="hc-skill"><div class="hc-si"><span>OS & Networks</span><b>60%</b></div><div class="hc-bar"><div class="hc-fill" data-w="60%" style="background:#0891b2;width:0;"></div></div></div>
+      <div class="hc-ai"><span style="font-size:22px;">🤖</span><div class="hc-ai-text"><span>AI Recommendation</span><p>Focus on OS & CN for GATE 2025. Practice 15 questions daily.</p></div></div>
+      <div class="hc-stats">
+        <div class="hc-stat"><b>78%</b><span>GATE Ready</span></div>
+        <div class="hc-div"></div>
+        <div class="hc-stat"><b>4 Wks</b><span>To Exam</span></div>
+        <div class="hc-div"></div>
+        <div class="hc-stat"><b>10</b><span>Subjects</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- STATS BAR -->
+<div class="stats-bar">
+  <div class="stats-inner">
+    <div class="si"><h3>2000+</h3><p>Students Placed</p></div>
+    <div class="si-div"></div>
+    <div class="si"><h3>95%</h3><p>Placement Rate</p></div>
+    <div class="si-div"></div>
+    <div class="si"><h3>10</h3><p>GATE Subjects</p></div>
+    <div class="si-div"></div>
+    <div class="si"><h3>500+</h3><p>Practice Questions</p></div>
+  </div>
+</div>
+
+<!-- FEATURES -->
+<section class="features" id="features">
+  <div class="sec-center">
+    <span class="sec-badge">✦ Features</span>
+    <h2>Everything for Your Career</h2>
+    <p>One AI-powered platform to learn, practice, track, and land your dream job or crack GATE.</p>
+  </div>
+  <div class="feat-grid">
+    <div class="feat-card"><div class="feat-ico" style="background:#eff6ff;">🎓</div><h3>GATE Preparation</h3><p>Complete subject-wise GATE CS preparation with topic checklists, important questions, and progress tracking.</p><a href="gate.html" class="feat-link">Start Prep →</a></div>
+    <div class="feat-card"><div class="feat-ico" style="background:#f0fdf4;">🤖</div><h3>AI Question Generator</h3><p>Generate custom practice papers by subject, topic, difficulty. Get explanations for every answer.</p><a href="ai-questions.html" class="feat-link">Generate Now →</a></div>
+    <div class="feat-card"><div class="feat-ico" style="background:#fdf4ff;">📈</div><h3>Progress Tracking</h3><p>Track every practice session, score, accuracy and time spent. See your improvement over time.</p><a href="my-progress.html" class="feat-link">View Progress →</a></div>
+    <div class="feat-card"><div class="feat-ico" style="background:#fff7ed;">🗺️</div><h3>Personalized Roadmap</h3><p>AI-generated week-by-week learning roadmap based on your goal, skills, and preparation level.</p><a href="roadmap.html" class="feat-link">Get Roadmap →</a></div>
+    <div class="feat-card"><div class="feat-ico" style="background:#f0f9ff;">🎤</div><h3>Interview Prep</h3><p>Practice real DSA, technical and HR questions with timer, scoring and detailed review.</p><a href="interview.html" class="feat-link">Practice →</a></div>
+    <div class="feat-card"><div class="feat-ico" style="background:#fef2f2;">📄</div><h3>Resume Builder</h3><p>Analyze your resume with AI, get improvement tips, and build a job-winning resume.</p><a href="resume.html" class="feat-link">Build Resume →</a></div>
+  </div>
+</section>
+
+<!-- GATE SECTION -->
+<section class="gate-section" id="gate">
+  <div class="gate-inner">
+    <div class="gate-left">
+      <h2>GATE CS 2025<br>Preparation Hub 🎓</h2>
+      <p>Complete, structured GATE Computer Science preparation. Cover all 10 subjects systematically with topic-wise tracking and AI-generated practice questions.</p>
+      <div class="gate-subjects">
+        <span class="gs-chip">Engineering Maths</span><span class="gs-chip">Digital Logic</span><span class="gs-chip">COA</span><span class="gs-chip">Programming & DS</span><span class="gs-chip">Algorithms</span><span class="gs-chip">Theory of Computation</span><span class="gs-chip">Compiler Design</span><span class="gs-chip">OS</span><span class="gs-chip">DBMS</span><span class="gs-chip">Computer Networks</span>
+      </div>
+      <br>
+      <a href="gate.html" class="btn-outline" style="background:white;color:#2563eb;margin-top:8px;">Start GATE Prep →</a>
+    </div>
+    <div class="gate-right">
+      <div class="gate-card">
+        <div class="gc-title">🚀 What You Get</div>
+        <div class="gc-item"><span class="gc-icon">✅</span><div class="gc-info"><h4>Topic-wise Checklists</h4><span>Mark topics as done, track completion</span></div><span class="gc-arrow">→</span></div>
+        <div class="gc-item"><span class="gc-icon">🤖</span><div class="gc-info"><h4>AI Practice Questions</h4><span>GATE-level questions with explanations</span></div><span class="gc-arrow">→</span></div>
+        <div class="gc-item"><span class="gc-icon">📊</span><div class="gc-info"><h4>Progress Dashboard</h4><span>Track your preparation %</span></div><span class="gc-arrow">→</span></div>
+        <div class="gc-item"><span class="gc-icon">📅</span><div class="gc-info"><h4>Study Roadmap</h4><span>Week-by-week preparation plan</span></div><span class="gc-arrow">→</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="how" id="how">
+  <div class="sec-center">
+    <span class="sec-badge">✦ Process</span>
+    <h2>How SkillBridge AI Works</h2>
+    <p>Four simple steps from where you are to where you want to be.</p>
+  </div>
+  <div class="steps-wrap">
+    <div class="step-card"><div class="step-num">01</div><div class="step-emoji">👤</div><h3>Create Profile</h3><p>Set up your profile with education, skills, and career goals.</p></div>
+    <div class="step-arrow">→</div>
+    <div class="step-card"><div class="step-num">02</div><div class="step-emoji">🤖</div><h3>AI Analysis</h3><p>AI identifies your skill gaps and creates a personalized plan.</p></div>
+    <div class="step-arrow">→</div>
+    <div class="step-card"><div class="step-num">03</div><div class="step-emoji">📚</div><h3>Practice Daily</h3><p>Use AI questions, GATE prep, and interview practice every day.</p></div>
+    <div class="step-arrow">→</div>
+    <div class="step-card"><div class="step-num">04</div><div class="step-emoji">🏆</div><h3>Get Hired / Crack GATE</h3><p>Track progress, apply to jobs, and achieve your career goal.</p></div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta">
+  <h2>Ready to Start Your Journey?</h2>
+  <p>Join thousands of students who use SkillBridge AI to crack GATE and land their dream jobs.</p>
+  <a href="signup.html" class="btn-main" style="display:inline-flex;">Create Free Account →</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-top">
+    <div class="footer-brand">
+      <div class="logo" style="color:white;">⚡ Skill<span style="color:#60a5fa;">Bridge AI</span></div>
+      <p>Empowering students to bridge the gap between education and career success.</p>
+    </div>
+    <div class="footer-links">
+      <div class="footer-col"><h4>Platform</h4><a href="dashboard.html">Dashboard</a><a href="gate.html">GATE Prep</a><a href="ai-questions.html">AI Questions</a><a href="my-progress.html">My Progress</a></div>
+      <div class="footer-col"><h4>Tools</h4><a href="interview.html">Interview Prep</a><a href="projects.html">Projects</a><a href="quiz.html">Skill Quiz</a><a href="resume.html">Resume</a></div>
+      <div class="footer-col"><h4>Account</h4><a href="login.html">Login</a><a href="signup.html">Sign Up</a><a href="admin-login.html">Admin</a></div>
+    </div>
+  </div>
+  <div class="footer-bottom"><p>© 2025 SkillBridge AI • Built for students</p></div>
+</footer>
+
+<script>
+window.addEventListener('load',()=>{setTimeout(()=>{document.querySelectorAll('.hc-fill').forEach(f=>{f.style.width=f.dataset.w;});},500);});
+window.addEventListener('scroll',()=>{document.querySelector('nav').style.boxShadow=window.scrollY>30?'0 4px 20px rgba(0,0,0,0.08)':'0 1px 12px rgba(0,0,0,0.06)';});
+</script>
+</body>
+</html>

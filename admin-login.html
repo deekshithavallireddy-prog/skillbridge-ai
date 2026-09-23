@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login - SkillBridge AI</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --error: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', -apple-system, sans-serif; }
+        body { background-color: var(--bg-body); color: var(--text-dark); display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .login-container { background: var(--bg-card); padding: 2.5rem; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06); width: 100%; max-width: 400px; border: 1px solid var(--border); text-align: center; }
+        .logo { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin-bottom: 0.5rem; }
+        .subtitle { color: var(--text-light); margin-bottom: 2rem; font-size: 0.95rem; }
+        .form-group { margin-bottom: 1.25rem; text-align: left; }
+        .form-group label { display: block; margin-bottom: 0.5rem; font-size: 0.875rem; font-weight: 500; }
+        .form-group input { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        .form-group input:focus { border-color: var(--primary); }
+        .btn { width: 100%; padding: 0.875rem; background-color: var(--primary); color: white; border: none; border-radius: 6px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: background-color 0.2s; }
+        .btn:hover { background-color: var(--primary-hover); }
+        .error-msg { color: var(--error); font-size: 0.875rem; margin-bottom: 1rem; display: none; }
+        .footer-link { display: block; margin-top: 1.5rem; color: var(--primary); text-decoration: none; font-size: 0.875rem; }
+        .footer-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="logo">SkillBridge AI</div>
+        <div class="subtitle">Admin Portal</div>
+        
+        <div class="error-msg" id="errorMsg">Invalid credentials. Please try again.</div>
+        
+        <form id="adminLoginForm">
+            <div class="form-group">
+                <label for="email">Admin Email</label>
+                <input type="email" id="email" required placeholder="admin@skillbridge.ai">
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" required placeholder="••••••••">
+            </div>
+            <button type="submit" class="btn" id="loginBtn">Login to Dashboard</button>
+        </form>
+        
+        <a href="login.html" class="footer-link">Not an admin? Go to User Login</a>
+    </div>
+
+    <script>
+        document.getElementById('adminLoginForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const errorMsg = document.getElementById('errorMsg');
+            const btn = document.getElementById('loginBtn');
+            
+            errorMsg.style.display = 'none';
+            btn.textContent = 'Logging in...';
+            btn.disabled = true;
+
+            try {
+                const response = await fetch('/api/auth/admin-login', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email, password })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    localStorage.setItem('sb_admin_token', data.token);
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    errorMsg.textContent = 'Invalid credentials or unauthorized access.';
+                    errorMsg.style.display = 'block';
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                errorMsg.textContent = 'Network error. Could not connect to server.';
+                errorMsg.style.display = 'block';
+            } finally {
+                btn.textContent = 'Login to Dashboard';
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+</html>

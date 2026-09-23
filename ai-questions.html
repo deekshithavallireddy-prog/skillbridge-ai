@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Questions - SkillBridge AI</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --primary-hover: #1d4ed8;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --success: #10b981;
+            --error: #ef4444;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { display: flex; min-height: 100vh; background: var(--bg-body); color: var(--text-dark); }
+        
+        .sidebar { width: 220px; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 0; position: fixed; height: 100vh; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); padding: 0 1.5rem; margin-bottom: 2rem; }
+        .nav-item { display: block; padding: 0.75rem 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background: #eff6ff; color: var(--primary); border-right: 3px solid var(--primary); }
+        
+        .main-content { margin-left: 220px; flex: 1; padding: 2rem; overflow-y: auto; display: flex; justify-content: center; }
+        .container { width: 100%; max-width: 800px; }
+        
+        .card { background: var(--bg-card); padding: 2.5rem; border-radius: 12px; border: 1px solid var(--border); box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        h1 { margin-bottom: 2rem; font-size: 1.75rem; text-align: center; }
+        
+        /* Form */
+        .form-group { margin-bottom: 1.5rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: 500; font-size: 0.875rem; }
+        select, input { width: 100%; padding: 0.75rem; border: 1px solid var(--border); border-radius: 6px; font-size: 1rem; }
+        .pill-group { display: flex; gap: 0.5rem; }
+        .pill { padding: 0.5rem 1rem; border: 1px solid var(--border); border-radius: 20px; cursor: pointer; transition: 0.2s; font-size: 0.875rem; }
+        .pill.active { background: var(--primary); color: white; border-color: var(--primary); }
+        .btn { display: block; width: 100%; padding: 1rem; background: var(--primary); color: white; border: none; border-radius: 8px; font-size: 1.1rem; font-weight: 600; cursor: pointer; margin-top: 2rem; }
+        .btn:hover { background: var(--primary-hover); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; }
+
+        /* Quiz Mode */
+        #phase-quiz { display: none; }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem; padding-bottom: 1rem; border-bottom: 1px solid var(--border); }
+        .timer { font-size: 1.25rem; font-weight: 700; color: var(--primary); }
+        .question-box { margin-bottom: 2rem; }
+        .q-text { font-size: 1.1rem; font-weight: 500; margin-bottom: 1.5rem; }
+        .option { display: block; width: 100%; text-align: left; padding: 1rem; background: #f8fafc; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 0.75rem; cursor: pointer; transition: 0.2s; }
+        .option:hover { background: #f1f5f9; }
+        .option.selected { background: #eff6ff; border-color: var(--primary); box-shadow: 0 0 0 1px var(--primary); }
+        .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 2rem; }
+        .btn-outline { padding: 0.5rem 1.5rem; background: transparent; border: 1px solid var(--primary); color: var(--primary); border-radius: 6px; cursor: pointer; font-weight: 600; }
+        
+        /* Results Mode */
+        #phase-results { display: none; }
+        .score-circle { width: 120px; height: 120px; border-radius: 50%; background: #eff6ff; display: flex; align-items: center; justify-content: center; font-size: 2rem; font-weight: 700; color: var(--primary); margin: 0 auto 2rem; border: 4px solid var(--primary); }
+        .stats-row { display: flex; justify-content: space-around; margin-bottom: 2rem; text-align: center; }
+        .stat-val { font-size: 1.25rem; font-weight: 700; color: var(--text-dark); }
+        .stat-label { font-size: 0.75rem; color: var(--text-light); text-transform: uppercase; }
+        .review-item { padding: 1.5rem; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 1rem; }
+        .ans-correct { color: var(--success); font-weight: 600; }
+        .ans-wrong { color: var(--error); font-weight: 600; }
+        .explanation { margin-top: 1rem; padding: 1rem; background: #f8fafc; border-radius: 6px; font-size: 0.875rem; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">SkillBridge AI</div>
+        <a href="#" class="nav-item">Dashboard</a>
+        <a href="gate.html" class="nav-item">GATE Prep</a>
+        <a href="ai-questions.html" class="nav-item active">AI Questions</a>
+        <a href="my-progress.html" class="nav-item">My Progress</a>
+    </div>
+
+    <div class="main-content">
+        <div class="container">
+            
+            <!-- PHASE 1: GENERATOR -->
+            <div id="phase-generate" class="card">
+                <h1>AI Question Generator ⚡</h1>
+                <div class="form-group">
+                    <label>Subject</label>
+                    <select id="subject" onchange="updateTopics()">
+                        <option value="OS">Operating Systems</option>
+                        <option value="DBMS">Database Management Systems</option>
+                        <option value="CN">Computer Networks</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Topic</label>
+                    <select id="topic">
+                        <!-- Populated by JS -->
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Difficulty</label>
+                    <div class="pill-group" id="diff-group">
+                        <div class="pill active" onclick="selectPill('diff', 'Easy')">Easy</div>
+                        <div class="pill" onclick="selectPill('diff', 'Medium')">Medium</div>
+                        <div class="pill" onclick="selectPill('diff', 'Hard')">Hard</div>
+                        <div class="pill" onclick="selectPill('diff', 'GATE-Level')">GATE-Level</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Number of Questions</label>
+                    <div class="pill-group" id="count-group">
+                        <div class="pill active" onclick="selectPill('count', 5)">5</div>
+                        <div class="pill" onclick="selectPill('count', 10)">10</div>
+                        <div class="pill" onclick="selectPill('count', 15)">15</div>
+                    </div>
+                </div>
+                <button class="btn" id="generateBtn" onclick="generatePaper()">Generate Paper</button>
+            </div>
+
+            <!-- PHASE 2: QUIZ -->
+            <div id="phase-quiz" class="card">
+                <div class="quiz-header">
+                    <div>
+                        <div style="font-size:0.875rem; color:var(--text-light)" id="quiz-meta">OS | Deadlocks | Hard</div>
+                        <div style="font-weight:600" id="quiz-progress">Question 1 / 5</div>
+                    </div>
+                    <div class="timer" id="timer">05:00</div>
+                </div>
+                
+                <div id="quiz-container">
+                    <!-- Questions injected here -->
+                </div>
+
+                <div class="quiz-nav">
+                    <button class="btn-outline" id="prevBtn" onclick="prevQ()">Previous</button>
+                    <button class="btn" style="width:auto; margin:0; padding: 0.5rem 2rem;" id="nextBtn" onclick="nextQ()">Next</button>
+                </div>
+            </div>
+
+            <!-- PHASE 3: RESULTS -->
+            <div id="phase-results" class="card">
+                <h1>Quiz Results</h1>
+                <div class="score-circle" id="res-score">4/5</div>
+                <div class="stats-row">
+                    <div><div class="stat-val" id="res-acc">80%</div><div class="stat-label">Accuracy</div></div>
+                    <div><div class="stat-val" id="res-time">02:15</div><div class="stat-label">Time Taken</div></div>
+                    <div><div class="stat-val" id="res-grade">A</div><div class="stat-label">Grade</div></div>
+                </div>
+                
+                <h3 style="margin-bottom:1rem;">Detailed Review</h3>
+                <div id="review-container">
+                    <!-- Reviews injected here -->
+                </div>
+
+                <button class="btn" onclick="location.reload()">Generate New Paper</button>
+            </div>
+
+        </div>
+    </div>
+
+    <script>
+        const topics = {
+            'OS': ['Process Management', 'Memory Management', 'Deadlocks'],
+            'DBMS': ['SQL', 'Normalization', 'Transactions'],
+            'CN': ['Network Layer', 'Transport Layer', 'Application Layer']
+        };
+
+        let selectedDiff = 'Easy';
+        let selectedCount = 5;
+        
+        let questions = [];
+        let currentQIndex = 0;
+        let answers = {}; // index: optionId
+        let timerInterval;
+        let timeLeft = 0;
+        let timeTotal = 0;
+
+        function updateTopics() {
+            const sub = document.getElementById('subject').value;
+            const topicSel = document.getElementById('topic');
+            topicSel.innerHTML = topics[sub].map(t => `<option value="${t}">${t}</option>`).join('');
+        }
+
+        function selectPill(group, val) {
+            if (group === 'diff') selectedDiff = val;
+            if (group === 'count') selectedCount = val;
+            
+            const groupEl = document.getElementById(`${group}-group`);
+            Array.from(groupEl.children).forEach(c => c.classList.remove('active'));
+            event.target.classList.add('active');
+        }
+
+        async function generatePaper() {
+            const btn = document.getElementById('generateBtn');
+            btn.textContent = 'Generating with AI...';
+            btn.disabled = true;
+
+            // Mock API call delay
+            setTimeout(() => {
+                // Mock generated questions
+                questions = Array.from({length: selectedCount}, (_, i) => ({
+                    id: i,
+                    text: `Sample AI generated question ${i+1} for ${document.getElementById('topic').value}?`,
+                    options: ['Option A', 'Option B', 'Option C', 'Option D'],
+                    correct: Math.floor(Math.random() * 4),
+                    explanation: `Detailed explanation for question ${i+1}. The correct logic applies here.`
+                }));
+
+                startQuiz();
+            }, 1500);
+        }
+
+        function startQuiz() {
+            document.getElementById('phase-generate').style.display = 'none';
+            document.getElementById('phase-quiz').style.display = 'block';
+            
+            document.getElementById('quiz-meta').textContent = `${document.getElementById('subject').value} | ${document.getElementById('topic').value} | ${selectedDiff}`;
+            
+            timeTotal = selectedCount * 60;
+            timeLeft = timeTotal;
+            timerInterval = setInterval(updateTimer, 1000);
+            
+            renderQuestion();
+        }
+
+        function updateTimer() {
+            timeLeft--;
+            if (timeLeft <= 0) {
+                clearInterval(timerInterval);
+                submitPaper();
+                return;
+            }
+            const m = Math.floor(timeLeft / 60).toString().padStart(2, '0');
+            const s = (timeLeft % 60).toString().padStart(2, '0');
+            document.getElementById('timer').textContent = `${m}:${s}`;
+        }
+
+        function renderQuestion() {
+            const q = questions[currentQIndex];
+            document.getElementById('quiz-progress').textContent = `Question ${currentQIndex + 1} / ${questions.length}`;
+            
+            const html = `
+                <div class="question-box">
+                    <div class="q-text">Q${currentQIndex + 1}. ${q.text}</div>
+                    ${q.options.map((opt, i) => `
+                        <button class="option ${answers[currentQIndex] === i ? 'selected' : ''}" 
+                                onclick="selectOption(${i})">${String.fromCharCode(65+i)}. ${opt}</button>
+                    `).join('')}
+                </div>
+            `;
+            document.getElementById('quiz-container').innerHTML = html;
+
+            document.getElementById('prevBtn').style.visibility = currentQIndex === 0 ? 'hidden' : 'visible';
+            
+            const nextBtn = document.getElementById('nextBtn');
+            if (currentQIndex === questions.length - 1) {
+                nextBtn.textContent = 'Submit Paper';
+                nextBtn.style.background = 'var(--success)';
+            } else {
+                nextBtn.textContent = 'Next';
+                nextBtn.style.background = 'var(--primary)';
+            }
+        }
+
+        function selectOption(optIndex) {
+            answers[currentQIndex] = optIndex;
+            renderQuestion();
+        }
+
+        function prevQ() { if(currentQIndex > 0) { currentQIndex--; renderQuestion(); } }
+        function nextQ() {
+            if(currentQIndex < questions.length - 1) {
+                currentQIndex++; renderQuestion();
+            } else {
+                if(confirm('Ready to submit your paper?')) submitPaper();
+            }
+        }
+
+        function submitPaper() {
+            clearInterval(timerInterval);
+            document.getElementById('phase-quiz').style.display = 'none';
+            document.getElementById('phase-results').style.display = 'block';
+
+            let correct = 0;
+            const reviewHtml = questions.map((q, i) => {
+                const userAns = answers[i];
+                const isCorrect = userAns === q.correct;
+                if(isCorrect) correct++;
+
+                return `
+                    <div class="review-item">
+                        <div class="q-text">Q${i+1}. ${q.text}</div>
+                        <div style="margin-bottom:0.5rem">
+                            Your answer: <span class="${isCorrect ? 'ans-correct' : 'ans-wrong'}">
+                            ${userAns !== undefined ? q.options[userAns] : 'Not Answered'}</span>
+                        </div>
+                        ${!isCorrect ? `<div>Correct answer: <span class="ans-correct">${q.options[q.correct]}</span></div>` : ''}
+                        <div class="explanation"><strong>Explanation:</strong> ${q.explanation}</div>
+                    </div>
+                `;
+            }).join('');
+
+            document.getElementById('res-score').textContent = `${correct}/${questions.length}`;
+            document.getElementById('res-acc').textContent = `${Math.round((correct/questions.length)*100)}%`;
+            
+            const timeTaken = timeTotal - timeLeft;
+            const m = Math.floor(timeTaken / 60).toString().padStart(2, '0');
+            const s = (timeTaken % 60).toString().padStart(2, '0');
+            document.getElementById('res-time').textContent = `${m}:${s}`;
+            
+            const pct = correct/questions.length;
+            document.getElementById('res-grade').textContent = pct>=0.9?'A+':pct>=0.8?'A':pct>=0.7?'B':pct>=0.6?'C':'F';
+
+            document.getElementById('review-container').innerHTML = reviewHtml;
+        }
+
+        // Init
+        updateTopics();
+    </script>
+</body>
+</html>

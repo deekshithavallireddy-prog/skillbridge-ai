@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Login — SkillBridge AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:white;border-radius:20px;padding:48px 44px;width:100%;max-width:440px;box-shadow:0 4px 24px rgba(0,0,0,0.08);border:1px solid #e2e8f0;}
+.logo{display:flex;align-items:center;gap:8px;justify-content:center;margin-bottom:32px;font-size:22px;font-weight:900;color:#1e293b;}
+.logo span{color:#2563eb;}
+h1{font-size:26px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:6px;}
+.sub{color:#64748b;font-size:14px;text-align:center;margin-bottom:28px;}
+.ig{margin-bottom:18px;}
+.ig label{display:block;font-size:13px;font-weight:600;color:#374151;margin-bottom:6px;}
+.ig input{width:100%;padding:12px 14px;border:1.5px solid #e2e8f0;border-radius:10px;font-size:14px;font-family:'Inter',sans-serif;color:#1e293b;outline:none;transition:border 0.2s,box-shadow 0.2s;}
+.ig input:focus{border-color:#2563eb;box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.ig input::placeholder{color:#94a3b8;}
+.btn{width:100%;padding:13px;border:none;border-radius:11px;background:#2563eb;color:white;font-size:15px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;margin-top:4px;}
+.btn:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.3);}
+.btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+.err{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-bottom:16px;display:none;text-align:center;}
+.links{text-align:center;margin-top:20px;font-size:13.5px;color:#64748b;}
+.links a{color:#2563eb;font-weight:600;text-decoration:none;}
+.links a:hover{text-decoration:underline;}
+.divider{display:flex;align-items:center;gap:12px;margin:20px 0;}
+.divider span{color:#94a3b8;font-size:12px;white-space:nowrap;}
+.divider::before,.divider::after{content:'';flex:1;height:1px;background:#e2e8f0;}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="logo">⚡ Skill<span>Bridge AI</span></div>
+  <h1>Welcome back</h1>
+  <p class="sub">Sign in to continue your learning journey</p>
+  <div class="err" id="errBox"></div>
+  <div class="ig"><label>Email Address</label><input type="email" id="email" placeholder="you@email.com"></div>
+  <div class="ig"><label>Password</label><input type="password" id="password" placeholder="Enter your password"></div>
+  <button class="btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
+  <div class="divider"><span>or</span></div>
+  <div class="links">Don't have an account? <a href="signup.html">Create one free →</a></div>
+  <div class="links" style="margin-top:10px;"><a href="admin-login.html" style="color:#64748b;font-size:12.5px;">Admin Login</a></div>
+</div>
+<script>
+const API = '/api';
+async function doLogin(){
+  const email=document.getElementById('email').value.trim();
+  const pass=document.getElementById('password').value;
+  const btn=document.getElementById('loginBtn');
+  const err=document.getElementById('errBox');
+  err.style.display='none';
+  if(!email||!pass){showErr('Please fill in all fields.');return;}
+  btn.disabled=true;btn.textContent='Signing in...';
+  try{
+    const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
+    const d=await r.json();
+    if(!r.ok){showErr(d.error||'Invalid email or password.');btn.disabled=false;btn.textContent='Sign In →';return;}
+    localStorage.setItem('sb_token',d.token);
+    localStorage.setItem('sb_name',d.user.name);
+    localStorage.setItem('sb_user',JSON.stringify(d.user));
+    window.location.href='dashboard.html';
+  }catch(e){
+    // Fallback to localStorage auth if server not running
+    const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
+    const u=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase()&&a.password===pass);
+    if(u){localStorage.setItem('sb_name',u.name);window.location.href='dashboard.html';}
+    else{showErr('❌ Invalid email or password.');btn.disabled=false;btn.textContent='Sign In →';}
+  }
+}
+function showErr(msg){const e=document.getElementById('errBox');e.textContent=msg;e.style.display='block';}
+document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+</script>
+</body>
+</html>

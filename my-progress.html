@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Progress - SkillBridge AI</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { display: flex; min-height: 100vh; background: var(--bg-body); color: var(--text-dark); }
+        
+        .sidebar { width: 220px; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 0; position: fixed; height: 100vh; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); padding: 0 1.5rem; margin-bottom: 2rem; }
+        .nav-item { display: block; padding: 0.75rem 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background: #eff6ff; color: var(--primary); border-right: 3px solid var(--primary); }
+        
+        .main-content { margin-left: 220px; flex: 1; padding: 2rem; overflow-y: auto; }
+        .header { margin-bottom: 2rem; }
+        .header h1 { font-size: 1.75rem; color: var(--text-dark); }
+        
+        /* Stats Grid */
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 1.5rem; margin-bottom: 2rem; }
+        .stat-card { background: var(--bg-card); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); }
+        .stat-title { color: var(--text-light); font-size: 0.875rem; margin-bottom: 0.5rem; }
+        .stat-value { font-size: 1.75rem; font-weight: 700; color: var(--primary); }
+        
+        /* Tables & Sections */
+        .section-card { background: var(--bg-card); border-radius: 8px; border: 1px solid var(--border); margin-bottom: 2rem; overflow: hidden; }
+        .section-header { padding: 1.25rem 1.5rem; border-bottom: 1px solid var(--border); background: #f8fafc; font-weight: 600; }
+        
+        table { width: 100%; border-collapse: collapse; text-align: left; }
+        th, td { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); }
+        th { color: var(--text-light); font-weight: 500; font-size: 0.875rem; }
+        tr:last-child td { border-bottom: none; }
+        
+        /* Subject Bars */
+        .subject-row { padding: 1rem 1.5rem; border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 1.5rem; }
+        .subject-row:last-child { border-bottom: none; }
+        .sub-name { width: 150px; font-weight: 500; }
+        .sub-track { flex: 1; background: #e2e8f0; height: 10px; border-radius: 5px; overflow: hidden; }
+        .sub-fill { height: 100%; background: var(--primary); }
+        .sub-meta { width: 120px; text-align: right; font-size: 0.875rem; color: var(--text-light); }
+
+        .empty-state { padding: 3rem; text-align: center; color: var(--text-light); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">SkillBridge AI</div>
+        <a href="#" class="nav-item">Dashboard</a>
+        <a href="gate.html" class="nav-item">GATE Prep</a>
+        <a href="ai-questions.html" class="nav-item">AI Questions</a>
+        <a href="my-progress.html" class="nav-item active">My Progress</a>
+    </div>
+
+    <div class="main-content">
+        <div class="header">
+            <h1>My Progress Dashboard</h1>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card"><div class="stat-title">Total Sessions</div><div class="stat-value" id="tot-sess">0</div></div>
+            <div class="stat-card"><div class="stat-title">Questions Attempted</div><div class="stat-value" id="tot-ques">0</div></div>
+            <div class="stat-card"><div class="stat-title">Average Score</div><div class="stat-value" id="avg-score">0%</div></div>
+            <div class="stat-card"><div class="stat-title">Best Score</div><div class="stat-value" id="best-score">0%</div></div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">Subject Performance</div>
+            <div id="subject-perf-container">
+                <!-- Rendered by JS -->
+            </div>
+        </div>
+
+        <div class="section-card">
+            <div class="section-header">Practice History</div>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date</th>
+                        <th>Subject</th>
+                        <th>Topic</th>
+                        <th>Questions</th>
+                        <th>Score</th>
+                        <th>Accuracy</th>
+                    </tr>
+                </thead>
+                <tbody id="history-table">
+                    <!-- Rendered by JS -->
+                </tbody>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        async function loadProgress() {
+            // Mock API Responses
+            const stats = { sessions: 12, questions: 120, avgScore: '78%', bestScore: '100%' };
+            const performance = [
+                { subject: 'Operating Systems', score: 85, sessions: 5 },
+                { subject: 'DBMS', score: 92, sessions: 4 },
+                { subject: 'Computer Networks', score: 65, sessions: 3 }
+            ];
+            const history = [
+                { date: '2023-10-25', subject: 'OS', topic: 'Deadlocks', q: 10, score: '8/10', acc: '80%' },
+                { date: '2023-10-24', subject: 'DBMS', topic: 'SQL', q: 15, score: '15/15', acc: '100%' },
+                { date: '2023-10-22', subject: 'CN', topic: 'TCP/IP', q: 5, score: '3/5', acc: '60%' }
+            ];
+
+            // Render Stats
+            document.getElementById('tot-sess').textContent = stats.sessions;
+            document.getElementById('tot-ques').textContent = stats.questions;
+            document.getElementById('avg-score').textContent = stats.avgScore;
+            document.getElementById('best-score').textContent = stats.bestScore;
+
+            // Render Performance
+            const perfContainer = document.getElementById('subject-perf-container');
+            if (performance.length === 0) {
+                perfContainer.innerHTML = '<div class="empty-state">No performance data yet.</div>';
+            } else {
+                perfContainer.innerHTML = performance.map(p => `
+                    <div class="subject-row">
+                        <div class="sub-name">${p.subject}</div>
+                        <div class="sub-track"><div class="sub-fill" style="width: ${p.score}%"></div></div>
+                        <div class="sub-meta">Avg: ${p.score}% <br>(${p.sessions} sessions)</div>
+                    </div>
+                `).join('');
+            }
+
+            // Render History
+            const histTbody = document.getElementById('history-table');
+            if (history.length === 0) {
+                histTbody.innerHTML = '<tr><td colspan="6" class="empty-state">No practice sessions yet. Take a quiz!</td></tr>';
+            } else {
+                histTbody.innerHTML = history.map(h => `
+                    <tr>
+                        <td>${h.date}</td>
+                        <td>${h.subject}</td>
+                        <td>${h.topic}</td>
+                        <td>${h.q}</td>
+                        <td>${h.score}</td>
+                        <td><span style="color: ${parseInt(h.acc)>=80?'var(--success)':'inherit'}">${h.acc}</span></td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        loadProgress();
+    </script>
+</body>
+</html>

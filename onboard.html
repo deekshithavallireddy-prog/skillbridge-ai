@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Setup Profile — SkillBridge AI</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:28px 20px;}
+.wrap{width:100%;max-width:620px;}
+.prog-top{margin-bottom:24px;}
+.prog-info{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.prog-label{color:#64748b;font-size:13px;font-weight:600;}
+.prog-step{color:#2563eb;font-size:13px;font-weight:800;}
+.prog-bar{height:6px;background:#e2e8f0;border-radius:10px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:10px;transition:width 0.5s ease;}
+.card{background:white;border-radius:24px;padding:44px 40px;border:1px solid #e2e8f0;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
+.step{display:none;animation:slideIn 0.4s ease;}
+.step.active{display:block;}
+@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+.step-emoji{font-size:44px;text-align:center;display:block;margin-bottom:14px;}
+.step-title{font-size:24px;font-weight:900;color:#1e293b;text-align:center;letter-spacing:-0.5px;margin-bottom:8px;}
+.step-sub{color:#64748b;text-align:center;font-size:14px;line-height:1.65;margin-bottom:28px;}
+.options{display:grid;gap:10px;}
+.options.cols2{grid-template-columns:1fr 1fr;}
+.options.cols3{grid-template-columns:1fr 1fr 1fr;}
+.opt{background:#f8fafc;border:2px solid #e2e8f0;border-radius:14px;padding:18px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;color:#475569;}
+.opt:hover{background:#eff6ff;border-color:#93c5fd;color:#1e293b;}
+.opt.selected{background:#eff6ff;border-color:#2563eb;color:#1e293b;box-shadow:0 2px 12px rgba(37,99,235,0.15);}
+.opt-icon{font-size:26px;flex-shrink:0;}
+.opt-text h4{font-size:14px;font-weight:700;margin-bottom:2px;color:#1e293b;}
+.opt-text p{font-size:12px;color:#94a3b8;line-height:1.4;}
+.opt-sm{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:14px 12px;cursor:pointer;transition:all 0.2s;text-align:center;color:#475569;font-size:13px;font-weight:600;}
+.opt-sm:hover{background:#eff6ff;border-color:#93c5fd;color:#2563eb;}
+.opt-sm.selected{background:#eff6ff;border-color:#2563eb;color:#2563eb;}
+.opt-sm .sm-icon{font-size:22px;display:block;margin-bottom:5px;}
+.skill-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.chip{padding:9px 16px;border-radius:30px;border:1.5px solid #e2e8f0;background:#f8fafc;color:#64748b;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;}
+.chip:hover{border-color:#93c5fd;color:#2563eb;background:#eff6ff;}
+.chip.selected{background:#2563eb;border-color:#2563eb;color:white;box-shadow:0 3px 10px rgba(37,99,235,0.3);}
+.name-input{width:100%;padding:14px 16px;background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;color:#1e293b;font-size:16px;font-family:'Inter',sans-serif;outline:none;text-align:center;font-weight:600;transition:all 0.2s;}
+.name-input::placeholder{color:#94a3b8;font-weight:400;}
+.name-input:focus{border-color:#2563eb;background:white;box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+.nav-btns{display:flex;gap:12px;margin-top:28px;}
+.btn-back{flex:1;padding:13px;border:2px solid #e2e8f0;border-radius:11px;background:white;color:#64748b;font-size:14px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;}
+.btn-back:hover{background:#f1f5f9;border-color:#94a3b8;}
+.btn-next{flex:2;padding:13px;border:none;border-radius:11px;background:#2563eb;color:white;font-size:15px;font-weight:800;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;box-shadow:0 4px 14px rgba(37,99,235,0.35);}
+.btn-next:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 22px rgba(37,99,235,0.4);}
+.note{color:#94a3b8;font-size:12px;text-align:center;margin-top:12px;}
+.section-label{color:#94a3b8;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;margin-top:18px;}
+.level-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
+.level-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:20px 14px;cursor:pointer;transition:all 0.22s;text-align:center;color:#475569;}
+.level-card:hover{background:#eff6ff;border-color:#93c5fd;color:#1e293b;}
+.level-card.selected{background:#eff6ff;border-color:#2563eb;color:#1e293b;}
+.lc-icon{font-size:32px;margin-bottom:8px;}
+.lc-title{font-size:14px;font-weight:800;color:#1e293b;margin-bottom:4px;}
+.lc-sub{font-size:11px;color:#94a3b8;line-height:1.4;}
+.level-card.selected .lc-sub{color:#64748b;}
+.res-box{background:#f0f9ff;border:1px solid #bae6fd;border-radius:14px;padding:18px;margin-top:16px;}
+.res-box h4{font-size:13px;font-weight:800;color:#0369a1;margin-bottom:12px;}
+.res-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:12.5px;color:#0c4a6e;line-height:1.5;}
+.res-item::before{content:'→';color:#0ea5e9;font-weight:800;flex-shrink:0;}
+@media(max-width:600px){.card{padding:28px 22px;}.options.cols2,.options.cols3{grid-template-columns:1fr 1fr;}.level-cards{grid-template-columns:1fr;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="prog-top">
+    <div class="prog-info"><span class="prog-label">Setting up your profile</span><span class="prog-step" id="stepLabel">Step 1 of 6</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:16.6%"></div></div>
+  </div>
+
+  <div class="card">
+    <!-- STEP 1: Name -->
+    <div class="step active" id="s1">
+      <span class="step-emoji">👋</span>
+      <div class="step-title">What's your name?</div>
+      <div class="step-sub">Let's personalize your SkillBridge AI experience</div>
+      <input type="text" id="nameInput" class="name-input" placeholder="Your full name..." maxlength="50">
+      <div class="nav-btns"><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 2: Status -->
+    <div class="step" id="s2">
+      <span class="step-emoji">🎓</span>
+      <div class="step-title">What's your current status?</div>
+      <div class="step-sub">This helps us tailor your roadmap</div>
+      <div class="options">
+        <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">🎓</span><div class="opt-text"><h4>B.Tech / B.E. Student</h4><p>Currently pursuing undergraduate engineering</p></div></div>
+        <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">🎯</span><div class="opt-text"><h4>Preparing for GATE</h4><p>Focused on GATE CS/IT exam preparation</p></div></div>
+        <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">💼</span><div class="opt-text"><h4>Working Professional</h4><p>Employed, looking to upskill or switch</p></div></div>
+        <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">🔍</span><div class="opt-text"><h4>Freshly Graduated</h4><p>Completed degree, seeking opportunities</p></div></div>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 3: Course/Branch -->
+    <div class="step" id="s3">
+      <span class="step-emoji">📚</span>
+      <div class="step-title">Your branch / course?</div>
+      <div class="step-sub">Select your primary field of study</div>
+      <div class="options cols2">
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">💻</span>Computer Science</div>
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🔌</span>ECE / EEE</div>
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">⚙️</span>Mechanical</div>
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🏗️</span>Civil</div>
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🧪</span>Chemical</div>
+        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🎯</span>Other</div>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 4: Year -->
+    <div class="step" id="s4">
+      <span class="step-emoji">📅</span>
+      <div class="step-title">Your current year / level?</div>
+      <div class="step-sub">Helps us set realistic timelines</div>
+      <div class="options cols3">
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">1️⃣</span>1st Year</div>
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">2️⃣</span>2nd Year</div>
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">3️⃣</span>3rd Year</div>
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">4️⃣</span>4th Year</div>
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">🎓</span>Graduate</div>
+        <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">💼</span>Working</div>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 5: Goal -->
+    <div class="step" id="s5">
+      <span class="step-emoji">🎯</span>
+      <div class="step-title">What's your primary goal?</div>
+      <div class="step-sub">We'll build your personalized roadmap around this</div>
+      <div class="options">
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🏢</span><div class="opt-text"><h4>Campus Placement</h4><p>Prepare for company recruitments at college</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🎓</span><div class="opt-text"><h4>Crack GATE Exam</h4><p>Prepare for GATE CS/IT for M.Tech or PSU jobs</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🎤</span><div class="opt-text"><h4>Tech Interviews</h4><p>Prepare for product companies (FAANG, startups)</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🔄</span><div class="opt-text"><h4>Career Switch / Upskill</h4><p>Move to a new tech domain or role</p></div></div>
+      </div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 6: Skills -->
+    <div class="step" id="s6">
+      <span class="step-emoji">🛠️</span>
+      <div class="step-title">Select your skills</div>
+      <div class="step-sub">Choose all that you have experience with (select multiple)</div>
+      <div class="section-label">Programming Languages</div>
+      <div class="skill-chips" id="skillChips">
+        <span class="chip" onclick="toggleChip(this)">Python</span><span class="chip" onclick="toggleChip(this)">Java</span><span class="chip" onclick="toggleChip(this)">C</span><span class="chip" onclick="toggleChip(this)">C++</span><span class="chip" onclick="toggleChip(this)">JavaScript</span><span class="chip" onclick="toggleChip(this)">TypeScript</span>
+      </div>
+      <div class="section-label">CS Core</div>
+      <div class="skill-chips">
+        <span class="chip" onclick="toggleChip(this)">DSA</span><span class="chip" onclick="toggleChip(this)">DBMS</span><span class="chip" onclick="toggleChip(this)">OS</span><span class="chip" onclick="toggleChip(this)">Computer Networks</span><span class="chip" onclick="toggleChip(this)">Algorithms</span>
+      </div>
+      <div class="section-label">Web & Frameworks</div>
+      <div class="skill-chips">
+        <span class="chip" onclick="toggleChip(this)">React</span><span class="chip" onclick="toggleChip(this)">Node.js</span><span class="chip" onclick="toggleChip(this)">HTML/CSS</span><span class="chip" onclick="toggleChip(this)">Django</span><span class="chip" onclick="toggleChip(this)">Flask</span>
+      </div>
+      <div class="section-label">Other</div>
+      <div class="skill-chips">
+        <span class="chip" onclick="toggleChip(this)">Machine Learning</span><span class="chip" onclick="toggleChip(this)">SQL</span><span class="chip" onclick="toggleChip(this)">Git</span><span class="chip" onclick="toggleChip(this)">Linux</span>
+      </div>
+      <div class="note" style="text-align:left;margin-top:14px;">Select at least 1 skill to continue</div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
+    </div>
+
+    <!-- STEP 7: Skill Level -->
+    <div class="step" id="s7">
+      <span class="step-emoji">📊</span>
+      <div class="step-title">What's your current level?</div>
+      <div class="step-sub">Be honest — we'll build a roadmap that actually fits you</div>
+      <div class="level-cards">
+        <div class="level-card" onclick="selLevel(this,'beginner')">
+          <div class="lc-icon">🌱</div>
+          <div class="lc-title">Beginner</div>
+          <div class="lc-sub">0–6 months experience. Just starting out.</div>
+        </div>
+        <div class="level-card" onclick="selLevel(this,'intermediate')">
+          <div class="lc-icon">🚀</div>
+          <div class="lc-title">Intermediate</div>
+          <div class="lc-sub">6 months–2 years. Some projects done.</div>
+        </div>
+        <div class="level-card" onclick="selLevel(this,'professional')">
+          <div class="lc-icon">⭐</div>
+          <div class="lc-title">Advanced</div>
+          <div class="lc-sub">2+ years. Confident, have strong skills.</div>
+        </div>
+      </div>
+      <div id="levelResources" class="res-box" style="display:none;"></div>
+      <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="finish()">🚀 Launch Dashboard →</button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const API = '/api';
+let currentStep = 1;
+const totalSteps = 7;
+const profile = {};
+let selectedLevel = '';
+
+function updateProgress(){
+  document.getElementById('progFill').style.width=(currentStep/totalSteps*100)+'%';
+  document.getElementById('stepLabel').textContent='Step '+currentStep+' of '+totalSteps;
+}
+
+function showStep(n){
+  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
+  document.getElementById('s'+n).classList.add('active');
+  currentStep=n;
+  updateProgress();
+}
+
+function nextStep(){
+  // Validate
+  if(currentStep===1){
+    const name=document.getElementById('nameInput').value.trim();
+    if(!name){alert('Please enter your name!');return;}
+    profile.name=name;
+    localStorage.setItem('sb_name',name);
+  }
+  if(currentStep===6){
+    const chips=document.querySelectorAll('.chip.selected');
+    if(!chips.length){alert('Please select at least one skill!');return;}
+    profile.skills=Array.from(chips).map(c=>c.textContent);
+  }
+  if(currentStep<totalSteps) showStep(currentStep+1);
+}
+
+function prevStep(){
+  if(currentStep>1) showStep(currentStep-1);
+}
+
+function sel(el, field){
+  el.closest('.options').querySelectorAll('.opt,.opt-sm').forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  profile[field]=el.querySelector('h4')?.textContent||el.textContent.trim();
+}
+
+function toggleChip(el){el.classList.toggle('selected');}
+
+function selLevel(el, level){
+  document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('selected'));
+  el.classList.add('selected');
+  selectedLevel=level;
+  profile.skillLevel=level;
+  // Show resources
+  const skills=profile.skills||[];
+  const primary=skills[0]||'Programming';
+  const res={
+    beginner:['Start with the official documentation','FreeCodeCamp & W3Schools for basics','YouTube: CS50 by Harvard (free)','Build 1 simple project to practice'],
+    intermediate:['LeetCode Medium problems (10/week)','Build 2 real projects and upload to GitHub','Udemy: Complete courses with projects','Join communities: GitHub, Stack Overflow'],
+    professional:['LeetCode Hard + System Design','Read research papers and tech blogs','Open-source contributions','Mock interviews on Pramp or Interviewing.io']
+  };
+  const box=document.getElementById('levelResources');
+  box.style.display='block';
+  box.innerHTML=`<h4>📚 Recommended for ${el.querySelector('.lc-title').textContent}s (${primary}):</h4>`+
+    res[level].map(r=>`<div class="res-item">${r}</div>`).join('');
+}
+
+async function finish(){
+  if(!selectedLevel){alert('Please select your experience level!');return;}
+  const skills=Array.from(document.querySelectorAll('.chip.selected')).map(c=>c.textContent);
+  profile.skills=skills;
+  profile.skillLevel=selectedLevel;
+
+  // Skill levels for dashboard
+  const skillLevels={};
+  const base={beginner:35,intermediate:60,professional:80};
+  skills.forEach(s=>{skillLevels[s]=base[selectedLevel]+(Math.random()*15|0);});
+  localStorage.setItem('sb_skill_levels',JSON.stringify(skillLevels));
+  localStorage.setItem('sb_profile',JSON.stringify(profile));
+
+  // Save to backend
+  const token=localStorage.getItem('sb_token');
+  if(token){
+    try{
+      await fetch(API+'/user/profile',{
+        method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
+        body:JSON.stringify({name:profile.name,course:profile.course||'',year:profile.year||'',goal:profile.goal||'',skills,skill_level:selectedLevel})
+      });
+    }catch(e){console.log('Backend not reached, using localStorage');}
+  }
+
+  window.location.href='dashboard.html';
+}
+
+// Pre-fill name if known
+const existing=localStorage.getItem('sb_name');
+if(existing) document.getElementById('nameInput').value=existing;
+</script>
+</body>
+</html>

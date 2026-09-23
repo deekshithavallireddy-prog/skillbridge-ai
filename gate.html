@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GATE CS Prep Hub - SkillBridge AI</title>
+    <style>
+        :root {
+            --primary: #2563eb;
+            --text-dark: #1e293b;
+            --text-light: #64748b;
+            --bg-body: #f8fafc;
+            --bg-card: #ffffff;
+            --border: #e2e8f0;
+            --success: #10b981;
+        }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { display: flex; min-height: 100vh; background: var(--bg-body); color: var(--text-dark); }
+        
+        /* Sidebar */
+        .sidebar { width: 220px; background: var(--bg-card); border-right: 1px solid var(--border); padding: 1.5rem 0; position: fixed; height: 100vh; }
+        .logo { font-size: 1.25rem; font-weight: 700; color: var(--primary); padding: 0 1.5rem; margin-bottom: 2rem; }
+        .nav-item { display: block; padding: 0.75rem 1.5rem; color: var(--text-light); text-decoration: none; font-weight: 500; }
+        .nav-item:hover, .nav-item.active { background: #eff6ff; color: var(--primary); border-right: 3px solid var(--primary); }
+        
+        /* Main */
+        .main-content { margin-left: 220px; margin-right: 250px; flex: 1; padding: 2rem; overflow-y: auto; }
+        .hero { background: var(--primary); color: white; padding: 2rem; border-radius: 12px; margin-bottom: 2rem; }
+        .hero h1 { margin-bottom: 0.5rem; font-size: 2rem; }
+        .hero p { opacity: 0.9; margin-bottom: 1.5rem; }
+        
+        .progress-container { background: rgba(255,255,255,0.2); height: 12px; border-radius: 6px; overflow: hidden; margin-bottom: 0.5rem; }
+        .progress-bar { background: white; height: 100%; width: 0%; transition: width 0.3s; }
+        
+        /* Subject Tabs */
+        .tabs { display: flex; overflow-x: auto; gap: 0.5rem; padding-bottom: 0.5rem; margin-bottom: 1.5rem; border-bottom: 1px solid var(--border); }
+        .tab { padding: 0.5rem 1rem; white-space: nowrap; cursor: pointer; border-radius: 6px; font-weight: 500; color: var(--text-light); }
+        .tab.active { background: var(--primary); color: white; }
+        .tab:hover:not(.active) { background: #e2e8f0; }
+        
+        /* Content Card */
+        .subject-card { background: var(--bg-card); padding: 1.5rem; border-radius: 12px; border: 1px solid var(--border); margin-bottom: 1.5rem; display: none; }
+        .subject-card.active { display: block; }
+        .subject-card h2 { margin-bottom: 1rem; color: var(--text-dark); }
+        .subject-meta { display: flex; gap: 1rem; color: var(--text-light); font-size: 0.875rem; margin-bottom: 1.5rem; }
+        
+        .topic-list { list-style: none; }
+        .topic-item { display: flex; align-items: center; padding: 0.75rem; border-bottom: 1px solid var(--border); }
+        .topic-item:last-child { border-bottom: none; }
+        .topic-item input[type="checkbox"] { margin-right: 1rem; width: 1.25rem; height: 1.25rem; cursor: pointer; }
+        .topic-item span { flex: 1; }
+        .topic-item.completed span { color: var(--success); text-decoration: line-through; }
+        
+        /* Right Sidebar */
+        .right-sidebar { width: 250px; background: var(--bg-card); border-left: 1px solid var(--border); padding: 1.5rem; position: fixed; right: 0; height: 100vh; }
+        .widget { margin-bottom: 2rem; }
+        .widget h3 { font-size: 1rem; margin-bottom: 1rem; color: var(--text-dark); }
+        .streak { font-size: 2rem; font-weight: 700; color: #f59e0b; display: flex; align-items: center; gap: 0.5rem; }
+        .link-list { list-style: none; }
+        .link-list li { margin-bottom: 0.5rem; }
+        .link-list a { color: var(--primary); text-decoration: none; font-size: 0.875rem; }
+        .predictor-box { background: #eff6ff; padding: 1rem; border-radius: 8px; border: 1px solid #bfdbfe; text-align: center; }
+        .predictor-score { font-size: 1.5rem; font-weight: 700; color: var(--primary); margin: 0.5rem 0; }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <div class="logo">SkillBridge AI</div>
+        <a href="#" class="nav-item">Dashboard</a>
+        <a href="#" class="nav-item">Profile</a>
+        <a href="#" class="nav-item">Roadmap</a>
+        <a href="gate.html" class="nav-item active">GATE Prep</a>
+        <a href="ai-questions.html" class="nav-item">AI Questions</a>
+        <a href="my-progress.html" class="nav-item">My Progress</a>
+    </div>
+
+    <div class="main-content">
+        <div class="hero">
+            <h1>GATE CS 2025 Preparation Hub</h1>
+            <p>Track your syllabus completion and stay organized.</p>
+            <div>Overall Progress: <span id="overall-pct">0</span>%</div>
+            <div class="progress-container"><div class="progress-bar" id="overall-bar"></div></div>
+        </div>
+
+        <div class="tabs" id="subject-tabs">
+            <!-- Rendered via JS -->
+        </div>
+
+        <div id="subjects-container">
+            <!-- Rendered via JS -->
+        </div>
+    </div>
+
+    <div class="right-sidebar">
+        <div class="widget">
+            <h3>Study Streak</h3>
+            <div class="streak">🔥 12 Days</div>
+        </div>
+        <div class="widget">
+            <h3>Quick Links</h3>
+            <ul class="link-list">
+                <li><a href="#">GATE 2024 Question Paper</a></li>
+                <li><a href="#">GATE 2023 Question Paper</a></li>
+                <li><a href="#">Official Syllabus</a></li>
+            </ul>
+        </div>
+        <div class="widget">
+            <h3>GATE Score Predictor</h3>
+            <div class="predictor-box">
+                <div style="font-size:0.875rem; color:var(--text-light)">Based on topics completed</div>
+                <div class="predictor-score" id="pred-score">--</div>
+                <div style="font-size:0.75rem; color:var(--text-light)">Max: 100</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const token = localStorage.getItem('sb_token');
+        if (!token && false) window.location.href = 'login.html'; // Remove '&& false' in prod
+
+        const subjects = [
+            { id: 'maths', name: 'Engineering Maths', weightage: '15 marks', topics: ['Linear Algebra', 'Calculus', 'Probability', 'Combinatorics', 'Graph Theory', 'Set Theory'] },
+            { id: 'dl', name: 'Digital Logic', weightage: '4-5 marks', topics: ['Boolean Algebra', 'K-Maps', 'Combinational Circuits', 'Sequential Circuits', 'Number Systems'] },
+            { id: 'coa', name: 'COA', weightage: '8-9 marks', topics: ['ISA', 'Pipelining', 'Cache Memory', 'Memory Organization', 'I/O Organization'] },
+            { id: 'ds', name: 'Programming & DS', weightage: '10-12 marks', topics: ['C Programming', 'Arrays', 'Linked Lists', 'Trees', 'Graphs', 'Hashing', 'Stacks & Queues'] },
+            { id: 'algo', name: 'Algorithms', weightage: '6-8 marks', topics: ['Asymptotic Analysis', 'Sorting', 'Searching', 'Graph Algorithms', 'DP', 'Greedy', 'Divide & Conquer'] },
+            { id: 'toc', name: 'Theory of Computation', weightage: '8-9 marks', topics: ['Regular Languages', 'CFG', 'Pushdown Automata', 'Turing Machine', 'Decidability'] },
+            { id: 'cd', name: 'Compiler Design', weightage: '4-6 marks', topics: ['Lexical Analysis', 'Parsing', 'Syntax-Directed Translation', 'Code Generation', 'Optimization'] },
+            { id: 'os', name: 'OS', weightage: '8-10 marks', topics: ['Process Management', 'Memory Management', 'File Systems', 'Deadlocks', 'Synchronization'] },
+            { id: 'dbms', name: 'DBMS', weightage: '7-9 marks', topics: ['Relational Model', 'SQL', 'Normalization', 'Transactions', 'Indexing'] },
+            { id: 'cn', name: 'Computer Networks', weightage: '7-9 marks', topics: ['Network Layers', 'Data Link', 'Network Layer', 'Transport Layer', 'Application Layer'] }
+        ];
+
+        let progressData = {}; // { subjectId: [topic1, topic2] }
+
+        async function init() {
+            // Mock fetching progress
+            progressData = { os: ['Process Management', 'Deadlocks'], dbms: ['SQL'] }; 
+            renderTabs();
+            renderSubjects();
+            updateProgress();
+        }
+
+        function renderTabs() {
+            const tabsDiv = document.getElementById('subject-tabs');
+            tabsDiv.innerHTML = subjects.map((s, i) => 
+                `<div class="tab ${i===0?'active':''}" onclick="selectTab('${s.id}')" id="tab-${s.id}">${s.name}</div>`
+            ).join('');
+        }
+
+        function renderSubjects() {
+            const container = document.getElementById('subjects-container');
+            container.innerHTML = subjects.map((s, i) => `
+                <div class="subject-card ${i===0?'active':''}" id="card-${s.id}">
+                    <h2>${s.name}</h2>
+                    <div class="subject-meta">
+                        <span>Weightage: ${s.weightage}</span>
+                        <span>Topics: ${s.topics.length}</span>
+                    </div>
+                    <ul class="topic-list">
+                        ${s.topics.map(t => {
+                            const isDone = progressData[s.id]?.includes(t);
+                            return `
+                            <li class="topic-item ${isDone?'completed':''}">
+                                <input type="checkbox" ${isDone?'checked':''} onchange="toggleTopic('${s.id}', '${t}', this)">
+                                <span>${t}</span>
+                            </li>
+                            `;
+                        }).join('')}
+                    </ul>
+                </div>
+            `).join('');
+        }
+
+        function selectTab(id) {
+            document.querySelectorAll('.tab').forEach(el => el.classList.remove('active'));
+            document.querySelectorAll('.subject-card').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${id}`).classList.add('active');
+            document.getElementById(`card-${id}`).classList.add('active');
+        }
+
+        async function toggleTopic(subjId, topic, checkbox) {
+            const status = checkbox.checked ? 'completed' : 'pending';
+            const li = checkbox.closest('li');
+            
+            if (status === 'completed') li.classList.add('completed');
+            else li.classList.remove('completed');
+
+            if (!progressData[subjId]) progressData[subjId] = [];
+            if (status === 'completed') progressData[subjId].push(topic);
+            else progressData[subjId] = progressData[subjId].filter(t => t !== topic);
+
+            updateProgress();
+
+            // API Call
+            try {
+                await fetch('/api/gate/progress', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ subject: subjId, topic, status })
+                });
+            } catch (e) {
+                console.log('Mocked POST /api/gate/progress');
+            }
+        }
+
+        function updateProgress() {
+            let totalTopics = 0;
+            let doneTopics = 0;
+            subjects.forEach(s => {
+                totalTopics += s.topics.length;
+                doneTopics += (progressData[s.id] || []).length;
+            });
+            const pct = totalTopics === 0 ? 0 : Math.round((doneTopics / totalTopics) * 100);
+            
+            document.getElementById('overall-pct').textContent = pct;
+            document.getElementById('overall-bar').style.width = pct + '%';
+            
+            // simple predictor logic
+            document.getElementById('pred-score').textContent = Math.round(pct * 0.85); 
+        }
+
+        init();
+    </script>
+</body>
+</html>

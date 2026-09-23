@@ -1,0 +1,548 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interview Prep — SkillBridge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+        :root { --primary: #2563eb; --bg: #f8fafc; --white: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+        body { font-family:'Inter',Arial,sans-serif; background:var(--bg); display:flex; min-height:100vh; color:var(--text); }
+
+        /* SIDEBAR */
+        .sidebar{width:260px;min-height:100vh;position:fixed;left:0;top:0;bottom:0;background:var(--white);display:flex;flex-direction:column;padding:26px 16px 22px;z-index:100;border-right:1px solid var(--border);}
+        .sb-logo{font-size:19px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px;padding:0 8px;margin-bottom:24px;}
+        .sb-logo span{color:var(--primary);}
+        .sb-user{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:26px;}
+        .sb-av{width:40px;height:40px;border-radius:11px;background:var(--primary);color:var(--white);font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .sb-info h4{color:var(--text);font-size:13.5px;font-weight:700;margin-bottom:2px;}
+        .sb-info span{color:var(--muted);font-size:11px;}
+        .nav-label{color:var(--muted);font-size:9.5px;font-weight:800;letter-spacing:1.5px;padding:0 10px;margin:14px 0 5px;}
+        .sb-nav{flex:1;display:flex;flex-direction:column;}
+        .nav-i{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;transition:all 0.2s;margin-bottom:2px;}
+        .nav-i:hover{background:var(--bg);color:var(--text);}
+        .nav-i.active{background:#eff6ff;color:#2563eb;font-weight:700;}
+        .ni-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0;}
+        .sb-back{display:block;text-align:center;color:var(--muted);font-size:12.5px;text-decoration:none;padding:12px;border-radius:11px;border:1px solid var(--border);transition:all 0.2s;margin-top:14px;background:transparent;cursor:pointer;font-family:'Inter',Arial,sans-serif;font-weight:600;}
+        .sb-back:hover{background:var(--bg);color:var(--text);}
+
+        /* MAIN */
+        .main{margin-left:260px;flex:1;padding:30px 34px;}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+        .tb-left h1{font-size:23px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px;color:var(--text);}
+        .tb-left p{color:var(--muted);font-size:13px;}
+        .tb-right{display:flex;align-items:center;gap:12px;}
+        .ai-pill{display:flex;align-items:center;gap:7px;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);color:var(--primary);padding:8px 15px;border-radius:30px;font-size:12.5px;font-weight:700;}
+        .ap-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;animation:pd 1.5s infinite;}
+        @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
+        .tb-av{width:40px;height:40px;border-radius:10px;background:var(--primary);color:var(--white);font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;}
+
+        /* STATS ROW */
+        .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
+        .stat-c{background:var(--white);border-radius:16px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:center;gap:14px;transition:all 0.3s;}
+        .stat-c:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,99,235,0.08);}
+        .stat-c-icon{font-size:28px;}
+        .stat-c-info p{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:3px;}
+        .stat-c-info h3{font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--text);}
+
+        /* CATEGORY TABS */
+        .cat-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
+        .cat-tab{padding:10px 20px;border-radius:30px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.25s;font-family:'Inter',Arial,sans-serif;display:flex;align-items:center;gap:6px;}
+        .cat-tab:hover{border-color:var(--primary);color:var(--primary);}
+        .cat-tab.active{background:var(--primary);border-color:transparent;color:var(--white);box-shadow:0 4px 15px rgba(37,99,235,0.3);}
+        .cat-tab .ct-count{background:rgba(255,255,255,0.25);padding:2px 7px;border-radius:10px;font-size:11px;}
+        .cat-tab:not(.active) .ct-count{background:var(--bg);color:var(--muted);}
+
+        /* LAYOUT */
+        .interview-layout{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start;}
+
+        /* QUESTIONS LIST */
+        .questions-wrap{}
+        .q-search{display:flex;gap:10px;margin-bottom:18px;}
+        .q-search input{flex:1;padding:12px 16px;background:var(--white);border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;font-family:'Inter',Arial,sans-serif;outline:none;transition:all 0.2s;color:var(--text);}
+        .q-search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
+        .q-search input::placeholder{color:#aaa;}
+        .diff-filter{display:flex;gap:8px;}
+        .df-btn{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;color:var(--muted);}
+        .df-btn:hover{border-color:var(--primary);color:var(--primary);}
+        .df-btn.active{background:var(--primary);border-color:transparent;color:var(--white);}
+
+        /* QUESTION CARDS */
+        .q-list{display:flex;flex-direction:column;gap:12px;}
+        .q-card{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;transition:all 0.3s;}
+        .q-card:hover{box-shadow:0 8px 25px rgba(37,99,235,0.08);border-color:var(--primary);}
+        .q-card.practiced{border-color:rgba(18,183,106,0.3);background:rgba(18,183,106,0.02);}
+        .q-header{padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;}
+        .q-num{width:32px;height:32px;border-radius:8px;background:var(--bg);color:var(--muted);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .q-card.practiced .q-num{background:#e6f9f0;color:#12b76a;}
+        .q-main{flex:1;}
+        .q-text{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.5;}
+        .q-meta{display:flex;align-items:center;gap:8px;}
+        .q-diff{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:10px;}
+        .diff-easy{background:#e6f9f0;color:#12b76a;}
+        .diff-medium{background:#fff4e5;color:#f79009;}
+        .diff-hard{background:#fce8e8;color:#f04438;}
+        .q-tag{font-size:10.5px;font-weight:700;background:#eff6ff;color:var(--primary);padding:3px 9px;border-radius:10px;}
+        .q-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
+        .q-expand-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-size:16px;transition:all 0.25s;display:flex;align-items:center;justify-content:center;}
+        .q-expand-btn:hover{background:var(--primary);border-color:var(--primary);color:var(--white);}
+        .q-expand-btn.open{background:var(--primary);border-color:transparent;color:var(--white);transform:rotate(180deg);}
+        .q-practice-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;color:var(--muted);white-space:nowrap;}
+        .q-practice-btn:hover{background:var(--primary);border-color:transparent;color:var(--white);}
+        .q-practice-btn.done{background:#e6f9f0;border-color:rgba(18,183,106,0.2);color:#12b76a;}
+
+        /* ANSWER REVEAL */
+        .q-answer{display:none;padding:0 20px 20px;}
+        .q-answer.show{display:block;animation:slideDown 0.3s cubic-bezier(.4,0,.2,1);}
+        @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
+        .ans-box{background:var(--bg);border-radius:12px;padding:18px;border-left:4px solid var(--primary);}
+        .ans-label{font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+        .ans-text{font-size:13.5px;color:var(--text);line-height:1.8;}
+        .ans-text b{color:var(--text);}
+        .ans-tips{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px;}
+        .ans-tip{background:var(--white);border:1px solid var(--border);padding:5px 12px;border-radius:8px;font-size:11.5px;color:var(--muted);font-weight:500;}
+
+        /* PRACTICE PANEL */
+        .practice-panel{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:26px;position:sticky;top:20px;}
+        .pp-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
+
+        /* TIMER */
+        .timer-box{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;margin-bottom:18px;}
+        .timer-display{font-size:44px;font-weight:900;color:var(--primary);letter-spacing:-2px;font-variant-numeric:tabular-nums;}
+        .timer-label{color:var(--muted);font-size:12px;margin-bottom:14px;}
+        .timer-btns{display:flex;gap:8px;}
+        .t-btn{flex:1;padding:10px;border-radius:10px;border:none;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;}
+        .t-start{background:var(--primary);color:var(--white);}
+        .t-reset{background:var(--white);color:var(--muted);border:1px solid var(--border);}
+        .t-reset:hover{background:var(--bg);color:var(--text);}
+
+        /* RANDOM Q */
+        .random-q-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;}
+        .rq-label{font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
+        .rq-text{font-size:14px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:14px;min-height:48px;}
+        .rq-btn{width:100%;padding:11px;background:var(--white);border:1px solid var(--border);border-radius:10px;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;}
+        .rq-btn:hover{background:var(--bg);border-color:var(--primary);}
+
+        /* PROGRESS */
+        .progress-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;}
+        .pb-row{display:flex;justify-content:space-between;margin-bottom:8px;}
+        .pb-row span{color:var(--muted);font-size:12px;}
+        .pb-row b{color:var(--text);font-size:12px;}
+        .pp-bar{height:7px;background:var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;}
+        .pp-fill{height:100%;border-radius:10px;background:var(--primary);transition:width 0.5s;}
+        .pp-cats{display:flex;flex-direction:column;gap:8px;}
+        .pp-cat{display:flex;justify-content:space-between;align-items:center;}
+        .pp-cat span{color:var(--muted);font-size:11.5px;}
+        .pp-cat-bar{width:80px;height:5px;background:var(--border);border-radius:5px;overflow:hidden;}
+        .pp-cat-fill{height:100%;border-radius:5px;}
+
+        /* COMPANY SECTION */
+        .company-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
+        .co-card{background:var(--white);border-radius:14px;padding:18px;border:1px solid var(--border);cursor:pointer;transition:all 0.25s;text-align:center;}
+        .co-card:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(37,99,235,0.1);border-color:var(--primary);}
+        .co-card.selected{border-color:var(--primary);background:#eff6ff;}
+        .co-logo{font-size:28px;margin-bottom:8px;}
+        .co-name{font-size:13px;font-weight:800;color:var(--text);margin-bottom:3px;}
+        .co-count{font-size:11px;color:var(--muted);}
+
+        /* FADE */
+        .fade-up{opacity:0;transform:translateY(22px);transition:all 0.6s cubic-bezier(.4,0,.2,1);transition-delay:var(--d,0s);}
+        .fade-up.show{opacity:1;transform:translateY(0);}
+
+        @media(max-width:1100px){.interview-layout{grid-template-columns:1fr;}.practice-panel{position:static;}.stats-row{grid-template-columns:1fr 1fr;}.company-cards{grid-template-columns:repeat(2,1fr);}}
+        @media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:20px;}.stats-row{grid-template-columns:1fr 1fr;}}
+    </style>
+</head>
+<body>
+
+    <!-- SIDEBAR -->
+    <aside class="sidebar">
+        <div class="sb-logo">⚡ <span>SkillBridge AI</span></div>
+        <div class="sb-user">
+            <div class="sb-av" id="sbAv">S</div>
+            <div class="sb-info"><h4 id="sbName">Student</h4><span id="sbCourse">B.Tech</span></div>
+        </div>
+        <div class="sb-nav">
+            <p class="nav-label">MAIN</p>
+            <a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a>
+            <a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a>
+            <a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a>
+            <a href="roadmap.html" class="nav-i"><span class="ni-icon">🗺️</span> Roadmap</a>
+            <p class="nav-label">TOOLS</p>
+            <a href="gate.html" class="nav-i"><span class="ni-icon">🎓</span> GATE Prep</a>
+            <a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> AI Questions</a>
+            <a href="interview.html" class="nav-i active"><span class="ni-icon">🎤</span> Interview Prep</a>
+            <a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a>
+            <a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a>
+            <a href="projects.html" class="nav-i"><span class="ni-icon">💻</span> Projects</a>
+        </div>
+        <button class="sb-back" onclick="logout()" style="width:100%; cursor:pointer;">🚪 Logout</button>
+    </aside>
+
+    <!-- MAIN -->
+    <main class="main">
+        <header class="topbar">
+            <div class="tb-left"><h1>🎤 Interview Preparation</h1><p>Practice real interview questions — Technical, HR, DSA & Company-specific</p></div>
+            <div class="tb-right"><div class="ai-pill"><span class="ap-dot"></span> AI Active</div><div class="tb-av" id="tbAv">S</div></div>
+        </header>
+
+        <!-- STATS -->
+        <div class="stats-row fade-up show">
+            <div class="stat-c"><span class="stat-c-icon">✅</span><div class="stat-c-info"><p>Questions Practiced</p><h3 id="pracCount">0</h3></div></div>
+            <div class="stat-c"><span class="stat-c-icon">🏆</span><div class="stat-c-info"><p>Total Score</p><h3 id="scoreDisplay">0</h3></div></div>
+            <div class="stat-c"><span class="stat-c-icon">⏱️</span><div class="stat-c-info"><p>Time Practiced</p><h3>47m</h3></div></div>
+            <div class="stat-c"><span class="stat-c-icon">🎯</span><div class="stat-c-info"><p>Readiness Score</p><h3>72%</h3></div></div>
+        </div>
+
+        <!-- CATEGORY TABS -->
+        <div class="cat-tabs fade-up show">
+            <button class="cat-tab active" onclick="setCategory('all',this)">🗂️ All <span class="ct-count" id="ct-all">50</span></button>
+            <button class="cat-tab" onclick="setCategory('dsa',this)">🌳 DSA <span class="ct-count">6</span></button>
+            <button class="cat-tab" onclick="setCategory('python',this)">🐍 Python <span class="ct-count">5</span></button>
+            <button class="cat-tab" onclick="setCategory('java',this)">☕ Java <span class="ct-count">3</span></button>
+            <button class="cat-tab" onclick="setCategory('dbms',this)">🗄️ DBMS <span class="ct-count">3</span></button>
+            <button class="cat-tab" onclick="setCategory('os',this)">💻 OS/CN <span class="ct-count">3</span></button>
+            <button class="cat-tab" onclick="setCategory('hr',this)">🤝 HR Round <span class="ct-count">5</span></button>
+            <button class="cat-tab" onclick="setCategory('company',this)">🏢 Company-wise <span class="ct-count">5</span></button>
+        </div>
+
+        <div class="interview-layout">
+
+            <!-- QUESTIONS LIST -->
+            <div class="questions-wrap">
+                <div class="q-search fade-up show">
+                    <input type="text" id="searchInput" placeholder="🔍 Search questions..." oninput="searchQuestions()">
+                    <div class="diff-filter">
+                        <button class="df-btn active" onclick="setDiff('all',this)">All</button>
+                        <button class="df-btn" onclick="setDiff('Easy',this)" style="color:#12b76a;">Easy</button>
+                        <button class="df-btn" onclick="setDiff('Medium',this)" style="color:#f79009;">Medium</button>
+                        <button class="df-btn" onclick="setDiff('Hard',this)" style="color:#f04438;">Hard</button>
+                    </div>
+                </div>
+
+                <!-- Company Cards (shown when company tab active) -->
+                <div class="company-cards" id="companyCards" style="display:none;">
+                    <div class="co-card" onclick="filterCompany('TCS')"><div class="co-logo">🔵</div><div class="co-name">TCS</div><div class="co-count">1 questions</div></div>
+                    <div class="co-card" onclick="filterCompany('Infosys')"><div class="co-logo">🟣</div><div class="co-name">Infosys</div><div class="co-count">1 questions</div></div>
+                    <div class="co-card" onclick="filterCompany('Wipro')"><div class="co-logo">🟢</div><div class="co-name">Wipro</div><div class="co-count">0 questions</div></div>
+                    <div class="co-card" onclick="filterCompany('Amazon')"><div class="co-logo">🟠</div><div class="co-name">Amazon</div><div class="co-count">1 questions</div></div>
+                    <div class="co-card" onclick="filterCompany('Google')"><div class="co-logo">🔴</div><div class="co-name">Google</div><div class="co-count">1 questions</div></div>
+                    <div class="co-card" onclick="filterCompany('Microsoft')"><div class="co-logo">🔷</div><div class="co-name">Microsoft</div><div class="co-count">1 questions</div></div>
+                </div>
+
+                <div class="q-list" id="qList"></div>
+            </div>
+
+            <!-- PRACTICE PANEL -->
+            <div class="practice-panel">
+                <div class="pp-title">⚡ Practice Mode</div>
+
+                <!-- Timer -->
+                <div class="timer-box">
+                    <div class="timer-label">Interview Timer</div>
+                    <div class="timer-display" id="timerDisplay">02:00</div>
+                    <div class="timer-label" id="timerStatus">Press Start to begin</div>
+                    <div class="timer-btns">
+                        <button class="t-btn t-start" id="startBtn" onclick="toggleTimer()">▶ Start</button>
+                        <button class="t-btn t-reset" onclick="resetTimer()">↺ Reset</button>
+                    </div>
+                </div>
+
+                <!-- Random Question -->
+                <div class="random-q-box">
+                    <div class="rq-label">🎲 Random Question</div>
+                    <div class="rq-text" id="randomQ">Click below to get a random interview question!</div>
+                    <button class="rq-btn" onclick="getRandomQ()">🎲 New Random Question</button>
+                </div>
+
+                <!-- Progress -->
+                <div class="progress-box">
+                    <div class="pb-row"><span>Overall Progress</span><b id="progressPct">0%</b></div>
+                    <div class="pp-bar"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
+                    <div class="pp-cats">
+                        <div class="pp-cat"><span>🌳 DSA</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:20%;background:var(--primary);"></div></div></div>
+                        <div class="pp-cat"><span>🐍 Python</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:40%;background:#12b76a;"></div></div></div>
+                        <div class="pp-cat"><span>🤝 HR</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:60%;background:#f79009;"></div></div></div>
+                        <div class="pp-cat"><span>🗄️ DBMS</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:15%;background:#a855f7;"></div></div></div>
+                    </div>
+                </div>
+
+                <!-- AI Tip -->
+                <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
+                    <div style="font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;margin-bottom:8px;">🤖 AI TIP OF THE DAY</div>
+                    <p id="aiTip" style="font-size:12.5px;color:var(--text);line-height:1.7;"></p>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // ==================== PROFILE ====================
+        const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
+        const name = profile.name || 'Student';
+        document.getElementById('sbAv').textContent = name.charAt(0).toUpperCase();
+        document.getElementById('tbAv').textContent = name.charAt(0).toUpperCase();
+        document.getElementById('sbName').textContent = name;
+        document.getElementById('sbCourse').textContent = (profile.course || 'B.Tech').toUpperCase() + ' • ' + (profile.year || '3rd') + ' Year';
+
+        function logout() {
+            localStorage.removeItem('sb_token');
+            window.location.href = 'login.html';
+        }
+
+        // ==================== QUESTION DATA ====================
+        const questions = [
+            // DSA
+            { id:1, cat:'dsa', diff:'Easy', tag:'Arrays', text:'What is the difference between an Array and a LinkedList?', answer:'<b>Array:</b> Fixed size, contiguous memory, O(1) random access, O(n) insertion/deletion.<br><br><b>LinkedList:</b> Dynamic size, non-contiguous memory (nodes with pointers), O(n) access, O(1) insertion/deletion at head.<br><br><b>Key Point:</b> Use arrays when you need random access; use linked lists when you need frequent insertions/deletions.', tips:['Memory layout','Time complexity','Use cases'] },
+            { id:2, cat:'dsa', diff:'Medium', tag:'Trees', text:'Explain BFS and DFS. When would you use each?', answer:'<b>BFS (Breadth First Search):</b> Explores level by level using a Queue. Best for finding shortest path in unweighted graphs.<br><br><b>DFS (Depth First Search):</b> Explores as deep as possible using Stack/Recursion. Best for detecting cycles, topological sort, maze problems.<br><br><b>Interview tip:</b> Always mention time O(V+E) and space O(V) complexity.', tips:['Queue vs Stack','Shortest path','Cycle detection'] },
+            { id:3, cat:'dsa', diff:'Hard', tag:'DP', text:'What is Dynamic Programming? Explain with an example.', answer:'<b>DP</b> is an optimization technique that breaks problems into overlapping subproblems and stores results (memoization/tabulation) to avoid recomputation.<br><br><b>Example — Fibonacci:</b><br>Without DP: O(2^n) | With DP: O(n)<br><br><b>Two approaches:</b><br>• Top-down (Memoization) — Recursive + Cache<br>• Bottom-up (Tabulation) — Iterative + DP table<br><br><b>Classic problems:</b> 0/1 Knapsack, LCS, Coin Change, Longest Increasing Subsequence', tips:['Overlapping subproblems','Optimal substructure','Memoization vs Tabulation'] },
+            { id:4, cat:'dsa', diff:'Medium', tag:'Sorting', text:'Explain QuickSort. What is its average and worst case complexity?', answer:'<b>QuickSort</b> uses divide-and-conquer. Pick a pivot, partition array (smaller on left, larger on right), recursively sort both halves.<br><br><b>Time Complexity:</b><br>• Average: O(n log n)<br>• Worst: O(n²) — when pivot is always smallest/largest (sorted array)<br>• Best: O(n log n)<br><br><b>Space:</b> O(log n) average for recursion stack.<br><br><b>Interview tip:</b> Mention that randomized pivot selection avoids worst case.', tips:['Pivot selection','In-place sorting','Compare with MergeSort'] },
+            { id:5, cat:'dsa', diff:'Easy', tag:'Hashing', text:'What is a HashMap and how does it work internally?', answer:'A <b>HashMap</b> stores key-value pairs using a hash function to compute an index into an array of buckets.<br><br><b>Working:</b><br>1. key → hash function → index<br>2. Store value at that index<br>3. Collision handling: Chaining (LinkedList at each bucket) or Open Addressing<br><br><b>Time Complexity:</b> Average O(1) for get/put, Worst O(n) with collisions.<br><br><b>Load Factor:</b> When 0.75 threshold is reached, HashMap resizes (rehashing).', tips:['Hash function','Collision handling','Load factor'] },
+            { id:6, cat:'dsa', diff:'Hard', tag:'Graphs', text:'What is Dijkstra\'s algorithm? Explain with complexity.', answer:'<b>Dijkstra\'s algorithm</b> finds shortest path from source to all vertices in a weighted graph (non-negative weights).<br><br><b>Steps:</b><br>1. Initialize distances: source=0, all others=∞<br>2. Use a Min-Heap (Priority Queue)<br>3. Extract min, update neighbors<br>4. Repeat until all visited<br><br><b>Complexity:</b> O((V + E) log V) with Priority Queue<br><br><b>Limitation:</b> Doesn\'t work with negative weight edges (use Bellman-Ford instead)', tips:['Priority Queue','Non-negative weights','Compare with BFS'] },
+
+            // Python
+            { id:7, cat:'python', diff:'Easy', tag:'Basics', text:'What are Python\'s key features that make it popular?', answer:'<b>Key Features of Python:</b><br><br>1. <b>Easy to learn</b> — Clean, readable syntax<br>2. <b>Interpreted</b> — Runs line by line, no compilation<br>3. <b>Dynamically typed</b> — No need to declare variable types<br>4. <b>Huge library ecosystem</b> — NumPy, Pandas, TensorFlow, Django<br>5. <b>Cross-platform</b> — Runs on Windows, Mac, Linux<br>6. <b>Object-oriented + Functional</b> — Supports multiple paradigms<br>7. <b>Strong community</b> — Largest programming community', tips:['Interpreted vs Compiled','Dynamic typing','GIL'] },
+            { id:8, cat:'python', diff:'Medium', tag:'OOP', text:'Explain OOP concepts in Python with examples.', answer:'<b>4 Pillars of OOP in Python:</b><br><br><b>1. Encapsulation:</b> Bundling data + methods. Private: __var, Protected: _var<br><b>2. Inheritance:</b> class Child(Parent) — reuse parent\'s code<br><b>3. Polymorphism:</b> Same method name, different behavior (method overriding)<br><b>4. Abstraction:</b> Hide implementation using abstract classes (ABC module)<br><br><b>Example:</b> class Dog(Animal): def speak(self): return "Woof"<br><br><b>Special methods:</b> __init__, __str__, __repr__, __len__', tips:['Dunder methods','Multiple inheritance','MRO'] },
+            { id:9, cat:'python', diff:'Easy', tag:'Data Types', text:'What is the difference between list, tuple, and set in Python?', answer:'<b>List []:</b> Ordered, mutable, allows duplicates. Example: [1,2,3]<br><br><b>Tuple ():</b> Ordered, immutable, allows duplicates. Example: (1,2,3). Faster than list!<br><br><b>Set {}:</b> Unordered, mutable, NO duplicates. Used for membership testing O(1)<br><br><b>Dictionary {k:v}:</b> Key-value pairs, ordered (Python 3.7+), mutable<br><br><b>Interview tip:</b> "Use tuple when data shouldn\'t change (coordinates, RGB), set for unique elements."', tips:['Mutability','Time complexity','When to use each'] },
+            { id:10, cat:'python', diff:'Medium', tag:'Advanced', text:'What are decorators in Python? Give a real example.', answer:'A <b>decorator</b> is a function that wraps another function to add functionality without modifying the original.<br><br><b>Syntax:</b> @decorator_name before function definition<br><br><b>Real Example:</b><br>@timer — measures function execution time<br>@login_required — checks if user is logged in (Django)<br>@property — makes method accessible as attribute<br><br><b>Implementation:</b><br>def my_decorator(func):<br>&nbsp;&nbsp;def wrapper(*args, **kwargs):<br>&nbsp;&nbsp;&nbsp;&nbsp;print("Before")<br>&nbsp;&nbsp;&nbsp;&nbsp;result = func(*args, **kwargs)<br>&nbsp;&nbsp;&nbsp;&nbsp;print("After")<br>&nbsp;&nbsp;&nbsp;&nbsp;return result<br>&nbsp;&nbsp;return wrapper', tips:['Closures','functools.wraps','@property'] },
+            { id:11, cat:'python', diff:'Hard', tag:'Advanced', text:'Explain Python\'s GIL (Global Interpreter Lock).', answer:'The <b>GIL (Global Interpreter Lock)</b> is a mutex that allows only ONE Python thread to execute at a time, even on multi-core systems.<br><br><b>Why it exists:</b> Python\'s memory management (reference counting) is not thread-safe. GIL prevents race conditions.<br><br><b>Impact:</b> CPU-bound multithreading in Python doesn\'t improve performance.<br><br><b>Solutions:</b><br>• Use <b>multiprocessing</b> module (separate processes, each has own GIL)<br>• Use <b>asyncio</b> for I/O bound tasks<br>• Use <b>Cython/C extensions</b><br>• <b>PyPy</b> has a different GIL implementation', tips:['CPU vs I/O bound','multiprocessing','async/await'] },
+
+            // Java
+            { id:12, cat:'java', diff:'Easy', tag:'Basics', text:'What is the difference between JDK, JRE, and JVM?', answer:'<b>JVM (Java Virtual Machine):</b> Executes Java bytecode. Provides platform independence ("Write once, run anywhere").<br><br><b>JRE (Java Runtime Environment):</b> JVM + Java libraries. Needed to RUN Java programs.<br><br><b>JDK (Java Development Kit):</b> JRE + compiler (javac) + debugger + tools. Needed to DEVELOP Java programs.<br><br><b>Simple analogy:</b> JVM = engine, JRE = car with engine, JDK = car manufacturing factory', tips:['Bytecode','Platform independence','javac compiler'] },
+            { id:13, cat:'java', diff:'Medium', tag:'OOP', text:'What is the difference between Abstract class and Interface in Java?', answer:'<b>Abstract Class:</b><br>• Can have abstract + concrete methods<br>• Can have constructor, fields<br>• Single inheritance only<br>• Use when: sharing code among related classes<br><br><b>Interface:</b><br>• Only abstract methods (Java 8+: default/static methods allowed)<br>• No constructor, no instance fields<br>• Multiple implementation supported<br>• Use when: defining a contract for unrelated classes<br><br><b>Rule of thumb:</b> "Is-a" relationship → Abstract class. "Can-do" relationship → Interface (e.g., Flyable, Runnable)', tips:['Multiple inheritance','Default methods','IS-A vs HAS-A'] },
+            { id:14, cat:'java', diff:'Medium', tag:'Collections', text:'Explain HashMap vs HashTable vs ConcurrentHashMap.', answer:'<b>HashMap:</b> Not thread-safe, allows one null key, best for single-threaded apps. Fast O(1) average.<br><br><b>HashTable:</b> Thread-safe (synchronized), no null key/value allowed. Slower (locks entire table).<br><br><b>ConcurrentHashMap:</b> Thread-safe, better performance than HashTable. Locks only segments (not entire map). No null keys/values.<br><br><b>For interviews:</b> Always prefer ConcurrentHashMap in multi-threaded scenarios over HashTable.', tips:['Thread safety','Null handling','Segment locking'] },
+
+            // DBMS
+            { id:15, cat:'dbms', diff:'Easy', tag:'SQL', text:'What is the difference between DELETE, DROP, and TRUNCATE?', answer:'<b>DELETE:</b> Removes specific rows. Can use WHERE clause. Logged (can rollback). Triggers fire.<br><br><b>TRUNCATE:</b> Removes ALL rows. Faster than DELETE. Cannot use WHERE. Usually cannot rollback. Resets auto-increment.<br><br><b>DROP:</b> Removes entire table + structure. Cannot rollback. Irreversible!<br><br><b>Memory trick:</b> DELETE = selective, TRUNCATE = wipe all data, DROP = destroy everything', tips:['Rollback behavior','WHERE clause','Auto-increment reset'] },
+            { id:16, cat:'dbms', diff:'Medium', tag:'Normalization', text:'Explain 1NF, 2NF, 3NF with examples.', answer:'<b>1NF:</b> Each column has atomic (single) values. No repeating groups.<br>Bad: Skills = "Python, Java" | Good: Separate rows for each skill<br><br><b>2NF:</b> 1NF + No partial dependency (every non-key column depends on FULL primary key).<br>Applies only to composite primary keys.<br><br><b>3NF:</b> 2NF + No transitive dependency (non-key columns depend only on primary key, not on other non-key columns).<br>Example: If StudentID→DeptID→DeptName, move DeptName to separate Dept table.<br><br><b>Simple rule:</b> "Every non-key attribute must depend on the key, the whole key, and nothing but the key!"', tips:['Atomic values','Partial dependency','Transitive dependency'] },
+            { id:17, cat:'dbms', diff:'Medium', tag:'SQL', text:'What are different types of JOINs in SQL?', answer:'<b>INNER JOIN:</b> Returns rows that have matching values in BOTH tables.<br><br><b>LEFT JOIN:</b> All rows from left table + matching rows from right. NULLs for no match.<br><br><b>RIGHT JOIN:</b> All rows from right + matching from left. NULLs for no match.<br><br><b>FULL OUTER JOIN:</b> All rows from both tables. NULLs where no match.<br><br><b>CROSS JOIN:</b> Cartesian product — every row of table1 with every row of table2.<br><br><b>SELF JOIN:</b> Join a table with itself (finding employees and their managers).', tips:['NULL handling','Cartesian product','Use INNER for most cases'] },
+
+            // OS/CN
+            { id:18, cat:'os', diff:'Medium', tag:'OS', text:'What is the difference between Process and Thread?', answer:'<b>Process:</b><br>• Independent program in execution<br>• Has own memory space (code, data, heap, stack)<br>• Heavy — more overhead to create<br>• Communication via IPC (pipes, sockets)<br>• Crash of one doesn\'t affect others<br><br><b>Thread:</b><br>• Lightweight unit within a process<br>• Shares memory with other threads in same process<br>• Faster to create, lower overhead<br>• Can communicate via shared memory<br>• Crash of one thread can crash entire process<br><br><b>Analogy:</b> Process = factory building. Threads = workers inside that factory.', tips:['Context switching','IPC','Thread safety'] },
+            { id:19, cat:'os', diff:'Hard', tag:'OS', text:'Explain Deadlock and the 4 conditions for it to occur.', answer:'<b>Deadlock:</b> A situation where two or more processes are stuck forever, each waiting for a resource held by the other.<br><br><b>4 Necessary Conditions (Coffman Conditions):</b><br>1. <b>Mutual Exclusion:</b> Resource can only be held by one process at a time<br>2. <b>Hold and Wait:</b> Process holds a resource and waits for another<br>3. <b>No Preemption:</b> Resources can\'t be forcibly taken<br>4. <b>Circular Wait:</b> P1 waits for P2, P2 waits for P3, P3 waits for P1<br><br><b>Prevention:</b> Break any one condition. Most common: prevent circular wait using resource ordering.', tips:['Coffman conditions','Banker\'s algorithm','Prevention vs Avoidance'] },
+            { id:20, cat:'os', diff:'Medium', tag:'CN', text:'Explain TCP vs UDP. When to use each?', answer:'<b>TCP (Transmission Control Protocol):</b><br>• Connection-oriented (3-way handshake)<br>• Reliable — guarantees delivery, order<br>• Error checking + flow control<br>• Slower due to overhead<br>• Use: HTTP/HTTPS, Email, File transfer, Banking<br><br><b>UDP (User Datagram Protocol):</b><br>• Connectionless — no handshake<br>• Unreliable — no delivery guarantee<br>• Faster, lower overhead<br>• Use: Video streaming, Gaming, DNS, VoIP<br><br><b>Interview tip:</b> "TCP when accuracy matters, UDP when speed matters"', tips:['3-way handshake','Reliability vs Speed','Real-world examples'] },
+
+            // HR
+            { id:21, cat:'hr', diff:'Easy', tag:'HR', text:'Tell me about yourself.', answer:'<b>Best Structure (1-2 minutes):</b><br><br>1. <b>Start with education:</b> "I\'m [Name], a B.Tech CSE student at [College] in my [Year] year."<br><br>2. <b>Mention strengths:</b> "I\'m proficient in Python and have a strong foundation in DSA."<br><br>3. <b>Highlight experience:</b> "I\'ve built 3 projects including [your best project] using [tech stack]."<br><br>4. <b>State your goal:</b> "I\'m looking for opportunities where I can apply my skills to solve real-world problems."<br><br><b>Tips:</b> Keep it professional, under 2 minutes, end with why you\'re interested in THIS company.', tips:['Keep it under 2 min','End with a goal','Practice 10 times'] },
+            { id:22, cat:'hr', diff:'Easy', tag:'HR', text:'What are your strengths and weaknesses?', answer:'<b>Strengths — Pick 2-3 relevant to the job:</b><br>• Problem-solving: "I enjoy breaking complex problems into smaller pieces"<br>• Learning quickly: "I pick up new technologies fast"<br>• Team player + Communication<br><br><b>Weaknesses — Be honest but show improvement:</b><br>• "I used to struggle with public speaking, but I\'ve been actively joining coding contests and presenting my projects to improve."<br>• "I tend to be a perfectionist, which sometimes slows me down. I\'m learning to prioritize and set time limits."<br><br><b>NEVER say:</b> "I have no weaknesses" or weaknesses critical to the job.', tips:['Be specific','Show self-awareness','Mention improvement steps'] },
+            { id:23, cat:'hr', diff:'Medium', tag:'HR', text:'Why do you want to join our company?', answer:'<b>NEVER say generic things like "Good company" or "Good salary"!</b><br><br><b>Research before interview and personalize:</b><br><br>1. <b>Connect their work to your interests:</b> "I\'ve been following your AI products and I\'m passionate about that domain."<br><br>2. <b>Mention specific achievements:</b> "Your team\'s work on [specific project/product] inspired me."<br><br>3. <b>Cultural fit:</b> "I love your culture of innovation and continuous learning."<br><br>4. <b>Growth opportunity:</b> "I want to grow in a company that challenges me technically."<br><br><b>Formula:</b> Research → Connect to YOUR skills → Show genuine enthusiasm', tips:['Research the company','Be specific','Connect to your skills'] },
+            { id:24, cat:'hr', diff:'Medium', tag:'HR', text:'Where do you see yourself in 5 years?', answer:'<b>Interviewer wants to know:</b> Are you serious about this job? Will you stay? Do you have goals?<br><br><b>Good Answer Formula:</b><br><br>"In 5 years, I see myself as a strong software engineer who has mastered [relevant tech]. I want to take on more responsibilities, possibly lead small projects or mentor junior developers. I\'m excited about growing with a company like yours where I can contribute to impactful products while continuously improving my skills."<br><br><b>Do NOT say:</b> "I want to start my own company in 2 years" (suggests you\'ll leave)<br><b>Do NOT say:</b> "I don\'t know" (shows lack of planning)', tips:['Show loyalty','Align with company','Be realistic'] },
+            { id:25, cat:'hr', diff:'Hard', tag:'HR', text:'Tell me about a time you failed. What did you learn?', answer:'<b>Use the STAR Method:</b><br>Situation → Task → Action → Result<br><br><b>Example Answer:</b><br>"During my 2nd year project, I was leading a team of 4 to build a web app. We underestimated the complexity of the backend, and I didn\'t communicate the delays to my professor on time. We submitted a half-finished project.<br><br>What I learned:<br>1. Always break large tasks into milestones<br>2. Communicate early when there\'s a problem — don\'t hide it<br>3. Buffer time is essential in any project<br><br>Since then, I use Trello/Notion to track progress in every project."<br><br><b>Key:</b> Show that you LEARNED and GREW from the failure.', tips:['STAR method','Be genuine','Focus on learning'] },
+
+            // Company-wise
+            { id:26, cat:'company', diff:'Medium', tag:'Amazon', text:'Tell me about a time you showed Leadership. (Amazon Leadership Principle)', answer:'<b>Amazon\'s 16 Leadership Principles — "Earn Trust" is key here.</b><br><br><b>STAR Answer:</b><br>"During a hackathon, our team of 5 was building a recommendation system. Midway, our team lead fell sick. I stepped up to redistribute tasks based on each person\'s strengths, set up daily 15-min syncs to track progress, and simplified our MVP scope to ensure we could deliver.<br><br>Result: We finished on time and won 3rd place out of 30 teams."<br><br><b>Amazon loves hearing about:</b> Customer obsession, Bias for action, Deliver results, Ownership', tips:['Amazon LP principles','Be specific with numbers','Show ownership'] },
+            { id:27, cat:'company', diff:'Hard', tag:'Google', text:'Design a URL shortener like bit.ly (System Design)', answer:'<b>System Design — URL Shortener:</b><br><br><b>Requirements:</b> Given long URL → return short URL. Short URL → redirect to long URL.<br><br><b>Core Components:</b><br>1. <b>API:</b> POST /shorten, GET /{shortCode}<br>2. <b>Short Code Generation:</b> Base62 encoding of unique ID (a-z, A-Z, 0-9) → 6 chars = 56 billion combinations<br>3. <b>Database:</b> {shortCode: longURL} mapping — use NoSQL (Redis for cache + DB for persistence)<br>4. <b>Redirect:</b> 301 (permanent) or 302 (temporary) redirect<br><br><b>Scale:</b> Load balancer → multiple API servers → distributed cache (Redis) → database sharding<br><br><b>Mention:</b> Analytics, expiry, custom aliases', tips:['Start with requirements','Base62 encoding','Cache for popular URLs'] },
+            { id:28, cat:'company', diff:'Easy', tag:'TCS', text:'What is the difference between OOP and Procedural Programming?', answer:'<b>Procedural Programming:</b><br>• Program divided into functions/procedures<br>• Data flows between functions<br>• Top-down approach<br>• Examples: C, Pascal<br>• Problem: Data is exposed globally, harder to maintain<br><br><b>OOP (Object-Oriented Programming):</b><br>• Program organized around objects (data + methods)<br>• Encapsulation hides data<br>• Bottom-up approach<br>• Examples: Java, Python, C++<br>• Benefits: Reusability, Maintainability, Security<br><br><b>TCS tip:</b> They often ask basic OOP questions in NQT. Know all 4 pillars with examples!', tips:['4 OOP pillars','Real-world examples','Know C vs Java difference'] },
+            { id:29, cat:'company', diff:'Medium', tag:'Infosys', text:'What is ACID in databases? Why is it important?', answer:'<b>ACID Properties ensure reliable database transactions:</b><br><br><b>A — Atomicity:</b> Transaction is all-or-nothing. If payment deducted but transfer fails, rollback happens.<br><br><b>C — Consistency:</b> Database stays valid before and after transaction. No rule violation allowed.<br><br><b>I — Isolation:</b> Concurrent transactions don\'t interfere with each other. Each transaction sees a consistent snapshot.<br><br><b>D — Durability:</b> Once committed, data persists even after system crash (written to disk).<br><br><b>Example:</b> Bank transfer: Deduct from A AND add to B must BOTH succeed or BOTH fail (Atomicity).', tips:['Bank transfer example','Transaction rollback','Infosys loves DBMS'] },
+            { id:30, cat:'company', diff:'Medium', tag:'Microsoft', text:'How would you find if two strings are anagrams of each other?', answer:'<b>Multiple approaches:</b><br><br><b>Approach 1 — Sorting O(n log n):</b><br>Sort both strings, compare. "listen" sorted = "eilnst", "silent" sorted = "eilnst" ✓<br><br><b>Approach 2 — HashMap O(n):</b><br>Count character frequency of string1, decrement for string2. If all counts = 0, they\'re anagrams.<br><br><b>Python Code:</b><br>from collections import Counter<br>def isAnagram(s1, s2):<br>&nbsp;&nbsp;return Counter(s1) == Counter(s2)<br><br><b>Best approach for interview:</b> Explain HashMap approach first (O(n)), then mention sorting as simpler but slower.', tips:['HashMap approach','Edge cases: spaces, case','Counter in Python'] },
+        ];
+
+        let currentCat = 'all';
+        let currentDiff = 'all';
+        let currentCompany = null;
+        let practicedIds = new Set();
+        let pracCount = 0;
+        let totalScore = 0;
+
+        // ==================== RENDER QUESTIONS ====================
+        function renderQuestions() {
+            let filtered = questions.filter(q => {
+                const catMatch = currentCat === 'all' || q.cat === currentCat || (currentCat === 'company' && q.cat === 'company');
+                const diffMatch = currentDiff === 'all' || q.diff === currentDiff;
+                const searchVal = document.getElementById('searchInput').value.toLowerCase();
+                const searchMatch = !searchVal || q.text.toLowerCase().includes(searchVal) || q.tag.toLowerCase().includes(searchVal);
+                const companyMatch = !currentCompany || q.tag === currentCompany;
+                return catMatch && diffMatch && searchMatch && companyMatch;
+            });
+
+            const list = document.getElementById('qList');
+            list.innerHTML = '';
+            filtered.forEach((q, i) => {
+                const isPrac = practicedIds.has(q.id);
+                list.innerHTML += `
+                    <div class="q-card ${isPrac ? 'practiced' : ''} fade-up show" id="qcard-${q.id}" style="--d:${i*0.05}s">
+                        <div class="q-header" onclick="toggleAnswer(${q.id})">
+                            <div class="q-num">${i+1}</div>
+                            <div class="q-main">
+                                <div class="q-text">${q.text}</div>
+                                <div class="q-meta">
+                                    <span class="q-diff diff-${q.diff.toLowerCase()}">${q.diff}</span>
+                                    <span class="q-tag">${q.tag}</span>
+                                    ${isPrac ? '<span style="background:#e6f9f0;color:#12b76a;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:10px;">✅ Practiced</span>' : ''}
+                                </div>
+                            </div>
+                            <div class="q-actions">
+                                <button class="q-practice-btn ${isPrac ? 'done' : ''}" onclick="event.stopPropagation(); markPracticed(${q.id})">${isPrac ? '✅ Done' : '☐ Mark Done'}</button>
+                                <button class="q-expand-btn" id="expand-${q.id}" onclick="event.stopPropagation(); toggleAnswer(${q.id})">▾</button>
+                            </div>
+                        </div>
+                        <div class="q-answer" id="ans-${q.id}">
+                            <div class="ans-box">
+                                <div class="ans-label">🤖 AI Answer</div>
+                                <div class="ans-text">${q.answer}</div>
+                                <div class="ans-tips">${q.tips.map(t => `<span class="ans-tip">💡 ${t}</span>`).join('')}</div>
+                            </div>
+                        </div>
+                    </div>`;
+            });
+
+            if (filtered.length === 0) {
+                list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:40px;margin-bottom:12px;">🔍</div><p style="font-size:15px;font-weight:600;">No questions found. Try a different filter!</p></div>';
+            }
+        }
+
+        function toggleAnswer(id) {
+            const ans = document.getElementById('ans-' + id);
+            const btn = document.getElementById('expand-' + id);
+            const isOpen = ans.classList.contains('show');
+            document.querySelectorAll('.q-answer').forEach(a => a.classList.remove('show'));
+            document.querySelectorAll('.q-expand-btn').forEach(b => b.classList.remove('open'));
+            if (!isOpen) {
+                ans.classList.add('show');
+                btn.classList.add('open');
+            }
+        }
+
+        async function markPracticed(id) {
+            if (practicedIds.has(id)) return;
+            
+            const isCorrect = confirm("Did you answer this question correctly?");
+            let scoreEarned = isCorrect ? 10 : 0;
+
+            practicedIds.add(id);
+            pracCount++;
+            totalScore += scoreEarned;
+
+            try {
+                const token = localStorage.getItem('sb_token');
+                if(token) {
+                    const q = questions.find(x => x.id === id);
+                    await fetch('/api/practice/log', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            subject: 'Interview Prep',
+                            topic: q.cat,
+                            questions_attempted: 1,
+                            correct: isCorrect ? 1 : 0,
+                            wrong: isCorrect ? 0 : 1,
+                            score: scoreEarned,
+                            duration_seconds: 120 - timeLeft > 0 ? 120 - timeLeft : 30
+                        })
+                    });
+                }
+            } catch(e) {
+                console.error('Error saving practice log', e);
+            }
+
+            document.getElementById('pracCount').textContent = pracCount;
+            document.getElementById('scoreDisplay').textContent = totalScore;
+            const pct = Math.round((pracCount / questions.length) * 100);
+            document.getElementById('progressPct').textContent = pct + '%';
+            document.getElementById('progressFill').style.width = pct + '%';
+            renderQuestions();
+        }
+
+        // ==================== FILTERS ====================
+        function setCategory(cat, btn) {
+            document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentCat = cat;
+            currentCompany = null;
+            document.getElementById('companyCards').style.display = cat === 'company' ? 'grid' : 'none';
+            renderQuestions();
+        }
+
+        function setDiff(diff, btn) {
+            document.querySelectorAll('.df-btn').forEach(b => b.classList.remove('active'));
+            btn.classList.add('active');
+            currentDiff = diff;
+            renderQuestions();
+        }
+
+        function filterCompany(company) {
+            document.querySelectorAll('.co-card').forEach(c => c.classList.remove('selected'));
+            event.target.closest('.co-card').classList.add('selected');
+            currentCompany = company;
+            renderQuestions();
+        }
+
+        function searchQuestions() { renderQuestions(); }
+
+        // ==================== TIMER ====================
+        let timerInterval = null;
+        let timeLeft = 120;
+        let timerRunning = false;
+
+        function toggleTimer() {
+            if (timerRunning) {
+                clearInterval(timerInterval);
+                timerRunning = false;
+                document.getElementById('startBtn').textContent = '▶ Start';
+                document.getElementById('timerStatus').textContent = 'Paused';
+            } else {
+                timerRunning = true;
+                document.getElementById('startBtn').textContent = '⏸ Pause';
+                document.getElementById('timerStatus').textContent = 'Think of your answer...';
+                timerInterval = setInterval(() => {
+                    timeLeft--;
+                    const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
+                    const s = (timeLeft % 60).toString().padStart(2,'0');
+                    document.getElementById('timerDisplay').textContent = m + ':' + s;
+                    if (timeLeft <= 0) {
+                        clearInterval(timerInterval);
+                        timerRunning = false;
+                        document.getElementById('startBtn').textContent = '▶ Start';
+                        document.getElementById('timerStatus').textContent = "⏰ Time's up! Check your answer";
+                        document.getElementById('timerDisplay').textContent = '00:00';
+                    }
+                }, 1000);
+            }
+        }
+
+        function resetTimer() {
+            clearInterval(timerInterval);
+            timerRunning = false;
+            timeLeft = 120;
+            document.getElementById('timerDisplay').textContent = '02:00';
+            document.getElementById('startBtn').textContent = '▶ Start';
+            document.getElementById('timerStatus').textContent = 'Press Start to begin';
+        }
+
+        // ==================== RANDOM QUESTION ====================
+        function getRandomQ() {
+            const q = questions[Math.floor(Math.random() * questions.length)];
+            document.getElementById('randomQ').textContent = q.text;
+            resetTimer();
+        }
+
+        // ==================== AI TIPS ====================
+        const aiTips = [
+            "Practice explaining your answers out loud — interviewers value clear communication as much as correct answers! 🗣️",
+            "For DSA problems: always clarify input/output, think of edge cases, explain your approach BEFORE coding! 💡",
+            "In HR rounds, use the STAR method: Situation → Task → Action → Result for every behavioral question ⭐",
+            "Research the company before interview: know their products, tech stack, and recent news. Interviewers love this! 🔍",
+            "Practice coding on paper or whiteboard — 70% of interviews still use these to test your thinking process! ✏️",
+            "End every interview with a thoughtful question for the interviewer — it shows interest and preparation! 🎯"
+        ];
+        document.getElementById('aiTip').textContent = aiTips[Math.floor(Math.random() * aiTips.length)];
+
+        // ==================== INIT ====================
+        renderQuestions();
+        getRandomQ();
+
+        // Animations
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.querySelectorAll('.fade-up').forEach(el => {
+                    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('show');
+                });
+            }, 100);
+        });
+    </script>
+</body>
+</html>

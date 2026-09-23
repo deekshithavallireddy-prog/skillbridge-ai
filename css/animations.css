@@ -1,0 +1,133 @@
+/* ============================================
+   SKILLBRIDGE AI — ANIMATIONS
+============================================ */
+
+/* Fade up animation */
+.animate-fade-up {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+    transition-delay: var(--delay, 0s);
+}
+
+.animate-fade-up.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Fade left animation */
+.animate-fade-left {
+    opacity: 0;
+    transform: translateX(50px);
+    transition: all 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.animate-fade-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+/* Glow pulse for progress bars */
+@keyframes glow-pulse {
+    0%, 100% { box-shadow: 0 0 5px rgba(99,91,255,0.3); }
+    50% { box-shadow: 0 0 20px rgba(99,91,255,0.7); }
+}
+
+/* Shimmer effect */
+@keyframes shimmer {
+    0% { background-position: -200% center; }
+    100% { background-position: 200% center; }
+}
+
+.shimmer {
+    background: linear-gradient(90deg,
+        rgba(255,255,255,0) 0%,
+        rgba(255,255,255,0.1) 50%,
+        rgba(255,255,255,0) 100%);
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+}
+
+/* Typing cursor */
+@keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* Floating animation for cards */
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-12px); }
+}
+
+.float-anim {
+    animation: float 5s ease-in-out infinite;
+}
+
+/* Number count animation */
+@keyframes count-up {
+    from { opacity: 0; transform: scale(0.8); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Slide in from bottom */
+@keyframes slide-up {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Rotate animation */
+@keyframes slow-rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Scale bounce */
+@keyframes scale-bounce {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Gradient shift */
+@keyframes gradient-shift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.gradient-animate {
+    background-size: 200% 200%;
+    animation: gradient-shift 4s ease infinite;
+}
+
+/* Progress bar animated fill */
+@keyframes fill-progress {
+    from { width: 0%; }
+}
+
+.fill-animate {
+    animation: fill-progress 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+/* Fade in scale */
+@keyframes fade-scale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.fade-scale-anim {
+    animation: fade-scale 0.5s ease forwards;
+}

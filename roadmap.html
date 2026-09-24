@@ -397,6 +397,7 @@
     }
     
   </style>
+    <script src="js/courses.js"></script>
 </head>
 <body>
 
@@ -434,6 +435,17 @@
   <div class="main-content">
     <div id="onboardAlert" class="onboard-msg" style="display:none;">
       You haven't set up your profile yet. <a href="onboard.html">Click here to setup your profile</a> to get a personalized roadmap.
+    </div>
+
+    <div id="customCourseCard" style="display:none;background:linear-gradient(135deg,#eff6ff,#e0f2fe);border:1px solid #bfdbfe;border-radius:16px;padding:20px 24px;margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;">
+        <div>
+          <div style="font-size:12px;color:#2563eb;font-weight:700;letter-spacing:1px;margin-bottom:4px;">YOUR SELECTED COURSE</div>
+          <h3 id="customCourseTitle" style="font-size:18px;font-weight:800;color:#1e293b;"></h3>
+          <p style="font-size:13px;color:#64748b;margin-top:4px;">Course-specific roadmap and study materials are ready</p>
+        </div>
+        <a href="course-prep.html" style="background:#2563eb;color:white;padding:10px 20px;border-radius:10px;text-decoration:none;font-weight:700;font-size:13px;">Open Study Plan →</a>
+      </div>
     </div>
 
     <div class="hero-card">
@@ -727,6 +739,14 @@
 
       if (!profile.goal) {
         document.getElementById('onboardAlert').style.display = 'block';
+      }
+
+      const customCourse = localStorage.getItem('sb_selected_course');
+      const customCourseName = localStorage.getItem('sb_selected_course_name');
+
+      if (customCourse && window.getCourse && window.getCourse(customCourse)) {
+        document.getElementById('customCourseCard').style.display = 'block';
+        document.getElementById('customCourseTitle').innerText = customCourseName || window.getCourse(customCourse).name;
       }
 
       document.getElementById('heroGoalName').innerText = goal;

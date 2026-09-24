@@ -75,6 +75,7 @@
         .progress-circle { width: 100px; height: 100px; border-radius: 50%; background: conic-gradient(var(--accent) 0%, var(--border-color) 0); display: flex; align-items: center; justify-content: center; margin: 0 auto 16px; position: relative; }
         .progress-inner { width: 80px; height: 80px; background-color: var(--card-bg); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; font-weight: bold; color: var(--text-main); }
     </style>
+    <script src="js/courses.js"></script>
 </head>
 <body>
 
@@ -140,14 +141,49 @@
                             <input type="email" id="input-email" disabled>
                         </div>
                         <div class="form-group">
-                            <label>Course</label>
-                            <select id="input-course">
-                                <option value="B.Tech">B.Tech</option>
-                                <option value="M.Tech">M.Tech</option>
-                                <option value="BCA">BCA</option>
-                                <option value="MCA">MCA</option>
-                                <option value="B.Sc">B.Sc</option>
-                            </select>
+                            <label>Course / Program *</label>
+                            <div class="course-selector">
+                                <select id="courseSelect" onchange="handleCourseChange()">
+                                    <option value="">-- Select your course --</option>
+                                    <optgroup label="Engineering">
+                                        <option value="btech-cs">B.Tech Computer Science</option>
+                                        <option value="btech-ece">B.Tech Electronics</option>
+                                        <option value="btech-mech">B.Tech Mechanical</option>
+                                        <option value="btech-civil">B.Tech Civil</option>
+                                        <option value="btech-eee">B.Tech EEE</option>
+                                    </optgroup>
+                                    <optgroup label="Science">
+                                        <option value="bsc-cs">B.Sc Computer Science</option>
+                                        <option value="bsc-math">B.Sc Mathematics</option>
+                                        <option value="bsc-physics">B.Sc Physics</option>
+                                    </optgroup>
+                                    <optgroup label="Management">
+                                        <option value="bba">BBA</option>
+                                        <option value="mba">MBA</option>
+                                    </optgroup>
+                                    <optgroup label="Medical">
+                                        <option value="mbbs">MBBS</option>
+                                        <option value="bsc-nursing">B.Sc Nursing</option>
+                                        <option value="pharmacy">B.Pharm</option>
+                                    </optgroup>
+                                    <optgroup label="Arts & Humanities">
+                                        <option value="ba">BA</option>
+                                        <option value="bcom">B.Com</option>
+                                        <option value="law">LLB</option>
+                                    </optgroup>
+                                    <option value="other">🔍 Other / Search Course...</option>
+                                </select>
+                                
+                                <div id="courseSearchBox" style="display:none;margin-top:10px;">
+                                    <div style="position:relative;">
+                                        <input type="text" id="courseSearchInput" placeholder="Search any course: Machine Learning, UPSC, AWS..." 
+                                            oninput="searchCourseInput()" autocomplete="off"
+                                            style="width:100%;padding:11px 14px;border:1.5px solid #2563eb;border-radius:10px;font-size:14px;">
+                                        <div id="courseSearchResults" style="position:absolute;top:100%;left:0;right:0;background:white;border:1px solid #e2e8f0;border-radius:10px;box-shadow:0 8px 24px rgba(0,0,0,0.12);z-index:100;display:none;max-height:250px;overflow-y:auto;"></div>
+                                    </div>
+                                    <div id="selectedCourseDisplay" style="display:none;margin-top:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:10px 14px;font-size:13px;color:#1e40af;font-weight:600;"></div>
+                                </div>
+                            </div>
                         </div>
                         <div class="form-group">
                             <label>Year of Study</label>
@@ -349,6 +385,71 @@
                 btn.textContent = 'Save Changes';
                 btn.disabled = false;
             }
+        }
+
+        function handleCourseChange() {
+          const val = document.getElementById('courseSelect').value;
+          const searchBox = document.getElementById('courseSearchBox');
+          if (val === 'other') {
+            searchBox.style.display = 'block';
+            document.getElementById('courseSearchInput').focus();
+          } else {
+            searchBox.style.display = 'none';
+            document.getElementById('selectedCourseDisplay').style.display = 'none';
+          }
+        }
+
+        function searchCourseInput() {
+          const q = document.getElementById('courseSearchInput').value.trim();
+          const results = document.getElementById('courseSearchResults');
+          
+          if (q.length < 2) { results.style.display = 'none'; return; }
+          
+          const matches = window.searchCourses ? window.searchCourses(q) : [];
+          
+          if (matches.length === 0) {
+            results.innerHTML = `<div style="padding:12px;color:#64748b;">No match found. You can still type and save "${q}" as your course.</div>`;
+            results.style.display = 'block';
+            results.innerHTML += `<div onclick="selectCustomCourse('${q}','${q.toLowerCase().replace(/\\s+/g,'-')}')" style="padding:12px;border-top:1px solid #e2e8f0;cursor:pointer;color:#2563eb;font-weight:600;">➕ Add "${q}" as custom course</div>`;
+            return;
+          }
+          
+          results.innerHTML = matches.map(c => `
+            <div onclick="selectCustomCourse('${c.name}','${c.id}')" 
+              style="padding:12px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:10px;"
+              onmouseover="this.style.background='#eff6ff'" onmouseout="this.style.background='white'">
+              <span style="font-size:20px;">${c.icon}</span>
+              <div>
+                <div style="font-weight:600;color:#1e293b;font-size:13px;">${c.name}</div>
+                <div style="color:#64748b;font-size:11px;">${c.category} • ${c.duration}</div>
+              </div>
+            </div>
+          `).join('');
+          results.style.display = 'block';
+        }
+
+        function selectCustomCourse(name, id) {
+          localStorage.setItem('sb_selected_course', id);
+          localStorage.setItem('sb_selected_course_name', name);
+          document.getElementById('courseSearchResults').style.display = 'none';
+          document.getElementById('courseSearchInput').value = name;
+          const display = document.getElementById('selectedCourseDisplay');
+          display.innerHTML = `✅ Selected: <strong>${name}</strong> <br><a href="course-prep.html" style="color:#2563eb;">🎯 Course saved! View your ${name} study plan →</a>`;
+          display.style.display = 'block';
+          
+          const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
+          profile.customCourse = id;
+          profile.customCourseName = name;
+          localStorage.setItem('sb_profile', JSON.stringify(profile));
+          
+          const token = localStorage.getItem('sb_token');
+          if (token) {
+            fetch('/api/user/profile', {
+              method: 'PUT',
+              headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+              body: JSON.stringify({ profile })
+            }).catch(() => {});
+          }
         }
 
         // Skills

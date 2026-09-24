@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Profile - SkillBridge AI</title>
+    <script src="js/courses.js"></script>
     <style>
         :root {
             --bg-color: #f8fafc;
@@ -127,6 +128,9 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Course Saved Banner -->
+                <div id="courseBanner" style="display:none;background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:14px 20px;font-size:14px;color:#1e40af;font-weight:600;"></div>
 
                 <!-- Editable Profile Form -->
                 <div class="card" id="edit-form-card" style="display: block;">
@@ -578,6 +582,114 @@
             document.getElementById('gate-progress-text').textContent = progress + '%';
             document.getElementById('gate-progress-circle').style.background = `conic-gradient(var(--accent) ${progress}%, var(--border-color) 0)`;
         }
+
+        // ============ COURSE SEARCH FUNCTIONS ============
+        function handleCourseChange() {
+            const val = document.getElementById('courseSelect') ? document.getElementById('courseSelect').value : '';
+            const searchBox = document.getElementById('courseSearchBox');
+            if (!searchBox) return;
+            if (val === 'other') {
+                searchBox.style.display = 'block';
+                const inp = document.getElementById('courseSearchInput');
+                if (inp) inp.focus();
+                // Restore previously selected course if any
+                const savedName = localStorage.getItem('sb_selected_course_name');
+                if (savedName) {
+                    if (inp) inp.value = savedName;
+                    const disp = document.getElementById('selectedCourseDisplay');
+                    if (disp) {
+                        disp.innerHTML = '✅ Selected: <strong>' + savedName + '</strong> <a href="course-prep.html" style="margin-left:10px;color:#2563eb;">View Study Materials →</a>';
+                        disp.style.display = 'block';
+                    }
+                }
+            } else {
+                if (searchBox) searchBox.style.display = 'none';
+            }
+        }
+
+        function searchCourseInput() {
+            const inp = document.getElementById('courseSearchInput');
+            const results = document.getElementById('courseSearchResults');
+            if (!inp || !results) return;
+            const q = inp.value.trim();
+            if (q.length < 2) { results.style.display = 'none'; return; }
+
+            const matches = window.searchCourses ? window.searchCourses(q) : [];
+
+            if (matches.length === 0) {
+                results.innerHTML =
+                    '<div style="padding:12px;color:#64748b;">No exact match. You can add "' + q + '" as a custom course.</div>' +
+                    '<div onclick="selectCustomCourse(\'' + q.replace(/'/g,"\\'") + '\',\'' + q.toLowerCase().replace(/\s+/g,'-').replace(/'/g,'') + '\')" style="padding:12px;border-top:1px solid #e2e8f0;cursor:pointer;color:#2563eb;font-weight:600;">➕ Add "' + q + '" as custom course</div>';
+                results.style.display = 'block';
+                return;
+            }
+
+            results.innerHTML = matches.map(function(c) {
+                return '<div onclick="selectCustomCourse(\'' + c.name.replace(/'/g,"\\'") + '\',\'' + c.id + '\')" ' +
+                    'style="padding:12px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:10px;" ' +
+                    'onmouseover="this.style.background=\'#eff6ff\'" onmouseout="this.style.background=\'white\'">' +
+                    '<span style="font-size:20px;">' + (c.icon || '📚') + '</span>' +
+                    '<div><div style="font-weight:600;color:#1e293b;font-size:13px;">' + c.name + '</div>' +
+                    '<div style="color:#64748b;font-size:11px;">' + c.category + ' • ' + c.duration + '</div></div></div>';
+            }).join('');
+            results.style.display = 'block';
+        }
+
+        function selectCustomCourse(name, id) {
+            localStorage.setItem('sb_selected_course', id);
+            localStorage.setItem('sb_selected_course_name', name);
+            const results = document.getElementById('courseSearchResults');
+            const inp = document.getElementById('courseSearchInput');
+            const disp = document.getElementById('selectedCourseDisplay');
+            if (results) results.style.display = 'none';
+            if (inp) inp.value = name;
+            if (disp) {
+                disp.innerHTML = '✅ Selected: <strong>' + name + '</strong> <a href="course-prep.html" style="margin-left:10px;color:#2563eb;font-weight:700;">View Study Materials →</a>';
+                disp.style.display = 'block';
+            }
+
+            // Save to localStorage profile
+            const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
+            profile.customCourse = id;
+            profile.customCourseName = name;
+            localStorage.setItem('sb_profile', JSON.stringify(profile));
+
+            // Save to backend
+            const token = localStorage.getItem('sb_token');
+            if (token) {
+                fetch('/api/user/profile', {
+                    method: 'PUT',
+                    headers: {'Content-Type':'application/json','Authorization':'Bearer '+token},
+                    body: JSON.stringify({customCourse: id, customCourseName: name})
+                }).catch(function(){});
+            }
+
+            // Show banner
+            const banner = document.getElementById('courseBanner');
+            if (banner) {
+                banner.innerHTML = '🎯 Course saved! <a href="course-prep.html" style="color:#2563eb;font-weight:700;">Open ' + name + ' Study Plan →</a>';
+                banner.style.display = 'block';
+            }
+        }
+
+        // Close search results when clicking outside
+        document.addEventListener('click', function(e) {
+            const results = document.getElementById('courseSearchResults');
+            const box = document.getElementById('courseSearchBox');
+            if (results && box && !box.contains(e.target)) {
+                results.style.display = 'none';
+            }
+        });
+
+        // On load: restore custom course selection if previously chosen
+        window.addEventListener('load', function() {
+            const savedCourse = localStorage.getItem('sb_selected_course_name');
+            const sel = document.getElementById('courseSelect');
+            if (savedCourse && sel) {
+                sel.value = 'other';
+                handleCourseChange();
+            }
+        });
     </script>
 </body>
 </html>

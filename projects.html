@@ -1,309 +1,1025 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Projects — SkillBridge AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{--primary:#635bff;--secondary:#a855f7;--gradient:linear-gradient(135deg,#635bff,#a855f7);}
-body{font-family:'Inter',Arial,sans-serif;background:#f4f6fb;display:flex;min-height:100vh;color:#0f1117;}
-.sidebar{width:260px;min-height:100vh;position:fixed;left:0;top:0;bottom:0;background:linear-gradient(180deg,#0a0c1a,#111323);display:flex;flex-direction:column;padding:26px 16px 22px;z-index:100;border-right:1px solid rgba(255,255,255,0.04);}
-.sb-logo{font-size:19px;font-weight:900;color:white;display:flex;align-items:center;gap:6px;padding:0 8px;margin-bottom:24px;}
-.sb-logo span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.sb-user{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px;margin-bottom:26px;}
-.sb-av{width:40px;height:40px;border-radius:11px;background:var(--gradient);color:white;font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sb-info h4{color:white;font-size:13.5px;font-weight:700;margin-bottom:2px;}
-.sb-info span{color:rgba(255,255,255,0.3);font-size:11px;}
-.nav-label{color:rgba(255,255,255,0.18);font-size:9.5px;font-weight:800;letter-spacing:1.5px;padding:0 10px;margin:14px 0 5px;}
-.sb-nav{flex:1;display:flex;flex-direction:column;}
-.nav-i{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;text-decoration:none;color:rgba(255,255,255,0.38);font-size:13px;font-weight:500;transition:all 0.2s;margin-bottom:2px;}
-.nav-i:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);}
-.nav-i.active{background:linear-gradient(135deg,rgba(99,91,255,0.22),rgba(168,85,247,0.12));color:white;font-weight:700;border:1px solid rgba(99,91,255,0.22);}
-.ni-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0;}
-.sb-back{display:block;text-align:center;color:rgba(255,255,255,0.22);font-size:12.5px;text-decoration:none;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,0.06);transition:all 0.2s;margin-top:14px;}
-.sb-back:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);}
-.main{margin-left:260px;flex:1;padding:30px 34px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
-.tb-left h1{font-size:23px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px;}
-.tb-left p{color:#667085;font-size:13px;}
-.tb-right{display:flex;align-items:center;gap:12px;}
-.ai-pill{display:flex;align-items:center;gap:7px;background:rgba(18,183,106,0.1);border:1px solid rgba(18,183,106,0.2);color:#12b76a;padding:8px 15px;border-radius:30px;font-size:12.5px;font-weight:700;}
-.ap-dot{width:7px;height:7px;background:#12b76a;border-radius:50%;animation:pd 1.5s infinite;}
-@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
-.tb-av{width:40px;height:40px;border-radius:10px;background:var(--gradient);color:white;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;}
-/* STATS */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
-.sc{background:white;border-radius:16px;padding:18px 20px;border:1px solid #eef0f6;display:flex;align-items:center;gap:14px;transition:all 0.3s;cursor:pointer;}
-.sc:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(99,91,255,0.08);}
-.sc-icon{font-size:28px;}
-.sc-info p{font-size:12px;color:#667085;margin-bottom:3px;}
-.sc-info h3{font-size:22px;font-weight:900;letter-spacing:-1px;}
-/* SEARCH + FILTER */
-.controls{display:flex;gap:14px;margin-bottom:22px;align-items:center;flex-wrap:wrap;}
-.search-box{flex:1;min-width:200px;padding:12px 16px;background:white;border:1.5px solid #eef0f6;border-radius:12px;font-size:13.5px;font-family:'Inter',Arial,sans-serif;outline:none;transition:all 0.2s;color:#0f1117;}
-.search-box:focus{border-color:rgba(99,91,255,0.4);box-shadow:0 0 0 3px rgba(99,91,255,0.08);}
-.search-box::placeholder{color:#aaa;}
-/* TABS */
-.cat-tabs{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:22px;}
-.cat-tab{padding:9px 18px;border-radius:30px;border:1.5px solid #eef0f6;background:white;color:#667085;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.22s;font-family:'Inter',Arial,sans-serif;}
-.cat-tab:hover{border-color:rgba(99,91,255,0.4);color:var(--primary);}
-.cat-tab.active{background:var(--gradient);border-color:transparent;color:white;box-shadow:0 4px 15px rgba(99,91,255,0.28);}
-/* LAYOUT */
-.page-layout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start;}
-/* PROJECT GRID */
-.proj-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:18px;}
-/* PROJECT CARD */
-.proj-card{background:white;border-radius:20px;border:1px solid #eef0f6;overflow:hidden;transition:all 0.3s;position:relative;}
-.proj-card:hover{transform:translateY(-5px);box-shadow:0 18px 45px rgba(99,91,255,0.11);border-color:rgba(99,91,255,0.18);}
-.proj-card.bookmarked{border-color:rgba(247,144,9,0.3);}
-.card-top{padding:22px 22px 0;}
-.card-header{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:14px;}
-.card-icon{width:52px;height:52px;border-radius:14px;display:flex;align-items:center;justify-content:center;font-size:24px;flex-shrink:0;}
-.card-badges{display:flex;flex-direction:column;align-items:flex-end;gap:5px;}
-.diff-badge{font-size:10.5px;font-weight:800;padding:4px 10px;border-radius:20px;}
-.diff-beginner{background:#e6f9f0;color:#12b76a;}
-.diff-intermediate{background:#fff4e5;color:#f79009;}
-.diff-advanced{background:#fce8e8;color:#f04438;}
-.bookmark-btn{background:none;border:none;font-size:20px;cursor:pointer;transition:transform 0.2s;line-height:1;}
-.bookmark-btn:hover{transform:scale(1.2);}
-.card-title{font-size:16px;font-weight:800;margin-bottom:7px;color:#0f1117;}
-.card-desc{font-size:13px;color:#667085;line-height:1.6;margin-bottom:14px;}
-.tech-chips{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:14px;}
-.tech-chip{background:#f4f6fb;color:#555;font-size:11px;font-weight:700;padding:4px 10px;border-radius:8px;border:1px solid #eef0f6;}
-.card-meta{display:flex;align-items:center;gap:12px;font-size:12px;color:#667085;margin-bottom:16px;}
-.card-meta span{display:flex;align-items:center;gap:4px;}
-.card-actions{display:flex;gap:8px;padding:0 22px 22px;}
-.view-steps-btn{flex:1;padding:11px;background:var(--gradient);color:white;border:none;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.3s;box-shadow:0 4px 12px rgba(99,91,255,0.25);}
-.view-steps-btn:hover{transform:translateY(-2px);box-shadow:0 8px 20px rgba(99,91,255,0.35);}
-.github-btn{padding:11px 16px;background:#f4f6fb;color:#555;border:1.5px solid #eef0f6;border-radius:11px;font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;text-decoration:none;display:flex;align-items:center;gap:5px;}
-.github-btn:hover{background:#0f1117;color:white;border-color:#0f1117;}
-/* STEPS PANEL */
-.steps-panel{display:none;padding:0 22px 22px;animation:slideDown 0.3s ease;}
-.steps-panel.show{display:block;}
-@keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-.steps-divider{height:1px;background:#eef0f6;margin-bottom:18px;}
-.steps-title{font-size:13px;font-weight:800;color:#0f1117;margin-bottom:14px;display:flex;align-items:center;gap:8px;}
-.step-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
-.step-num{width:26px;height:26px;border-radius:8px;background:var(--gradient);color:white;font-size:11px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.step-text{font-size:12.5px;color:#555;line-height:1.6;padding-top:3px;}
-.step-text b{color:#0f1117;}
-/* RIGHT PANEL */
-.right-panel{position:sticky;top:20px;display:flex;flex-direction:column;gap:18px;}
-.rp-card{background:white;border-radius:18px;padding:22px;border:1px solid #eef0f6;}
-.rp-title{font-size:14px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.ai-rec-item{display:flex;gap:12px;align-items:center;padding:12px;background:#f8f9ff;border-radius:12px;margin-bottom:8px;cursor:pointer;transition:background 0.2s;border:1px solid transparent;}
-.ai-rec-item:hover{background:#eeedff;border-color:rgba(99,91,255,0.2);}
-.ari-icon{font-size:22px;flex-shrink:0;}
-.ari-info h4{font-size:13px;font-weight:700;margin-bottom:2px;}
-.ari-info span{font-size:11.5px;color:#667085;}
-.ari-arrow{margin-left:auto;color:var(--primary);font-weight:900;font-size:16px;}
-.bm-list{display:flex;flex-direction:column;gap:8px;}
-.bm-item{font-size:12.5px;color:#555;padding:8px 12px;background:#f4f6fb;border-radius:10px;display:flex;align-items:center;gap:8px;}
-.bm-item span{font-size:16px;}
-.empty-bm{color:#aaa;font-size:13px;text-align:center;padding:16px 0;}
-/* NO RESULTS */
-.no-results{text-align:center;padding:60px 20px;color:#667085;grid-column:1/-1;}
-.no-results .nr-icon{font-size:48px;margin-bottom:12px;}
-@media(max-width:1200px){.page-layout{grid-template-columns:1fr;}.right-panel{position:static;}.proj-grid{grid-template-columns:1fr;}}
-@media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:20px;}.stats-row{grid-template-columns:1fr 1fr;}}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Ideas & Building Guide - SkillBridge AI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #f8fafc;
+            --sidebar-bg: #ffffff;
+            --primary-color: #2563eb;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --card-bg: #ffffff;
+            
+            /* Difficulty Colors */
+            --beginner-bg: #dcfce7;
+            --beginner-text: #166534;
+            --intermediate-bg: #fef9c3;
+            --intermediate-text: #854d0e;
+            --advanced-bg: #fee2e2;
+            --advanced-text: #991b1b;
+        }
 
-/* === LIGHT SIDEBAR OVERRIDE === */
-.sidebar{width:256px!important;min-height:100vh;position:fixed!important;left:0;top:0;background:#ffffff!important;border-right:1px solid #e2e8f0!important;display:flex;flex-direction:column;padding:24px 16px;z-index:100;}
-.sb-logo{font-size:18px!important;font-weight:900!important;color:#1e293b!important;}
-.sb-logo span{background:none!important;-webkit-text-fill-color:#2563eb!important;color:#2563eb!important;}
-.sb-user{background:#eff6ff!important;border:1px solid #bfdbfe!important;border-radius:12px!important;}
-.sb-av{background:#2563eb!important;}
-.sb-info h4{color:#1e293b!important;}
-.sb-info span{color:#64748b!important;}
-.nav-label{color:#94a3b8!important;}
-.nav-i{color:#64748b!important;}
-.nav-i:hover,.nav-i.active{background:#eff6ff!important;color:#2563eb!important;}
-.sb-back,.sb-logout{background:white!important;color:#64748b!important;border:1px solid #e2e8f0!important;}
-.sb-back:hover,.sb-logout:hover{background:#fef2f2!important;color:#dc2626!important;}
-body{background:#f8fafc!important;}
-.main{margin-left:256px!important;}
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
 
-</style>
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 260px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            position: fixed;
+            height: 100vh;
+            overflow-y: auto;
+        }
+
+        .logo-section {
+            padding: 24px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--primary-color);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-section {
+            padding: 20px 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            background-color: #e2e8f0;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            color: var(--primary-color);
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .nav-links {
+            padding: 16px 0;
+            flex-grow: 1;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 24px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: 500;
+            gap: 12px;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+        }
+
+        .nav-item.active {
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            border-right: 3px solid var(--primary-color);
+        }
+
+        .logout-btn {
+            margin: 24px;
+            padding: 10px;
+            background-color: #fee2e2;
+            color: #ef4444;
+            border: none;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: background-color 0.2s;
+        }
+
+        .logout-btn:hover {
+            background-color: #fca5a5;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 260px;
+            padding: 32px;
+            flex-grow: 1;
+            max-width: 1200px;
+        }
+
+        .top-bar {
+            margin-bottom: 32px;
+        }
+
+        .title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: var(--text-muted);
+            font-size: 16px;
+            margin-bottom: 24px;
+        }
+
+        .search-filter-row {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 24px;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            flex-grow: 1;
+            min-width: 250px;
+            padding: 10px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .search-box:focus {
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.2);
+        }
+
+        .filter-tabs {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 8px 16px;
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-muted);
+            transition: all 0.2s;
+        }
+
+        .filter-btn:hover {
+            background-color: #f1f5f9;
+        }
+
+        .filter-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
+        }
+
+        /* Stats Row */
+        .stats-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+
+        .stat-card {
+            background-color: var(--card-bg);
+            padding: 20px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        /* Projects Grid */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 24px;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .project-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+
+        .project-header {
+            padding: 20px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .project-emoji {
+            font-size: 24px;
+            margin-right: 12px;
+        }
+
+        .project-title {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+
+        .difficulty-badge {
+            font-size: 12px;
+            font-weight: 600;
+            padding: 4px 8px;
+            border-radius: 12px;
+            text-transform: uppercase;
+        }
+
+        .diff-beginner { background-color: var(--beginner-bg); color: var(--beginner-text); }
+        .diff-intermediate { background-color: var(--intermediate-bg); color: var(--intermediate-text); }
+        .diff-advanced { background-color: var(--advanced-bg); color: var(--advanced-text); }
+
+        .bookmark-btn {
+            background: none;
+            border: none;
+            font-size: 20px;
+            cursor: pointer;
+            color: #cbd5e1;
+            transition: color 0.2s;
+        }
+
+        .bookmark-btn.bookmarked {
+            color: #fbbf24;
+        }
+
+        .project-body {
+            padding: 20px;
+            flex-grow: 1;
+        }
+
+        .project-desc {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.5;
+            margin-bottom: 16px;
+            min-height: 42px;
+        }
+
+        .tech-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-bottom: 16px;
+        }
+
+        .tech-chip {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            font-size: 12px;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-weight: 500;
+        }
+
+        .project-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-bottom: 16px;
+        }
+
+        .view-steps-btn {
+            width: 100%;
+            padding: 10px;
+            background-color: #eff6ff;
+            color: var(--primary-color);
+            border: 1px solid #bfdbfe;
+            border-radius: 6px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .view-steps-btn:hover {
+            background-color: #dbeafe;
+        }
+
+        /* Steps Section */
+        .steps-container {
+            display: none;
+            padding: 20px;
+            background-color: #f8fafc;
+            border-top: 1px solid var(--border-color);
+            font-size: 14px;
+        }
+
+        .step-item {
+            margin-bottom: 16px;
+        }
+
+        .step-item:last-child {
+            margin-bottom: 0;
+        }
+
+        .step-title {
+            font-weight: 600;
+            color: var(--text-main);
+            margin-bottom: 4px;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+
+        .step-number {
+            background-color: var(--primary-color);
+            color: white;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            flex-shrink: 0;
+        }
+
+        .step-desc {
+            color: var(--text-muted);
+            padding-left: 28px;
+            line-height: 1.5;
+        }
+
+        /* No Results */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px;
+            color: var(--text-muted);
+            background: white;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+    </style>
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sb-logo">⚡ Skill<span>Bridge AI</span></div>
-  <div class="sb-user">
-    <div class="sb-av" id="sbAv">S</div>
-    <div class="sb-info"><h4 id="sbName">Student</h4><span>SkillBridge AI</span></div>
-  </div>
-  <nav class="sb-nav"><p class="nav-label">MAIN</p><a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a><a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a><a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a><a href="roadmap.html" class="nav-i"><span class="ni-icon">🗺️</span> Roadmap</a><p class="nav-label">LEARNING</p><a href="gate.html" class="nav-i"><span class="ni-icon">🎓</span> GATE Prep</a><a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> AI Questions</a><a href="interview.html" class="nav-i"><span class="ni-icon">🎤</span> Interview Prep</a><a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a><p class="nav-label">TOOLS</p><a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a><a href="projects.html" class="nav-i active"><span class="ni-icon">💻</span> Projects</a></nav>
-  <button class="sb-logout" onclick="localStorage.clear();window.location.href='login.html'">🚪 Logout</button>
-</aside>
-<main class="main">
-  <header class="topbar">
-    <div class="tb-left"><h1>💻 Project Ideas</h1><p>AI-recommended projects to build your portfolio and impress recruiters</p></div>
-    <div class="tb-right"><div class="ai-pill"><span class="ap-dot"></span> AI Active</div><div class="tb-av" id="tbAv">S</div></div>
-  </header>
-  <div class="stats-row">
-    <div class="sc"><span class="sc-icon">💻</span><div class="sc-info"><p>Total Projects</p><h3>15</h3></div></div>
-    <div class="sc"><span class="sc-icon">🟢</span><div class="sc-info"><p>Beginner</p><h3>5</h3></div></div>
-    <div class="sc"><span class="sc-icon">🟡</span><div class="sc-info"><p>Intermediate</p><h3>6</h3></div></div>
-    <div class="sc"><span class="sc-icon">🔴</span><div class="sc-info"><p>Advanced</p><h3>4</h3></div></div>
-  </div>
-  <div class="controls">
-    <input class="search-box" type="text" placeholder="🔍 Search projects..." oninput="renderProjects()">
-    <div style="display:flex;align-items:center;gap:8px;background:white;border:1.5px solid #eef0f6;border-radius:12px;padding:8px 14px;font-size:13px;color:#667085;font-weight:600;">
-      🔖 Bookmarked: <b id="bmCount" style="color:var(--primary);margin-left:4px;">0</b>
-    </div>
-  </div>
-  <div class="cat-tabs">
-    <button class="cat-tab active" onclick="setFilter('all',this)">🗂️ All Projects</button>
-    <button class="cat-tab" onclick="setFilter('beginner',this)">🟢 Beginner</button>
-    <button class="cat-tab" onclick="setFilter('intermediate',this)">🟡 Intermediate</button>
-    <button class="cat-tab" onclick="setFilter('advanced',this)">🔴 Advanced</button>
-    <button class="cat-tab" onclick="setFilter('python',this)">🐍 Python</button>
-    <button class="cat-tab" onclick="setFilter('web',this)">🌐 Web Dev</button>
-    <button class="cat-tab" onclick="setFilter('ml',this)">🤖 ML/AI</button>
-    <button class="cat-tab" onclick="setFilter('bookmarked',this)">🔖 Bookmarked</button>
-  </div>
-  <div class="page-layout">
-    <div><div class="proj-grid" id="projGrid"></div></div>
-    <div class="right-panel">
-      <div class="rp-card">
-        <div class="rp-title">🤖 AI Recommended For You</div>
-        <div id="aiRecs"></div>
-      </div>
-      <div class="rp-card">
-        <div class="rp-title">🔖 Your Bookmarks</div>
-        <div class="bm-list" id="bmList"><div class="empty-bm">No bookmarks yet!<br>Click ⭐ on any project</div></div>
-      </div>
-      <div class="rp-card" style="background:linear-gradient(135deg,#0f0f2e,#1a0a2e);border:none;">
-        <div style="font-size:13px;font-weight:800;color:white;margin-bottom:12px;">💡 Pro Tips</div>
-        <div style="display:flex;flex-direction:column;gap:10px;">
-          <div style="font-size:12.5px;color:rgba(255,255,255,0.55);line-height:1.6;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;">⭐ Add <b style="color:white;">GitHub links</b> to all projects on your resume</div>
-          <div style="font-size:12.5px;color:rgba(255,255,255,0.55);line-height:1.6;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;">📝 Write a proper <b style="color:white;">README.md</b> for every project</div>
-          <div style="font-size:12.5px;color:rgba(255,255,255,0.55);line-height:1.6;padding:10px;background:rgba(255,255,255,0.05);border-radius:10px;">🚀 Deploy projects on <b style="color:white;">Netlify / Vercel / Heroku</b></div>
+
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="logo-section">
+            ⚡ SkillBridge AI
         </div>
-      </div>
-    </div>
-  </div>
-</main>
-<script>
-const profile = JSON.parse(localStorage.getItem('sb_profile')||'{}');
-const userName = profile.name||'Student';
-document.getElementById('sbAv').textContent = userName.charAt(0).toUpperCase();
-document.getElementById('tbAv').textContent = userName.charAt(0).toUpperCase();
-document.getElementById('sbName').textContent = userName;
-document.getElementById('sbCourse').textContent = (profile.course||'B.Tech').toUpperCase()+' • '+(profile.year||'3rd')+' Year';
-
-const ALL_PROJECTS = [
-  {id:1,level:'beginner',tags:['python'],icon:'🧮',bg:'#eeedff',title:'Calculator App',desc:'Build a fully functional calculator with basic + scientific operations. Perfect first Python project!',tech:['Python','Tkinter'],time:'3–5 hours',steps:['Install Python and Tkinter library','Design the calculator UI layout with buttons','Add click event handlers for each button','Implement arithmetic logic (add, subtract, multiply, divide)','Add keyboard support and test edge cases like division by zero']},
-  {id:2,level:'beginner',tags:['web'],icon:'📝',bg:'#e6f9f0',title:'To-Do List App',desc:'Create a dynamic to-do list where you can add, delete, complete and filter tasks. Great for learning DOM manipulation.',tech:['HTML','CSS','JavaScript'],time:'4–6 hours',steps:['Create HTML structure with input field and task list','Style with CSS — make it clean and responsive','Add JavaScript to dynamically add/remove tasks','Implement mark-as-complete toggle functionality','Add localStorage to save tasks even after page refresh']},
-  {id:3,level:'beginner',tags:['python'],icon:'🎯',bg:'#fff4e5',title:'Number Guessing Game',desc:'An interactive game where the computer picks a random number and the user guesses it with hints. Fun and easy!',tech:['Python'],time:'2–3 hours',steps:['Generate a random number using Python\'s random module','Create a while loop that keeps asking for input','Give hints: "Too High" or "Too Low"','Add attempt counter and high score tracking','Add difficulty levels (Easy: 1-50, Hard: 1-500)']},
-  {id:4,level:'beginner',tags:['python'],icon:'📊',bg:'#fce8e8',title:'Student Grade Calculator',desc:'Calculate GPA, percentage, and grade from marks. Useful project that solves a real student problem.',tech:['Python'],time:'3–4 hours',steps:['Take student name and subject marks as input','Calculate total, percentage, and grade using if-else','Show pass/fail status for each subject','Calculate CGPA from multiple semesters','Export results to a text file']},
-  {id:5,level:'beginner',tags:['web','python'],icon:'❓',bg:'#f0fff4',title:'Quiz App',desc:'Build a multiple-choice quiz app with timer, score tracking, and result summary. Works on web or Python.',tech:['Python','Flask','HTML','CSS'],time:'5–8 hours',steps:['Create a list/JSON of questions with 4 options each','Display one question at a time with option buttons','Implement 30-second countdown timer per question','Calculate and display final score with review','Add different categories of questions']},
-  {id:6,level:'intermediate',tags:['python','web'],icon:'🌤️',bg:'#e8f4ff',title:'Weather App',desc:'Fetch real-time weather data using OpenWeatherMap API and display it beautifully. Learn API integration!',tech:['Python','Flask','APIs','HTML/CSS'],time:'8–12 hours',steps:['Sign up for free OpenWeatherMap API key','Build Flask backend to fetch weather by city name','Parse JSON response and extract temperature, humidity, wind','Design a beautiful weather card UI with icons','Add 5-day forecast and unit conversion (°C/°F)']},
-  {id:7,level:'intermediate',tags:['web'],icon:'📰',bg:'#fff4e5',title:'Blog Website',desc:'A full-featured blog with create, read, update, delete posts. Learn full-stack development with this project.',tech:['React','Node.js','MongoDB'],time:'2–3 days',steps:['Set up React frontend with routing (React Router)','Create Node.js + Express backend for API endpoints','Connect MongoDB database for storing posts','Build blog post editor with formatting options','Add user authentication (login/register) using JWT']},
-  {id:8,level:'intermediate',tags:['python'],icon:'📚',bg:'#f0fff4',title:'Library Management System',desc:'Manage books, members, and borrowing records. Classic project for demonstrating OOP + Database skills.',tech:['Python','SQLite','Tkinter'],time:'1–2 days',steps:['Design database schema: Books, Members, Transactions tables','Build GUI using Tkinter for add/search/delete books','Implement borrow and return book functionality','Add due date tracking and fine calculation','Generate reports — most borrowed books, active members']},
-  {id:9,level:'intermediate',tags:['web'],icon:'💰',bg:'#eeedff',title:'Expense Tracker',desc:'Track income and expenses with charts and monthly reports. Perfect for learning data visualization!',tech:['React','Chart.js','localStorage'],time:'1–2 days',steps:['Create React components for adding income/expenses','Store data in localStorage for persistence','Show balance, total income, total expenses dashboard','Add beautiful pie/bar charts using Chart.js','Filter transactions by month, category, and type']},
-  {id:10,level:'intermediate',tags:['web'],icon:'💬',bg:'#fce8e8',title:'Real-time Chat App',desc:'Build a live chat application using WebSockets. Learn real-time communication — a hot interview topic!',tech:['Node.js','Socket.io','HTML/CSS'],time:'1–2 days',steps:['Set up Node.js server with Socket.io library','Create HTML/CSS chat interface with message bubbles','Handle socket events: connect, disconnect, message','Add usernames and typing indicators','Implement multiple chat rooms functionality']},
-  {id:11,level:'intermediate',tags:['python','ml'],icon:'🎬',bg:'#e8f4ff',title:'Movie Recommendation System',desc:'Build a content-based movie recommender using Python. Great ML project that interviewers love!',tech:['Python','Pandas','Scikit-learn'],time:'2–3 days',steps:['Download MovieLens dataset from Kaggle','Use Pandas to load and explore the data','Compute TF-IDF or cosine similarity between movies','Build recommend() function that returns top 10 similar movies','Create a simple web interface using Flask/Streamlit']},
-  {id:12,level:'advanced',tags:['ml','python'],icon:'📄',bg:'#eeedff',title:'AI Resume Analyzer',desc:'Build your own AI tool that extracts skills from resumes and gives improvement suggestions using NLP.',tech:['Python','NLP','SpaCy','Flask'],time:'3–5 days',steps:['Use PyPDF2 to extract text from uploaded PDF resumes','Apply SpaCy NLP to identify skills, experience, and education','Build scoring algorithm based on job description match','Create Flask API to handle upload and analysis','Build a clean frontend dashboard to display results']},
-  {id:13,level:'advanced',tags:['ml','python'],icon:'😊',bg:'#fff4e5',title:'Sentiment Analysis Tool',desc:'Analyze Twitter/product reviews to classify sentiment as positive, negative, or neutral using ML.',tech:['Python','NLTK','Scikit-learn','Streamlit'],time:'2–4 days',steps:['Collect dataset (Twitter API or Kaggle reviews dataset)','Preprocess text: remove stopwords, tokenize, lemmatize','Train ML model (Naive Bayes or LSTM) on labeled data','Evaluate model accuracy, precision, recall','Deploy using Streamlit — let users type any text for analysis']},
-  {id:14,level:'advanced',tags:['web'],icon:'🛒',bg:'#e6f9f0',title:'E-Commerce Website',desc:'Full-featured online store with products, cart, payment integration, and admin panel. Resume-worthy project!',tech:['React','Node.js','MongoDB','Stripe'],time:'1–2 weeks',steps:['Design database schema for products, users, orders','Build React frontend with product listing, filters, cart','Create Node.js/Express REST API for all operations','Integrate Stripe payment gateway for checkout','Build admin panel to add/edit/delete products and view orders']},
-  {id:15,level:'advanced',tags:['ml','python'],icon:'🔍',bg:'#fce8e8',title:'Object Detection App',desc:'Build a real-time object detection app using YOLO and OpenCV. Impressive project for AI/ML roles!',tech:['Python','OpenCV','YOLO','Flask'],time:'3–5 days',steps:['Download YOLOv8 pre-trained model weights','Set up OpenCV to capture webcam or video frames','Run YOLO inference on each frame to detect objects','Draw bounding boxes and labels on detected objects','Deploy as web app using Flask with live video stream']},
-];
-
-let currentFilter = 'all';
-let bookmarks = new Set(JSON.parse(localStorage.getItem('sb_bookmarks')||'[]'));
-let openSteps = new Set();
-
-function setFilter(f, btn){
-  document.querySelectorAll('.cat-tab').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  currentFilter = f;
-  renderProjects();
-}
-
-function renderProjects(){
-  const search = document.querySelector('.search-box').value.toLowerCase();
-  let filtered = ALL_PROJECTS.filter(p=>{
-    const matchCat = currentFilter==='all'||(currentFilter==='bookmarked'&&bookmarks.has(p.id))||p.level===currentFilter||p.tags.includes(currentFilter);
-    const matchSearch = !search||p.title.toLowerCase().includes(search)||p.desc.toLowerCase().includes(search)||p.tech.join(' ').toLowerCase().includes(search);
-    return matchCat && matchSearch;
-  });
-  const grid = document.getElementById('projGrid');
-  if(filtered.length===0){grid.innerHTML='<div class="no-results"><div class="nr-icon">🔍</div><p style="font-size:15px;font-weight:700;margin-bottom:6px;">No projects found</p><p style="font-size:13px;">Try a different filter or search term</p></div>';return;}
-  grid.innerHTML = filtered.map(p=>{
-    const isBm = bookmarks.has(p.id);
-    const stepsOpen = openSteps.has(p.id);
-    return `<div class="proj-card ${isBm?'bookmarked':''}" id="pc-${p.id}">
-      <div class="card-top">
-        <div class="card-header">
-          <div class="card-icon" style="background:${p.bg}">${p.icon}</div>
-          <div class="card-badges">
-            <span class="diff-badge diff-${p.level}">${p.level.charAt(0).toUpperCase()+p.level.slice(1)}</span>
-            <button class="bookmark-btn" onclick="toggleBm(${p.id})">${isBm?'⭐':'☆'}</button>
-          </div>
+        <div class="user-section">
+            <div class="user-avatar" id="userAvatar">U</div>
+            <div class="user-name" id="userName">User</div>
         </div>
-        <div class="card-title">${p.title}</div>
-        <div class="card-desc">${p.desc}</div>
-        <div class="tech-chips">${p.tech.map(t=>`<span class="tech-chip">${t}</span>`).join('')}</div>
-        <div class="card-meta"><span>⏱️ ${p.time}</span><span>📊 ${p.level.charAt(0).toUpperCase()+p.level.slice(1)}</span></div>
-      </div>
-      <div class="card-actions">
-        <button class="view-steps-btn" onclick="toggleSteps(${p.id})">${stepsOpen?'▲ Hide Steps':'▶ View Steps'}</button>
-        <a class="github-btn" href="#" onclick="alert('Set up GitHub first, then push this project!')">💻 GitHub</a>
-      </div>
-      <div class="steps-panel ${stepsOpen?'show':''}" id="steps-${p.id}">
-        <div class="steps-divider"></div>
-        <div class="steps-title">📋 Step-by-Step Guide</div>
-        ${p.steps.map((s,i)=>`<div class="step-item"><div class="step-num">${i+1}</div><div class="step-text">${s}</div></div>`).join('')}
-      </div>
-    </div>`;
-  }).join('');
-}
+        <nav class="nav-links">
+            <a href="dashboard.html" class="nav-item">📊 Dashboard</a>
+            <a href="my-progress.html" class="nav-item">📈 My Progress</a>
+            <a href="profile.html" class="nav-item">👤 Profile</a>
+            <a href="roadmap.html" class="nav-item">🗺️ Roadmap</a>
+            <a href="gate.html" class="nav-item">🎓 GATE Prep</a>
+            <a href="ai-questions.html" class="nav-item">🤖 AI Questions</a>
+            <a href="interview.html" class="nav-item">🎤 Interview Prep</a>
+            <a href="quiz.html" class="nav-item">🧠 Skill Quiz</a>
+            <a href="resume.html" class="nav-item">📄 Resume</a>
+            <a href="projects.html" class="nav-item active">💻 Projects</a>
+        </nav>
+        <button class="logout-btn" onclick="logout()">🚪 Logout</button>
+    </div>
 
-function toggleSteps(id){
-  if(openSteps.has(id)) openSteps.delete(id); else openSteps.add(id);
-  renderProjects();
-}
+    <!-- Main Content -->
+    <div class="main-content">
+        <div class="top-bar">
+            <h1 class="title">Project Ideas & Building Guide</h1>
+            <p class="subtitle">Learn by building real projects — step-by-step</p>
 
-function toggleBm(id){
-  if(bookmarks.has(id)) bookmarks.delete(id); else bookmarks.add(id);
-  localStorage.setItem('sb_bookmarks', JSON.stringify([...bookmarks]));
-  updateBmPanel();
-  renderProjects();
-}
+            <div class="stats-row">
+                <div class="stat-card">
+                    <div class="stat-value">20</div>
+                    <div class="stat-label">Total Projects</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--beginner-text)">7</div>
+                    <div class="stat-label">Beginner</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--intermediate-text)">8</div>
+                    <div class="stat-label">Intermediate</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-value" style="color: var(--advanced-text)">5</div>
+                    <div class="stat-label">Advanced</div>
+                </div>
+            </div>
 
-function updateBmPanel(){
-  document.getElementById('bmCount').textContent = bookmarks.size;
-  const bmList = document.getElementById('bmList');
-  if(bookmarks.size===0){bmList.innerHTML='<div class="empty-bm">No bookmarks yet!<br>Click ⭐ on any project</div>';return;}
-  const bmed = ALL_PROJECTS.filter(p=>bookmarks.has(p.id));
-  bmList.innerHTML = bmed.map(p=>`<div class="bm-item"><span>${p.icon}</span>${p.title}</div>`).join('');
-}
+            <div class="search-filter-row">
+                <input type="text" id="searchInput" class="search-box" placeholder="Search projects by title, tech, or description...">
+            </div>
+            
+            <div class="filter-tabs" id="difficultyFilters">
+                <button class="filter-btn active" data-filter="all">All</button>
+                <button class="filter-btn" data-filter="beginner">Beginner</button>
+                <button class="filter-btn" data-filter="intermediate">Intermediate</button>
+                <button class="filter-btn" data-filter="advanced">Advanced</button>
+            </div>
+            <div class="filter-tabs" id="techFilters" style="margin-top: 12px; margin-bottom: 24px;">
+                <button class="filter-btn active" data-tech="all">All Tech</button>
+                <button class="filter-btn" data-tech="python">Python</button>
+                <button class="filter-btn" data-tech="html">HTML/CSS/JS</button>
+                <button class="filter-btn" data-tech="ml">Machine Learning</button>
+                <button class="filter-btn" data-tech="react">React</button>
+                <button class="filter-btn" data-tech="node">Node.js</button>
+            </div>
+        </div>
 
-// AI Recs based on profile skills
-const skillToProject = {'Python':[1,3,4],'Machine Learning':[11,12,13,15],'Web Development':[2,5,7,10,14],'Java':[4],'DSA':[4],'SQL':[8],'React':[7,9,14],'Node.js':[7,10,14]};
-const userSkills = profile.skills||['Python','Web Development'];
-const recIds = [...new Set(userSkills.flatMap(s=>skillToProject[s]||[]))].slice(0,4);
-const recProjs = recIds.map(id=>ALL_PROJECTS.find(p=>p.id===id)).filter(Boolean);
-document.getElementById('aiRecs').innerHTML = recProjs.map(p=>`
-  <div class="ai-rec-item" onclick="toggleSteps(${p.id});document.getElementById('pc-${p.id}')?.scrollIntoView({behavior:'smooth'})">
-    <span class="ari-icon">${p.icon}</span>
-    <div class="ari-info"><h4>${p.title}</h4><span>${p.level} • ${p.time}</span></div>
-    <span class="ari-arrow">→</span>
-  </div>`).join('');
+        <div class="projects-grid" id="projectsGrid">
+            <!-- Project Cards inserted here by JS -->
+        </div>
+    </div>
 
-renderProjects();
-updateBmPanel();
-</script>
-<script>
-(function(){
-  var n = localStorage.getItem('sb_name') || 'Student';
-  var av = document.getElementById('sbAv');
-  var nm = document.getElementById('sbName');
-  if(av) av.textContent = n.charAt(0).toUpperCase();
-  if(nm) nm.textContent = n;
-})();
-</script>
+    <script>
+        // Setup User Info
+        document.addEventListener('DOMContentLoaded', () => {
+            const name = localStorage.getItem('sb_name') || 'Student';
+            document.getElementById('userName').textContent = name;
+            document.getElementById('userAvatar').textContent = name.charAt(0).toUpperCase();
+            renderProjects();
+        });
+
+        function logout() {
+            localStorage.removeItem('sb_token');
+            localStorage.removeItem('sb_name');
+            window.location.href = 'login.html';
+        }
+
+        // Projects Data
+        const PROJECTS = [
+            // BEGINNER
+            {
+                id: 1,
+                title: 'Calculator App',
+                emoji: '🧮',
+                difficulty: 'beginner',
+                desc: 'Build a GUI calculator with basic arithmetic operations',
+                tech: ['Python', 'Tkinter'],
+                time: '1 day',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Install Python, `pip install tk` (usually built-in). Create `calculator.py`' },
+                    { title: 'Project Structure', desc: 'Create main window with `tk.Tk()`, set title, size 300x400' },
+                    { title: 'Core Logic / Main Feature', desc: 'Create functions `add(a,b)`, `subtract(a,b)`, `multiply(a,b)`, `divide(a,b)`. Handle division by zero.' },
+                    { title: 'UI / Interface', desc: 'Use `tk.Button` grid for digits 0-9 and operators. Use `tk.Entry` for display. Place buttons using `.grid(row, column)`' },
+                    { title: 'Testing', desc: 'Test all operations. Test edge cases: 0÷0, very large numbers, decimal points' },
+                    { title: 'Add Extra Features', desc: 'Add keyboard shortcuts, history log, scientific mode' },
+                    { title: 'Deploy / Share', desc: 'Package with `pyinstaller --onefile calculator.py` → creates .exe file to share' }
+                ]
+            },
+            {
+                id: 2,
+                title: 'To-Do List App',
+                emoji: '✅',
+                difficulty: 'beginner',
+                desc: 'A web-based task manager with add/delete/complete features',
+                tech: ['HTML', 'CSS', 'JavaScript', 'localStorage'],
+                time: '1 day',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Create `index.html`, `style.css`, `app.js` files. No installation needed.' },
+                    { title: 'Project Structure', desc: "HTML: header, input section (input box + Add button), task list `<ul id='taskList'>`" },
+                    { title: 'Core Logic / Main Feature', desc: "JS functions: `addTask()` - creates li element, `deleteTask(id)` - removes li, `toggleComplete(id)` - toggles strikethrough. Save to `localStorage.setItem('tasks', JSON.stringify(tasks))`" },
+                    { title: 'UI / Interface', desc: 'CSS: clean white card, blue add button, green checkmark, red delete. Hover animations.' },
+                    { title: 'Testing', desc: 'Add 5 tasks, mark some complete, delete some, refresh page → check persistence' },
+                    { title: 'Add Extra Features', desc: 'Filter tabs (All/Active/Done), drag to reorder, due dates, priority levels' },
+                    { title: 'Deploy / Share', desc: 'Upload to GitHub Pages → free URL. Or use Tiiny.host to get instant URL.' }
+                ]
+            },
+            {
+                id: 3,
+                title: 'Number Guessing Game',
+                emoji: '🎲',
+                difficulty: 'beginner',
+                desc: 'Computer thinks of a number 1-100, player guesses with hints',
+                tech: ['Python'],
+                time: '2-3 hours',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Just Python installed. Create `guessing_game.py`' },
+                    { title: 'Project Structure', desc: '`import random`. Variables: `secret = random.randint(1,100)`, `attempts = 0`, `max_attempts = 7`' },
+                    { title: 'Core Logic / Main Feature', desc: "while loop, `guess = int(input('Guess: '))`, compare with secret, print 'Too High' / 'Too Low' / 'Correct!'" },
+                    { title: 'UI / Interface', desc: 'Print welcome banner, show attempt count, show remaining attempts' },
+                    { title: 'Testing', desc: 'Play 3 rounds. Verify hints are correct. Test invalid inputs.' },
+                    { title: 'Add Extra Features', desc: 'Difficulty levels (Easy=20 attempts, Hard=5 attempts), high score tracking, colored output with colorama' },
+                    { title: 'Deploy / Share', desc: 'Share the .py file, or convert to .exe with pyinstaller' }
+                ]
+            },
+            {
+                id: 4,
+                title: 'Student Grade Calculator',
+                emoji: '📊',
+                difficulty: 'beginner',
+                desc: 'Enter marks for multiple subjects, get grade and GPA',
+                tech: ['Python'],
+                time: '3-4 hours',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Python only. Create `grade_calc.py`' },
+                    { title: 'Project Structure', desc: "List of subjects, dictionary for marks: `{'Math': 85, 'Science': 90}`" },
+                    { title: 'Core Logic / Main Feature', desc: '`calculate_grade(mark)` returns grade letter. `calculate_gpa(marks_list)` returns GPA on 10-point scale.' },
+                    { title: 'UI / Interface', desc: '`print()` formatted table showing Subject | Marks | Grade | GPA. Use f-strings.' },
+                    { title: 'Testing', desc: 'Test boundary values: 40 (pass/fail), 90+ (A+)' },
+                    { title: 'Add Extra Features', desc: 'Read from CSV file, generate PDF report with reportlab, add charts with matplotlib' },
+                    { title: 'Deploy / Share', desc: 'Add a GUI with Tkinter, package as .exe' }
+                ]
+            },
+            {
+                id: 5,
+                title: 'Quiz App',
+                emoji: '❓',
+                difficulty: 'beginner',
+                desc: 'Multiple choice quiz on a topic with scoring',
+                tech: ['Python', 'CLI'],
+                time: '4-5 hours',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Python. Create `quiz.py`. Define questions as a list of dicts.' },
+                    { title: 'Project Structure', desc: "`questions = [{'q': 'What is 2+2?', 'options': ['1','2','4','8'], 'answer': '4'}]`" },
+                    { title: 'Core Logic / Main Feature', desc: 'Loop questions, display with numbered options, get input, compare to answer, track score.' },
+                    { title: 'UI / Interface', desc: "Clear screen between questions (`os.system('cls')`), show progress Q3/10, timer per question" },
+                    { title: 'Testing', desc: 'Answer all correct → verify 100%. Answer all wrong → 0%. Timer edge cases.' },
+                    { title: 'Add Extra Features', desc: 'Different categories, difficulty levels, save high scores to file' },
+                    { title: 'Deploy / Share', desc: 'Convert to web app using Flask or Streamlit' }
+                ]
+            },
+            {
+                id: 6,
+                title: 'Password Generator',
+                emoji: '🔑',
+                difficulty: 'beginner',
+                desc: 'Generate strong passwords with custom settings',
+                tech: ['Python', 'string', 'random'],
+                time: '2-3 hours',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`import string, random`. Create `password_gen.py`' },
+                    { title: 'Project Structure', desc: 'Options: length (8-32), include uppercase, lowercase, digits, symbols' },
+                    { title: 'Core Logic / Main Feature', desc: "Build character pool based on options. `password = ''.join(random.choices(pool, k=length))`. Check strength." },
+                    { title: 'UI / Interface', desc: 'CLI menu with options. Show generated password in box. Show strength meter: Weak/Medium/Strong/Very Strong' },
+                    { title: 'Testing', desc: 'Generate 100 passwords, verify all requirements met' },
+                    { title: 'Add Extra Features', desc: 'GUI with Tkinter, copy to clipboard with pyperclip, save history' },
+                    { title: 'Deploy / Share', desc: 'Package as .exe or make a web version with Flask' }
+                ]
+            },
+            {
+                id: 7,
+                title: 'Simple BMI Calculator',
+                emoji: '⚖️',
+                difficulty: 'beginner',
+                desc: 'Calculate BMI from height and weight with health category',
+                tech: ['HTML', 'CSS', 'JavaScript'],
+                time: '2-3 hours',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'One HTML file. No libraries needed.' },
+                    { title: 'Project Structure', desc: 'Form with height (cm), weight (kg) inputs. Result display area.' },
+                    { title: 'Core Logic / Main Feature', desc: '`bmi = weight / (height/100)^2`. Categories: Underweight(<18.5), Normal(18.5-24.9), Overweight(25-29.9), Obese(≥30)' },
+                    { title: 'UI / Interface', desc: 'Clean form, colored result card (blue/green/orange/red based on category), animated gauge' },
+                    { title: 'Testing', desc: 'Test with known values: 70kg/175cm = BMI 22.9 (Normal)' },
+                    { title: 'Add Extra Features', desc: 'Ideal weight calculator, BMI history chart, metric/imperial toggle' },
+                    { title: 'Deploy / Share', desc: 'GitHub Pages or Tiiny.host' }
+                ]
+            },
+
+            // INTERMEDIATE
+            {
+                id: 8,
+                title: 'Weather App',
+                emoji: '🌤️',
+                difficulty: 'intermediate',
+                desc: 'Get real-time weather for any city using OpenWeatherMap API',
+                tech: ['Python', 'API', 'requests'],
+                time: '1-2 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install requests`. Get FREE API key from openweathermap.org (takes 5 min). Create `weather.py`' },
+                    { title: 'Project Structure', desc: "`API_KEY = 'your_key'`. `BASE_URL = 'https://api.openweathermap.org/data/2.5/weather'`" },
+                    { title: 'Core Logic / Main Feature', desc: "`response = requests.get(BASE_URL, params={'q': city, 'appid': API_KEY, 'units': 'metric'})`. Parse JSON: temp, humidity, description" },
+                    { title: 'UI / Interface', desc: 'Print formatted weather card or build Tkinter GUI with weather icon emoji' },
+                    { title: 'Testing', desc: 'Test valid city (Mumbai), invalid city (error handling), network errors' },
+                    { title: 'Add Extra Features', desc: '5-day forecast, multiple cities, weather alerts, save to history' },
+                    { title: 'Deploy / Share', desc: 'Deploy as web app with Flask. Host on Render.com (free)' }
+                ]
+            },
+            {
+                id: 9,
+                title: 'Expense Tracker',
+                emoji: '💸',
+                difficulty: 'intermediate',
+                desc: 'Track daily expenses with categories and reports',
+                tech: ['Python', 'CSV', 'matplotlib'],
+                time: '1-2 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install matplotlib`. Create `expenses.py` and `expenses.csv`' },
+                    { title: 'Project Structure', desc: 'CSV columns: date, category, amount, description. Python dict for categories.' },
+                    { title: 'Core Logic / Main Feature', desc: '`add_expense()` writes to CSV. `view_summary()` reads CSV with csv.reader, groups by category, calculates totals.' },
+                    { title: 'UI / Interface', desc: 'CLI menu: 1.Add Expense 2.View Summary 3.View Chart 4.Export Report' },
+                    { title: 'Testing', desc: 'Add 10 expenses, verify totals, test CSV persistence' },
+                    { title: 'Add Extra Features', desc: 'Monthly budget limits with alerts, matplotlib pie chart for categories, PDF export' },
+                    { title: 'Deploy / Share', desc: 'Build GUI with Tkinter or web app with Flask+SQLite' }
+                ]
+            },
+            {
+                id: 10,
+                title: 'Blog Website',
+                emoji: '✍️',
+                difficulty: 'intermediate',
+                desc: 'A multi-page blog with posts, categories, and dark mode',
+                tech: ['HTML', 'CSS', 'JavaScript'],
+                time: '2-3 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Create folder structure: `index.html`, `post.html`, `about.html`, `css/style.css`, `js/app.js`' },
+                    { title: 'Project Structure', desc: 'Homepage: hero banner, featured post, posts grid. Post page: full article, tags, related posts' },
+                    { title: 'Core Logic / Main Feature', desc: 'JS: `posts` array with data. `renderPosts()` generates cards dynamically. Filter by category. Dark mode toggle saves to localStorage.' },
+                    { title: 'UI / Interface', desc: 'CSS Grid layout, CSS variables for theming, smooth transitions, responsive design' },
+                    { title: 'Testing', desc: 'Check on mobile (375px), tablet (768px), desktop (1440px)' },
+                    { title: 'Add Extra Features', desc: 'Search functionality, newsletter signup form, comment section (with localStorage)' },
+                    { title: 'Deploy / Share', desc: 'GitHub Pages (free) → yourusername.github.io/blog' }
+                ]
+            },
+            {
+                id: 11,
+                title: 'Library Management System',
+                emoji: '📚',
+                difficulty: 'intermediate',
+                desc: 'Manage books, members, and borrowing records',
+                tech: ['Python', 'SQLite'],
+                time: '2-3 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Python + sqlite3 (built-in). Create `library.py`' },
+                    { title: 'Project Structure', desc: 'SQLite tables: books(id, title, author, isbn, available), members(id, name, phone), borrow_records(id, book_id, member_id, borrow_date, return_date)' },
+                    { title: 'Core Logic / Main Feature', desc: 'CRUD operations for books and members. `borrow_book()` checks availability, updates tables. `return_book()` marks as available.' },
+                    { title: 'UI / Interface', desc: 'CLI menu with options. Use tabulate library for formatted tables.' },
+                    { title: 'Testing', desc: 'Add 5 books, register 3 members, borrow and return, check reports' },
+                    { title: 'Add Extra Features', desc: 'Due date reminders, fine calculation for late returns, search by author/genre' },
+                    { title: 'Deploy / Share', desc: 'Add Tkinter GUI or Flask web interface' }
+                ]
+            },
+            {
+                id: 12,
+                title: 'Chat Application',
+                emoji: '💬',
+                difficulty: 'intermediate',
+                desc: 'Real-time multi-user chat over LAN',
+                tech: ['Python', 'socket', 'threading'],
+                time: '2-3 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Python only (socket & threading built-in). Create `server.py` and `client.py`' },
+                    { title: 'Project Structure', desc: 'Server: accepts connections, broadcasts messages. Client: sends messages, receives in thread.' },
+                    { title: 'Core Logic / Main Feature', desc: "`server.py`: `server.bind(('0.0.0.0', 5000))`, accept clients in loop, broadcast to all. `client.py`: connect to server IP, send/receive in threads." },
+                    { title: 'UI / Interface', desc: 'CLI interface. OR build GUI with Tkinter showing chat window' },
+                    { title: 'Testing', desc: 'Run server + 3 clients, send messages, verify all receive' },
+                    { title: 'Add Extra Features', desc: 'Private messages, chat history save, emoji support, username colors' },
+                    { title: 'Deploy / Share', desc: 'Deploy server on free VM (Oracle Cloud free tier). Connect over internet.' }
+                ]
+            },
+            {
+                id: 13,
+                title: 'URL Shortener',
+                emoji: '🔗',
+                difficulty: 'intermediate',
+                desc: 'Web app that shortens long URLs like bit.ly',
+                tech: ['Python', 'Flask', 'SQLite'],
+                time: '2 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install flask`. Create `app.py`' },
+                    { title: 'Project Structure', desc: 'SQLite table: `urls(id, original_url, short_code, clicks, created_at)`. Flask routes: POST /shorten, GET /<code>' },
+                    { title: 'Core Logic / Main Feature', desc: '`generate_code()` = `random.choices(string.ascii_letters, k=6)`. Store in DB. On short URL visit → redirect to original.' },
+                    { title: 'UI / Interface', desc: 'Simple HTML form, show shortened URL, click counter' },
+                    { title: 'Testing', desc: 'Shorten 5 URLs, verify redirects work, verify click tracking' },
+                    { title: 'Add Extra Features', desc: 'Custom aliases, expiry dates, QR code generation, analytics dashboard' },
+                    { title: 'Deploy / Share', desc: 'Deploy on Render.com or Railway.app (free)' }
+                ]
+            },
+            {
+                id: 14,
+                title: 'E-Commerce Product Page',
+                emoji: '🛒',
+                difficulty: 'intermediate',
+                desc: 'A product listing page with cart functionality',
+                tech: ['HTML', 'CSS', 'JavaScript'],
+                time: '2-3 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'HTML + CSS + JS files. No backend needed.' },
+                    { title: 'Project Structure', desc: '`products` array in JS. Product card component. Cart sidebar. Filter sidebar.' },
+                    { title: 'Core Logic / Main Feature', desc: '`addToCart(productId)`, `removeFromCart(id)`, `calculateTotal()`. Persist cart in localStorage.' },
+                    { title: 'UI / Interface', desc: 'Grid layout, product cards with image/price/rating. Cart shows count badge on button.' },
+                    { title: 'Testing', desc: 'Add/remove items, verify cart total, test filters' },
+                    { title: 'Add Extra Features', desc: 'Product search, sorting (price, rating), wishlist, checkout form' },
+                    { title: 'Deploy / Share', desc: 'GitHub Pages or Netlify (free)' }
+                ]
+            },
+            {
+                id: 15,
+                title: 'File Organizer',
+                emoji: '📁',
+                difficulty: 'intermediate',
+                desc: 'Automatically sorts files in a folder by type/date',
+                tech: ['Python', 'os', 'shutil'],
+                time: '1 day',
+                steps: [
+                    { title: 'Setup & Installation', desc: 'Python built-ins only. Create `organizer.py`' },
+                    { title: 'Project Structure', desc: "Extension to folder mapping: `{'.pdf': 'PDFs', '.jpg': 'Images', '.mp3': 'Music', '.py': 'Code'}`" },
+                    { title: 'Core Logic / Main Feature', desc: '`os.listdir()` to get files, check extension, `shutil.move(src, dest)` to organize' },
+                    { title: 'UI / Interface', desc: 'Print what was moved. Ask confirmation before moving.' },
+                    { title: 'Testing', desc: 'Create test folder with mixed files, run organizer, verify sorting' },
+                    { title: 'Add Extra Features', desc: 'Undo feature, date-based organization, duplicate detection' },
+                    { title: 'Deploy / Share', desc: 'Create .exe with pyinstaller, share with teammates' }
+                ]
+            },
+
+            // ADVANCED
+            {
+                id: 16,
+                title: 'AI Resume Analyzer',
+                emoji: '📄',
+                difficulty: 'advanced',
+                desc: 'Analyze resume PDF and suggest improvements using NLP',
+                tech: ['Python', 'spacy', 'ML'],
+                time: '3-5 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install spacy PyPDF2 sklearn`. `python -m spacy download en_core_web_sm`' },
+                    { title: 'Project Structure', desc: '`pdf_parser.py` (extract text), `analyzer.py` (NLP analysis), `scorer.py` (score calculation)' },
+                    { title: 'Core Logic / Main Feature', desc: 'Extract text from PDF. Use spaCy NER to identify skills, experience, education. Compare with job description keywords. Calculate match score.' },
+                    { title: 'UI / Interface', desc: 'Flask web app or Streamlit: upload PDF, show analysis results, improvement suggestions' },
+                    { title: 'Testing', desc: 'Test with 5 sample resumes of varying quality, verify scoring' },
+                    { title: 'Add Extra Features', desc: 'Job description matching, ATS score simulation, skills gap analysis' },
+                    { title: 'Deploy / Share', desc: 'Deploy on Streamlit Cloud (free) or Render.com' }
+                ]
+            },
+            {
+                id: 17,
+                title: 'Movie Recommendation System',
+                emoji: '🎬',
+                difficulty: 'advanced',
+                desc: 'Recommend movies based on user preferences using collaborative filtering',
+                tech: ['Python', 'ML', 'pandas'],
+                time: '3-5 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install pandas scikit-learn surprise`. Download MovieLens dataset (free at grouplens.org)' },
+                    { title: 'Project Structure', desc: '`data_loader.py`, `model.py` (SVD algorithm), `recommender.py`, `app.py` (Flask)' },
+                    { title: 'Core Logic / Main Feature', desc: 'Load MovieLens CSV. Train SVD model with `surprise` library. `get_recommendations(user_id, n=10)` returns top-N movies.' },
+                    { title: 'UI / Interface', desc: 'Simple web form: enter user ID or rate 5 movies, get recommendations' },
+                    { title: 'Testing', desc: 'Evaluate with RMSE metric, verify recommendations are reasonable' },
+                    { title: 'Add Extra Features', desc: 'Content-based filtering, hybrid approach, real-time ratings, similar movies feature' },
+                    { title: 'Deploy / Share', desc: 'Streamlit Cloud or Heroku' }
+                ]
+            },
+            {
+                id: 18,
+                title: 'Real-time Chat App',
+                emoji: '📱',
+                difficulty: 'advanced',
+                desc: 'Browser-based real-time group chat with rooms',
+                tech: ['Node.js', 'Socket.io', 'HTML/CSS/JS'],
+                time: '3-4 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`npm init`, `npm install express socket.io`. Create `server.js` and `public/index.html`' },
+                    { title: 'Project Structure', desc: 'Express server, Socket.io events: connection, join-room, send-message, disconnect' },
+                    { title: 'Core Logic / Main Feature', desc: "Server: `io.to(room).emit('message', data)` to broadcast to room. Client: `socket.emit('send-message', {room, message, user})`" },
+                    { title: 'UI / Interface', desc: 'Chat interface: room list sidebar, message area, input box, user online indicator' },
+                    { title: 'Testing', desc: 'Open 3 browser tabs, join same room, verify messages sync' },
+                    { title: 'Add Extra Features', desc: 'Private messaging, emoji picker, file sharing, message reactions' },
+                    { title: 'Deploy / Share', desc: 'Deploy on Railway.app or Render.com with persistent connection' }
+                ]
+            },
+            {
+                id: 19,
+                title: 'Sentiment Analysis Web App',
+                emoji: '🎭',
+                difficulty: 'advanced',
+                desc: 'Analyze sentiment of text/tweets as Positive/Negative/Neutral',
+                tech: ['Python', 'Flask', 'NLP'],
+                time: '3-4 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`pip install flask textblob`. `python -m textblob.download_corpora`' },
+                    { title: 'Project Structure', desc: 'Flask app with route `POST /analyze`. Frontend: text input + analyze button + result display' },
+                    { title: 'Core Logic / Main Feature', desc: '`TextBlob(text).sentiment.polarity` → -1.0 to 1.0. Map to Positive (>0.1), Neutral (-0.1 to 0.1), Negative (<-0.1). Show confidence percentage.' },
+                    { title: 'UI / Interface', desc: 'Clean form, animated result card with emoji (😊/😐/😞), polarity score bar' },
+                    { title: 'Testing', desc: 'Test with clearly positive/negative/neutral sentences, verify accuracy' },
+                    { title: 'Add Extra Features', desc: 'Batch analysis (CSV input), Twitter API integration, aspect-based sentiment' },
+                    { title: 'Deploy / Share', desc: 'Render.com or Streamlit Cloud' }
+                ]
+            },
+            {
+                id: 20,
+                title: 'Full-Stack Task Manager',
+                emoji: '📋',
+                difficulty: 'advanced',
+                desc: 'A complete CRUD task manager with auth, priorities, and deadlines',
+                tech: ['React', 'Node.js', 'MongoDB'],
+                time: '5-7 days',
+                steps: [
+                    { title: 'Setup & Installation', desc: '`npx create-react-app client`, `mkdir server && npm init`. `npm install express mongoose bcryptjs jsonwebtoken cors`' },
+                    { title: 'Project Structure', desc: 'Backend: `server.js`, `models/User.js`, `models/Task.js`, `routes/auth.js`, `routes/tasks.js`. Frontend: components for Login, Dashboard, TaskCard, TaskForm' },
+                    { title: 'Core Logic / Main Feature', desc: 'JWT authentication. CRUD API: POST/GET/PUT/DELETE /api/tasks. React: useState for tasks, useEffect to fetch from API.' },
+                    { title: 'UI / Interface', desc: 'React with Tailwind CSS. Kanban board (Todo/In Progress/Done). Drag-and-drop with react-beautiful-dnd' },
+                    { title: 'Testing', desc: 'Register 2 users, add/edit/delete tasks, verify auth works, test drag-drop' },
+                    { title: 'Add Extra Features', desc: 'Task sharing, email notifications, file attachments, team workspaces' },
+                    { title: 'Deploy / Share', desc: 'Frontend on Netlify, Backend on Render.com, DB on MongoDB Atlas (all free)' }
+                ]
+            }
+        ];
+
+        // State
+        let bookmarks = JSON.parse(localStorage.getItem('sb_bookmarks') || '[]');
+        let activeDifficultyFilter = 'all';
+        let activeTechFilter = 'all';
+        let searchQuery = '';
+
+        // DOM Elements
+        const grid = document.getElementById('projectsGrid');
+        const searchInput = document.getElementById('searchInput');
+        const diffBtns = document.querySelectorAll('#difficultyFilters .filter-btn');
+        const techBtns = document.querySelectorAll('#techFilters .filter-btn');
+
+        // Event Listeners
+        searchInput.addEventListener('input', (e) => {
+            searchQuery = e.target.value.toLowerCase();
+            renderProjects();
+        });
+
+        diffBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                diffBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                activeDifficultyFilter = e.target.dataset.filter;
+                renderProjects();
+            });
+        });
+
+        techBtns.forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                techBtns.forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                activeTechFilter = e.target.dataset.tech;
+                renderProjects();
+            });
+        });
+
+        // Filter Function
+        function getFilteredProjects() {
+            return PROJECTS.filter(p => {
+                // Difficulty
+                const matchDiff = activeDifficultyFilter === 'all' || p.difficulty === activeDifficultyFilter;
+                
+                // Tech
+                let matchTech = true;
+                if (activeTechFilter !== 'all') {
+                    const projectTechs = p.tech.map(t => t.toLowerCase());
+                    if (activeTechFilter === 'html') {
+                        matchTech = projectTechs.includes('html') || projectTechs.includes('css') || projectTechs.includes('javascript');
+                    } else {
+                        matchTech = projectTechs.includes(activeTechFilter);
+                    }
+                }
+
+                // Search
+                const matchSearch = !searchQuery || 
+                    p.title.toLowerCase().includes(searchQuery) || 
+                    p.desc.toLowerCase().includes(searchQuery) ||
+                    p.tech.join(' ').toLowerCase().includes(searchQuery);
+
+                return matchDiff && matchTech && matchSearch;
+            });
+        }
+
+        // Render Function
+        function renderProjects() {
+            const filtered = getFilteredProjects();
+            
+            if (filtered.length === 0) {
+                grid.innerHTML = '<div class="no-results"><h3>No projects found</h3><p>Try adjusting your search or filters.</p></div>';
+                return;
+            }
+
+            grid.innerHTML = filtered.map(p => {
+                const isBookmarked = bookmarks.includes(p.id);
+                const chipsHtml = p.tech.map(t => `<span class="tech-chip">${t}</span>`).join('');
+                
+                const stepsHtml = p.steps.map((step, idx) => `
+                    <div class="step-item">
+                        <div class="step-title">
+                            <span class="step-number">${idx + 1}</span>
+                            ${step.title}
+                        </div>
+                        <div class="step-desc">${step.desc}</div>
+                    </div>
+                `).join('');
+
+                return `
+                    <div class="project-card">
+                        <div class="project-header">
+                            <div class="project-title">
+                                <span class="project-emoji">${p.emoji}</span>
+                                <div>
+                                    ${p.title}
+                                    <div style="margin-top:4px"><span class="difficulty-badge diff-${p.difficulty}">${p.difficulty}</span></div>
+                                </div>
+                            </div>
+                            <button class="bookmark-btn ${isBookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(${p.id})">
+                                ${isBookmarked ? '★' : '☆'}
+                            </button>
+                        </div>
+                        <div class="project-body">
+                            <p class="project-desc">${p.desc}</p>
+                            <div class="tech-chips">${chipsHtml}</div>
+                            <div class="project-meta">
+                                <span>⏱️ ${p.time}</span>
+                            </div>
+                            <button class="view-steps-btn" onclick="toggleSteps(${p.id})">
+                                ▶ View Steps
+                            </button>
+                        </div>
+                        <div class="steps-container" id="steps_${p.id}">
+                            ${stepsHtml}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        // Toggle Steps
+        window.toggleSteps = function(projectId) {
+            const el = document.getElementById('steps_' + projectId);
+            if (el.style.display === 'block') {
+                el.style.display = 'none';
+            } else {
+                el.style.display = 'block';
+            }
+        };
+
+        // Toggle Bookmark
+        window.toggleBookmark = function(projectId) {
+            if (bookmarks.includes(projectId)) {
+                bookmarks = bookmarks.filter(b => b !== projectId);
+            } else {
+                bookmarks.push(projectId);
+            }
+            localStorage.setItem('sb_bookmarks', JSON.stringify(bookmarks));
+            renderProjects();
+        };
+
+    </script>
 </body>
 </html>

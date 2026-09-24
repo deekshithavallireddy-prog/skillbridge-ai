@@ -21,6 +21,7 @@ h1{font-size:26px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:
 .btn:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.3);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 .err{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 14px;border-radius:10px;font-size:13px;font-weight:500;margin-bottom:16px;display:none;text-align:center;}
+.suc{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:16px;display:none;text-align:center;}
 .links{text-align:center;margin-top:20px;font-size:13.5px;color:#64748b;}
 .links a{color:#2563eb;font-weight:600;text-decoration:none;}
 .links a:hover{text-decoration:underline;}
@@ -35,6 +36,7 @@ h1{font-size:26px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:
   <h1>Welcome back</h1>
   <p class="sub">Sign in to continue your learning journey</p>
   <div class="err" id="errBox"></div>
+  <div class="suc" id="sucBox"></div>
   <div class="ig"><label>Email Address</label><input type="email" id="email" placeholder="you@email.com"></div>
   <div class="ig"><label>Password</label><input type="password" id="password" placeholder="Enter your password"></div>
   <button class="btn" id="loginBtn" onclick="doLogin()">Sign In →</button>
@@ -43,33 +45,84 @@ h1{font-size:26px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:
   <div class="links" style="margin-top:10px;"><a href="admin-login.html" style="color:#64748b;font-size:12.5px;">Admin Login</a></div>
 </div>
 <script>
-const API = '/api';
+const API='/api';
 async function doLogin(){
-  const email=document.getElementById('email').value.trim();
+  const email=document.getElementById('email').value.trim().toLowerCase();
   const pass=document.getElementById('password').value;
   const btn=document.getElementById('loginBtn');
-  const err=document.getElementById('errBox');
-  err.style.display='none';
+  hideMsg();
   if(!email||!pass){showErr('Please fill in all fields.');return;}
   btn.disabled=true;btn.textContent='Signing in...';
+
+  // Try backend first
   try{
     const r=await fetch(API+'/auth/login',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({email,password:pass})});
     const d=await r.json();
-    if(!r.ok){showErr(d.error||'Invalid email or password.');btn.disabled=false;btn.textContent='Sign In →';return;}
+    if(!r.ok){
+      // Backend error - also try localStorage fallback before giving up
+      const localResult = tryLocalLogin(email, pass);
+      if(localResult){
+        showSuc('Signed in! Redirecting...');
+        setTimeout(()=>window.location.href='dashboard.html',600);
+        return;
+      }
+      showErr(d.error||'Invalid email or password.');
+      btn.disabled=false;btn.textContent='Sign In →';
+      return;
+    }
+    // Backend login success
     localStorage.setItem('sb_token',d.token);
     localStorage.setItem('sb_name',d.user.name);
     localStorage.setItem('sb_user',JSON.stringify(d.user));
-    window.location.href='dashboard.html';
+    localStorage.setItem('sb_email',email);
+    // Update local account with fresh token
+    updateLocalAccount(email, pass, d.token, d.user.name, d.user);
+    showSuc('Signed in! Redirecting...');
+    setTimeout(()=>window.location.href='dashboard.html',600);
   }catch(e){
-    // Fallback to localStorage auth if server not running
-    const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
-    const u=accounts.find(a=>a.email.toLowerCase()===email.toLowerCase()&&a.password===pass);
-    if(u){localStorage.setItem('sb_name',u.name);window.location.href='dashboard.html';}
-    else{showErr('❌ Invalid email or password.');btn.disabled=false;btn.textContent='Sign In →';}
+    // Server not running - use localStorage
+    const localResult = tryLocalLogin(email, pass);
+    if(localResult){
+      showSuc('Signed in (offline mode)! Redirecting...');
+      setTimeout(()=>window.location.href='dashboard.html',600);
+    } else {
+      showErr('❌ Invalid email or password. If you just signed up, please try again.');
+      btn.disabled=false;btn.textContent='Sign In →';
+    }
   }
 }
-function showErr(msg){const e=document.getElementById('errBox');e.textContent=msg;e.style.display='block';}
+
+function tryLocalLogin(email, pass){
+  const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
+  const u=accounts.find(a=>a.email===email && a.password===pass);
+  if(u){
+    localStorage.setItem('sb_token', u.token || 'local_'+btoa(email)+'_'+Date.now());
+    localStorage.setItem('sb_name', u.name);
+    localStorage.setItem('sb_email', email);
+    const user={id:u.id||'local',name:u.name,email,role:'user'};
+    localStorage.setItem('sb_user', JSON.stringify(user));
+    return true;
+  }
+  return false;
+}
+
+function updateLocalAccount(email, pass, token, name, user){
+  const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
+  const idx=accounts.findIndex(a=>a.email===email);
+  const acct={name,email,password:pass,token,id:user.id||'local'};
+  if(idx>=0) accounts[idx]=acct; else accounts.push(acct);
+  localStorage.setItem('sb_accounts',JSON.stringify(accounts));
+}
+
+function showErr(msg){document.getElementById('errBox').textContent=msg;document.getElementById('errBox').style.display='block';}
+function showSuc(msg){document.getElementById('sucBox').textContent=msg;document.getElementById('sucBox').style.display='block';}
+function hideMsg(){document.getElementById('errBox').style.display='none';document.getElementById('sucBox').style.display='none';}
 document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
+
+// If already logged in, redirect
+if(localStorage.getItem('sb_token') && localStorage.getItem('sb_name')){
+  window.location.href='dashboard.html';
+}
 </script>
 </body>
 </html>

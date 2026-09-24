@@ -22,6 +22,7 @@ h1{font-size:24px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:
 .btn:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 6px 20px rgba(37,99,235,0.3);}
 .btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
 .err{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:14px;display:none;text-align:center;}
+.suc{background:#f0fdf4;border:1px solid #bbf7d0;color:#15803d;padding:12px 14px;border-radius:10px;font-size:13px;margin-bottom:14px;display:none;text-align:center;}
 .links{text-align:center;margin-top:18px;font-size:13.5px;color:#64748b;}
 .links a{color:#2563eb;font-weight:600;text-decoration:none;}
 </style>
@@ -32,12 +33,13 @@ h1{font-size:24px;font-weight:800;color:#1e293b;text-align:center;margin-bottom:
   <h1>Create your account</h1>
   <p class="sub">Join thousands of students on their career journey</p>
   <div class="err" id="errBox"></div>
+  <div class="suc" id="sucBox"></div>
   <div class="row2">
-    <div class="ig"><label>First Name</label><input type="text" id="fname" placeholder="Deeksha"></div>
+    <div class="ig"><label>First Name *</label><input type="text" id="fname" placeholder="Deeksha" required></div>
     <div class="ig"><label>Last Name</label><input type="text" id="lname" placeholder="Sharma"></div>
   </div>
-  <div class="ig"><label>Email Address</label><input type="email" id="email" placeholder="you@email.com"></div>
-  <div class="ig"><label>Password <span style="color:#94a3b8;font-weight:400;">(min 6 chars)</span></label><input type="password" id="password" placeholder="Create a strong password"></div>
+  <div class="ig"><label>Email Address *</label><input type="email" id="email" placeholder="you@email.com" required></div>
+  <div class="ig"><label>Password * <span style="color:#94a3b8;font-weight:400;">(min 6 chars)</span></label><input type="password" id="password" placeholder="Create a strong password" required></div>
   <button class="btn" id="signupBtn" onclick="doSignup()">Create Account & Continue →</button>
   <div class="links">Already have an account? <a href="login.html">Sign in →</a></div>
 </div>
@@ -46,35 +48,57 @@ const API='/api';
 async function doSignup(){
   const fname=document.getElementById('fname').value.trim();
   const lname=document.getElementById('lname').value.trim();
-  const email=document.getElementById('email').value.trim();
+  const email=document.getElementById('email').value.trim().toLowerCase();
   const pass=document.getElementById('password').value;
   const btn=document.getElementById('signupBtn');
-  const err=document.getElementById('errBox');
-  err.style.display='none';
+  hideMsg();
   if(!fname||!email||!pass){showErr('Please fill in all required fields.');return;}
   if(!email.includes('@')||!email.includes('.')){showErr('Please enter a valid email address.');return;}
   if(pass.length<6){showErr('Password must be at least 6 characters.');return;}
   const fullName=fname+(lname?' '+lname:'');
   btn.disabled=true;btn.textContent='Creating account...';
+
+  // Try backend first
   try{
     const r=await fetch(API+'/auth/signup',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({name:fullName,email,password:pass})});
     const d=await r.json();
     if(!r.ok){showErr(d.error||'Signup failed. Please try again.');btn.disabled=false;btn.textContent='Create Account & Continue →';return;}
-    localStorage.setItem('sb_token',d.token);
-    localStorage.setItem('sb_name',fullName);
-    localStorage.setItem('sb_user',JSON.stringify(d.user));
-    window.location.href='onboard.html';
+    // Success - save everything
+    saveSession(d.token, fullName, d.user, email, pass);
+    showSuc('Account created! Redirecting...');
+    setTimeout(()=>window.location.href='onboard.html',800);
   }catch(e){
-    // Fallback localStorage
+    // Server not running - localStorage fallback
     const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
-    if(accounts.find(a=>a.email.toLowerCase()===email.toLowerCase())){showErr('Email already registered. Please login.');btn.disabled=false;btn.textContent='Create Account & Continue →';return;}
-    accounts.push({name:fullName,email,password:pass});
+    const exists=accounts.find(a=>a.email===email);
+    if(exists){showErr('Email already registered. Please login instead.');btn.disabled=false;btn.textContent='Create Account & Continue →';return;}
+    // Save new account
+    const fakeUser={id:'local_'+Date.now(),name:fullName,email,role:'user'};
+    const fakeToken='local_'+btoa(email+':'+pass)+'_'+Date.now();
+    accounts.push({name:fullName,email,password:pass,token:fakeToken,id:fakeUser.id});
     localStorage.setItem('sb_accounts',JSON.stringify(accounts));
-    localStorage.setItem('sb_name',fullName);
-    window.location.href='onboard.html';
+    saveSession(fakeToken, fullName, fakeUser, email, pass);
+    showSuc('Account created (offline mode)! Redirecting...');
+    setTimeout(()=>window.location.href='onboard.html',800);
   }
 }
-function showErr(msg){const e=document.getElementById('errBox');e.textContent=msg;e.style.display='block';}
+
+function saveSession(token, name, user, email, pass){
+  localStorage.setItem('sb_token', token);
+  localStorage.setItem('sb_name', name);
+  localStorage.setItem('sb_user', JSON.stringify(user));
+  localStorage.setItem('sb_email', email);
+  // Always save to accounts for fallback login
+  const accounts=JSON.parse(localStorage.getItem('sb_accounts')||'[]');
+  const idx=accounts.findIndex(a=>a.email===email);
+  const acct={name,email,password:pass,token,id:user.id||'local'};
+  if(idx>=0) accounts[idx]=acct; else accounts.push(acct);
+  localStorage.setItem('sb_accounts',JSON.stringify(accounts));
+}
+
+function showErr(msg){document.getElementById('errBox').textContent=msg;document.getElementById('errBox').style.display='block';}
+function showSuc(msg){document.getElementById('sucBox').textContent=msg;document.getElementById('sucBox').style.display='block';}
+function hideMsg(){document.getElementById('errBox').style.display='none';document.getElementById('sucBox').style.display='none';}
 document.addEventListener('keydown',e=>{if(e.key==='Enter')doSignup();});
 </script>
 </body>

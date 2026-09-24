@@ -1,770 +1,904 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>My Roadmap — SkillBridge AI</title>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
-<style>
-*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
-:root{--primary:#635bff;--secondary:#a855f7;--gradient:linear-gradient(135deg,#635bff,#a855f7);}
-body{font-family:'Inter',Arial,sans-serif;background:#f4f6fb;display:flex;min-height:100vh;color:#0f1117;}
-.sidebar{width:260px;min-height:100vh;position:fixed;left:0;top:0;bottom:0;background:linear-gradient(180deg,#0a0c1a,#111323);display:flex;flex-direction:column;padding:26px 16px 22px;z-index:100;border-right:1px solid rgba(255,255,255,0.04);}
-.sb-logo{font-size:19px;font-weight:900;color:white;display:flex;align-items:center;gap:6px;padding:0 8px;margin-bottom:24px;}
-.sb-logo span{background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.sb-user{display:flex;align-items:center;gap:11px;background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.06);border-radius:14px;padding:13px;margin-bottom:26px;}
-.sb-av{width:40px;height:40px;border-radius:11px;background:var(--gradient);color:white;font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.sb-info h4{color:white;font-size:13.5px;font-weight:700;margin-bottom:2px;}
-.sb-info span{color:rgba(255,255,255,0.3);font-size:11px;}
-.nav-label{color:rgba(255,255,255,0.18);font-size:9.5px;font-weight:800;letter-spacing:1.5px;padding:0 10px;margin:14px 0 5px;}
-.sb-nav{flex:1;display:flex;flex-direction:column;}
-.nav-i{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;text-decoration:none;color:rgba(255,255,255,0.38);font-size:13px;font-weight:500;transition:all 0.2s;margin-bottom:2px;}
-.nav-i:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.8);}
-.nav-i.active{background:linear-gradient(135deg,rgba(99,91,255,0.22),rgba(168,85,247,0.12));color:white;font-weight:700;border:1px solid rgba(99,91,255,0.22);}
-.ni-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0;}
-.sb-back{display:block;text-align:center;color:rgba(255,255,255,0.22);font-size:12.5px;text-decoration:none;padding:12px;border-radius:11px;border:1px solid rgba(255,255,255,0.06);transition:all 0.2s;margin-top:14px;}
-.sb-back:hover{background:rgba(255,255,255,0.05);color:rgba(255,255,255,0.6);}
-.main{margin-left:260px;flex:1;padding:30px 34px;}
-.topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
-.tb-left h1{font-size:23px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px;}
-.tb-left p{color:#667085;font-size:13px;}
-.tb-right{display:flex;align-items:center;gap:12px;}
-.ai-pill{display:flex;align-items:center;gap:7px;background:rgba(18,183,106,0.1);border:1px solid rgba(18,183,106,0.2);color:#12b76a;padding:8px 15px;border-radius:30px;font-size:12.5px;font-weight:700;}
-.ap-dot{width:7px;height:7px;background:#12b76a;border-radius:50%;animation:pd 1.5s infinite;}
-@keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
-.tb-av{width:40px;height:40px;border-radius:10px;background:var(--gradient);color:white;font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SkillBridge AI - Roadmap</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-color: #f8fafc;
+      --sidebar-bg: #ffffff;
+      --sidebar-border: #e2e8f0;
+      --card-bg: #ffffff;
+      --primary: #2563eb;
+      --primary-hover: #1d4ed8;
+      --text-main: #1e293b;
+      --text-muted: #64748b;
+      --font-family: 'Inter', sans-serif;
+      --radius: 12px;
+      
+      --phase1: #3b82f6;
+      --phase2: #10b981;
+      --phase3: #f59e0b;
+      --phase4: #8b5cf6;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-family);
+      display: flex;
+      min-height: 100vh;
+    }
 
-/* HERO */
-.road-hero{background:linear-gradient(135deg,#0f0f2e,#1a0a2e);border-radius:22px;padding:32px;margin-bottom:24px;position:relative;overflow:hidden;}
-.road-hero::before{content:'';position:absolute;top:-100px;right:-80px;width:300px;height:300px;background:radial-gradient(circle,rgba(99,91,255,0.28),transparent);border-radius:50%;}
-.road-hero::after{content:'';position:absolute;bottom:-80px;left:200px;width:220px;height:220px;background:radial-gradient(circle,rgba(168,85,247,0.18),transparent);border-radius:50%;}
-.rh-inner{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:center;gap:24px;flex-wrap:wrap;}
-.rh-left h2{font-size:24px;font-weight:900;color:white;letter-spacing:-0.5px;margin-bottom:8px;}
-.rh-left p{color:rgba(255,255,255,0.5);font-size:14px;line-height:1.6;}
-.rh-stats{display:flex;gap:28px;flex-shrink:0;}
-.rh-stat{text-align:center;}
-.rh-stat b{display:block;font-size:28px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;letter-spacing:-1px;}
-.rh-stat span{color:rgba(255,255,255,0.4);font-size:11.5px;}
+    /* SIDEBAR */
+    .sidebar {
+      width: 256px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--sidebar-border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .sb-logo {
+      padding: 24px;
+      font-size: 1.25rem;
+      font-weight: 700;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+    .sb-user {
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      border-bottom: 1px solid var(--sidebar-border);
+    }
+    .sb-av {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--primary);
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 1.2rem;
+    }
+    .sb-info h4 {
+      font-size: 0.9rem;
+      margin-bottom: 2px;
+    }
+    .sb-info span {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+    .sb-nav {
+      flex: 1;
+      padding: 24px 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .nav-label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--text-muted);
+      margin-top: 16px;
+      margin-bottom: 4px;
+      padding-left: 12px;
+    }
+    .nav-i {
+      text-decoration: none;
+      color: var(--text-main);
+      padding: 10px 12px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      font-weight: 500;
+      transition: all 0.2s;
+    }
+    .nav-i:hover {
+      background: var(--bg-color);
+      color: var(--primary);
+    }
+    .nav-i.active {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+    .sidebar button {
+      margin: 24px;
+      padding: 10px;
+      background: #fee2e2;
+      color: #ef4444;
+      border: none;
+      border-radius: 8px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .sidebar button:hover {
+      background: #fca5a5;
+    }
 
-/* OVERALL PROGRESS */
-.overall-progress{background:white;border-radius:18px;padding:22px;border:1px solid #eef0f6;margin-bottom:22px;}
-.op-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.op-title{font-size:14px;font-weight:800;}
-.op-pct{font-size:18px;font-weight:900;background:var(--gradient);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;}
-.op-bar{height:12px;background:#f0f0f7;border-radius:10px;overflow:hidden;}
-.op-fill{height:100%;background:var(--gradient);border-radius:10px;width:0%;transition:width 1.5s cubic-bezier(.4,0,.2,1);}
-.op-note{font-size:12.5px;color:#667085;margin-top:10px;}
+    /* MAIN CONTENT */
+    .main-content {
+      margin-left: 256px;
+      flex: 1;
+      padding: 40px;
+      max-width: 1200px;
+    }
 
-/* GOAL TABS */
-.goal-tabs{display:flex;gap:10px;margin-bottom:24px;flex-wrap:wrap;}
-.gt{padding:10px 20px;border-radius:30px;border:1.5px solid #eef0f6;background:white;color:#667085;font-size:13px;font-weight:700;cursor:pointer;transition:all 0.22s;font-family:'Inter',Arial,sans-serif;display:flex;align-items:center;gap:7px;}
-.gt:hover{border-color:rgba(99,91,255,0.4);color:var(--primary);}
-.gt.active{background:var(--gradient);border-color:transparent;color:white;box-shadow:0 4px 15px rgba(99,91,255,0.3);}
+    /* HERO CARD */
+    .hero-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 32px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 32px;
+    }
+    .hero-title {
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .hero-subtitle {
+      color: var(--text-muted);
+      margin-bottom: 24px;
+    }
+    .progress-container {
+      margin-bottom: 16px;
+    }
+    .progress-bar-bg {
+      width: 100%;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    .progress-bar-fill {
+      height: 100%;
+      background: var(--primary);
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+    .stats-row {
+      display: flex;
+      gap: 24px;
+      font-size: 0.9rem;
+    }
+    .stat-item {
+      display: flex;
+      flex-direction: column;
+    }
+    .stat-value {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    .stat-label {
+      color: var(--text-muted);
+      font-size: 0.8rem;
+    }
 
-/* LAYOUT */
-.rm-layout{display:grid;grid-template-columns:1fr 300px;gap:22px;align-items:start;}
+    .layout-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 32px;
+    }
 
-/* WEEK CARDS */
-.timeline{display:flex;flex-direction:column;gap:24px;}
-.phase-header{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
-.phase-num{width:36px;height:36px;border-radius:10px;background:var(--gradient);color:white;font-size:14px;font-weight:900;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-.phase-title-text{font-size:16px;font-weight:900;}
-.phase-sub{font-size:12.5px;color:#667085;font-weight:500;}
-.phase-badge{margin-left:auto;font-size:11px;font-weight:800;padding:4px 12px;border-radius:20px;}
-.badge-foundation{background:#eeedff;color:var(--primary);}
-.badge-intermediate{background:#fff4e5;color:#f79009;}
-.badge-advanced{background:#e6f9f0;color:#12b76a;}
-.badge-mastery{background:#fce8e8;color:#f04438;}
+    /* PHASES */
+    .phase-card {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 16px;
+      overflow: hidden;
+      border: 1px solid var(--sidebar-border);
+    }
+    .phase-header {
+      padding: 20px;
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #fff;
+      transition: background 0.2s;
+    }
+    .phase-header:hover {
+      background: #f8fafc;
+    }
+    .phase-info {
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    .phase-title {
+      font-weight: 600;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .phase-meta {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+    }
+    .phase-progress {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .small-progress-bg {
+      width: 80px;
+      height: 6px;
+      background: #e2e8f0;
+      border-radius: 3px;
+    }
+    .small-progress-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.3s ease;
+    }
+    .phase-content {
+      display: none;
+      padding: 0 20px 20px;
+      border-top: 1px solid var(--sidebar-border);
+      background: #fafafa;
+    }
+    .phase-content.active {
+      display: block;
+    }
+    
+    .topic-item {
+      display: flex;
+      align-items: flex-start;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--sidebar-border);
+      gap: 12px;
+    }
+    .topic-item:last-child {
+      border-bottom: none;
+    }
+    .topic-checkbox {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: var(--primary);
+    }
+    .topic-details {
+      flex: 1;
+    }
+    .topic-name {
+      font-weight: 500;
+      margin-bottom: 4px;
+    }
+    .topic-resources {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+    
+    .locked-phase {
+      opacity: 0.6;
+      pointer-events: none;
+    }
+    .locked-phase .phase-title::after {
+      content: '🔒';
+      font-size: 0.9rem;
+    }
 
-.week-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
-.week-card{background:white;border-radius:18px;padding:20px;border:1px solid #eef0f6;transition:all 0.3s;position:relative;overflow:hidden;cursor:pointer;}
-.week-card::before{content:'';position:absolute;top:0;left:0;bottom:0;width:4px;border-radius:10px 0 0 10px;}
-.week-card.phase-1::before{background:var(--gradient);}
-.week-card.phase-2::before{background:linear-gradient(180deg,#f79009,#fb923c);}
-.week-card.phase-3::before{background:linear-gradient(180deg,#12b76a,#34d399);}
-.week-card.phase-4::before{background:linear-gradient(180deg,#f04438,#f97316);}
-.week-card:hover{transform:translateY(-4px);box-shadow:0 14px 36px rgba(99,91,255,0.1);}
-.week-card.done{background:linear-gradient(135deg,rgba(18,183,106,0.05),rgba(52,211,153,0.02));border-color:rgba(18,183,106,0.2);}
-.week-card.done::before{background:linear-gradient(180deg,#12b76a,#34d399);}
-.wc-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
-.week-label{font-size:10.5px;font-weight:800;color:#667085;letter-spacing:0.5px;}
-.wc-check{width:26px;height:26px;border-radius:8px;border:2px solid #eef0f6;background:white;display:flex;align-items:center;justify-content:center;font-size:13px;cursor:pointer;transition:all 0.2s;flex-shrink:0;}
-.wc-check:hover{border-color:#12b76a;background:#e6f9f0;}
-.wc-check.checked{background:#12b76a;border-color:#12b76a;color:white;}
-.week-title{font-size:15px;font-weight:800;margin-bottom:6px;color:#0f1117;}
-.week-desc{font-size:12.5px;color:#667085;line-height:1.6;margin-bottom:12px;}
-.week-tasks{display:flex;flex-direction:column;gap:5px;}
-.wt{display:flex;align-items:center;gap:7px;font-size:12px;color:#555;}
-.wt::before{content:'•';color:var(--primary);font-size:16px;line-height:1;}
-.week-time{display:flex;align-items:center;gap:5px;font-size:11.5px;color:#aaa;margin-top:10px;font-weight:600;}
+    /* RIGHT COLUMN */
+    .section-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    /* TIPS */
+    .tips-container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+      margin-bottom: 32px;
+    }
+    .tip-card {
+      background: #eff6ff;
+      border-radius: 8px;
+      padding: 12px;
+      margin-bottom: 12px;
+      font-size: 0.9rem;
+      line-height: 1.4;
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+    }
+    .tip-card:last-child {
+      margin-bottom: 0;
+    }
+    
+    /* RESOURCES */
+    .resources-container {
+      background: var(--card-bg);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    }
+    .tabs {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--sidebar-border);
+      padding-bottom: 8px;
+      overflow-x: auto;
+    }
+    .tab-btn {
+      padding: 6px 12px;
+      border: none;
+      background: none;
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      cursor: pointer;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    .tab-btn.active {
+      background: #eff6ff;
+      color: var(--primary);
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    .resource-link {
+      display: block;
+      padding: 10px;
+      color: var(--text-main);
+      text-decoration: none;
+      font-size: 0.9rem;
+      border: 1px solid var(--sidebar-border);
+      border-radius: 6px;
+      margin-bottom: 8px;
+      transition: all 0.2s;
+    }
+    .resource-link:hover {
+      border-color: var(--primary);
+      color: var(--primary);
+      background: #f8fafc;
+    }
 
-/* RIGHT PANEL */
-.right-panel{position:sticky;top:20px;display:flex;flex-direction:column;gap:18px;}
-.rp-card{background:white;border-radius:18px;padding:22px;border:1px solid #eef0f6;}
-.rp-title{font-size:14px;font-weight:800;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
-.tip-item{display:flex;gap:10px;padding:12px;background:#f8f9ff;border-radius:12px;margin-bottom:8px;font-size:12.5px;color:#555;line-height:1.6;align-items:flex-start;}
-.tip-item span{font-size:18px;flex-shrink:0;}
-.resource-item{display:flex;align-items:center;gap:10px;padding:10px 12px;background:#f4f6fb;border-radius:11px;margin-bottom:8px;text-decoration:none;color:#0f1117;transition:background 0.2s;cursor:pointer;}
-.resource-item:hover{background:#eeedff;}
-.ri-icon{font-size:18px;flex-shrink:0;}
-.ri-info h4{font-size:13px;font-weight:700;margin-bottom:1px;}
-.ri-info span{font-size:11.5px;color:#667085;}
-.ri-arrow{margin-left:auto;color:var(--primary);font-weight:900;}
-
-/* PROGRESS PHASES */
-.phase-progress{display:flex;flex-direction:column;gap:10px;}
-.pp-item{display:flex;align-items:center;gap:12px;}
-.pp-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
-.pp-label{font-size:12.5px;font-weight:600;flex:1;}
-.pp-bar-wrap{flex:2;height:7px;background:#f0f0f7;border-radius:10px;overflow:hidden;}
-.pp-bar{height:100%;border-radius:10px;transition:width 1.5s ease;}
-.pp-pct{font-size:12px;font-weight:800;width:32px;text-align:right;}
-
-/* EMPTY STATE */
-.no-profile{text-align:center;padding:60px 30px;background:white;border-radius:20px;border:1px solid #eef0f6;}
-.np-icon{font-size:60px;margin-bottom:16px;}
-.np-btn{display:inline-block;margin-top:16px;padding:13px 28px;background:var(--gradient);color:white;border-radius:12px;font-size:14px;font-weight:800;text-decoration:none;box-shadow:0 6px 20px rgba(99,91,255,0.3);}
-
-/* SEARCH CHIPS */
-.srm-chip{padding:6px 14px;border-radius:20px;background:#f4f6fb;border:1.5px solid #eef0f6;color:#555;font-size:12px;font-weight:700;cursor:pointer;transition:all 0.2s;display:inline-block;}
-.srm-chip:hover{background:#eeedff;border-color:#635bff;color:#635bff;}
-/* SEARCH RESULT */
-.srm-phase{background:#f8f9ff;border-radius:14px;padding:18px 20px;margin-bottom:14px;border:1px solid rgba(99,91,255,0.1);}
-.srm-phase-title{font-size:14px;font-weight:900;margin-bottom:12px;display:flex;align-items:center;gap:8px;}
-.srm-task{display:flex;align-items:flex-start;gap:8px;font-size:13px;color:#444;margin-bottom:7px;line-height:1.5;}
-.srm-task::before{content:'✓';color:#635bff;font-weight:900;flex-shrink:0;margin-top:1px;}
-.srm-res{display:flex;align-items:center;gap:10px;padding:9px 12px;background:white;border-radius:10px;margin-bottom:7px;border:1px solid #eef0f6;cursor:pointer;transition:background 0.2s;font-size:12.5px;}
-.srm-res:hover{background:#eeedff;}
-.srm-res-icon{font-size:17px;flex-shrink:0;}
-.srm-res b{font-weight:700;color:#0f1117;}
-.srm-res span{color:#667085;margin-left:4px;}
-.srm-res-tag{margin-left:auto;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:20px;background:#eeedff;color:#635bff;white-space:nowrap;}
-
-/* === LIGHT SIDEBAR OVERRIDE === */
-.sidebar{width:256px!important;min-height:100vh;position:fixed!important;left:0;top:0;background:#ffffff!important;border-right:1px solid #e2e8f0!important;display:flex;flex-direction:column;padding:24px 16px;z-index:100;}
-.sb-logo{font-size:18px!important;font-weight:900!important;color:#1e293b!important;}
-.sb-logo span{background:none!important;-webkit-text-fill-color:#2563eb!important;color:#2563eb!important;}
-.sb-user{background:#eff6ff!important;border:1px solid #bfdbfe!important;border-radius:12px!important;}
-.sb-av{background:#2563eb!important;}
-.sb-info h4{color:#1e293b!important;}
-.sb-info span{color:#64748b!important;}
-.nav-label{color:#94a3b8!important;}
-.nav-i{color:#64748b!important;}
-.nav-i:hover,.nav-i.active{background:#eff6ff!important;color:#2563eb!important;}
-.sb-back,.sb-logout{background:white!important;color:#64748b!important;border:1px solid #e2e8f0!important;}
-.sb-back:hover,.sb-logout:hover{background:#fef2f2!important;color:#dc2626!important;}
-body{background:#f8fafc!important;}
-.main{margin-left:256px!important;}
-
-</style>
-
+    /* Onboarding State */
+    .onboard-msg {
+      background: #fef2f2;
+      color: #b91c1c;
+      padding: 16px;
+      border-radius: 8px;
+      margin-bottom: 24px;
+      text-align: center;
+    }
+    .onboard-msg a {
+      color: #b91c1c;
+      font-weight: bold;
+    }
+    
+  </style>
 </head>
 <body>
-<aside class="sidebar">
-  <div class="sb-logo">⚡ Skill<span>Bridge AI</span></div>
-  <div class="sb-user">
-    <div class="sb-av" id="sbAv">S</div>
-    <div class="sb-info"><h4 id="sbName">Student</h4><span>SkillBridge AI</span></div>
-  </div>
-  <nav class="sb-nav"><p class="nav-label">MAIN</p><a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a><a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a><a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a><a href="roadmap.html" class="nav-i active"><span class="ni-icon">🗺️</span> Roadmap</a><p class="nav-label">LEARNING</p><a href="gate.html" class="nav-i"><span class="ni-icon">🎓</span> GATE Prep</a><a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> AI Questions</a><a href="interview.html" class="nav-i"><span class="ni-icon">🎤</span> Interview Prep</a><a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a><p class="nav-label">TOOLS</p><a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a><a href="projects.html" class="nav-i"><span class="ni-icon">💻</span> Projects</a></nav>
-  <button class="sb-logout" onclick="localStorage.clear();window.location.href='login.html'">🚪 Logout</button>
-</aside>
 
-<main class="main">
-  <header class="topbar">
-    <div class="tb-left"><h1>🗺️ My Roadmap</h1><p id="roadmapSub">Your personalized week-by-week learning plan</p></div>
-    <div class="tb-right"><div class="ai-pill"><span class="ap-dot"></span> AI Active</div><div class="tb-av" id="tbAv">S</div></div>
-  </header>
-
-  <!-- HERO -->
-  <div class="road-hero">
-    <div class="rh-inner">
-      <div class="rh-left">
-        <h2 id="heroTitle">🚀 Your Personalized Roadmap</h2>
-        <p id="heroDesc">AI-generated plan based on your goal, year, and skill level.</p>
-      </div>
-      <div class="rh-stats">
-        <div class="rh-stat"><b id="statWeeks">12</b><span>Total Weeks</span></div>
-        <div class="rh-stat"><b id="statDone">0</b><span>Completed</span></div>
-        <div class="rh-stat"><b id="statPct">0%</b><span>Progress</span></div>
+  <!-- SIDEBAR -->
+  <aside class="sidebar">
+    <div class="sb-logo">⚡ Skill<span style="color:#2563eb">Bridge AI</span></div>
+    <div class="sb-user">
+      <div class="sb-av" id="sbAv">S</div>
+      <div class="sb-info">
+        <h4 id="sbName">Student</h4>
+        <span>SkillBridge AI</span>
       </div>
     </div>
-  </div>
+    <nav class="sb-nav">
+      <p class="nav-label">MAIN</p>
+      <a href="dashboard.html" class="nav-i">📊 Dashboard</a>
+      <a href="my-progress.html" class="nav-i">📈 My Progress</a>
+      <a href="profile.html" class="nav-i">👤 Profile</a>
+      <a href="roadmap.html" class="nav-i active">🗺️ Roadmap</a>
+      
+      <p class="nav-label">LEARNING</p>
+      <a href="gate.html" class="nav-i">🎓 GATE Prep</a>
+      <a href="ai-questions.html" class="nav-i">🤖 AI Questions</a>
+      <a href="interview.html" class="nav-i">🎤 Interview Prep</a>
+      <a href="quiz.html" class="nav-i">🧠 Skill Quiz</a>
+      
+      <p class="nav-label">TOOLS</p>
+      <a href="resume.html" class="nav-i">📄 Resume</a>
+      <a href="projects.html" class="nav-i">💻 Projects</a>
+    </nav>
+    <button onclick="localStorage.clear();window.location.href='login.html'">🚪 Logout</button>
+  </aside>
 
-  <!-- OVERALL PROGRESS -->
-  <div class="overall-progress">
-    <div class="op-top">
-      <div class="op-title">📊 Overall Progress</div>
-      <div class="op-pct" id="overallPct">0% complete</div>
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <div id="onboardAlert" class="onboard-msg" style="display:none;">
+      You haven't set up your profile yet. <a href="onboard.html">Click here to setup your profile</a> to get a personalized roadmap.
     </div>
-    <div class="op-bar"><div class="op-fill" id="overallFill"></div></div>
-    <div class="op-note" id="overallNote">Mark weeks as complete as you finish them to track your progress!</div>
-  </div>
 
-  <!-- 🔍 AI SEARCH ROADMAP -->
-  <div id="searchSection" style="background:white;border-radius:20px;border:1px solid #eef0f6;padding:26px 28px;margin-bottom:22px;">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:10px;">
-      <div>
-        <h3 style="font-size:16px;font-weight:900;margin-bottom:4px;">🔍 Search Any Skill Roadmap</h3>
-        <p style="color:#667085;font-size:13px;">Type any topic and get an instant AI-generated roadmap with resources!</p>
-      </div>
-      <span style="background:linear-gradient(135deg,rgba(99,91,255,0.1),rgba(168,85,247,0.08));color:#635bff;font-size:11px;font-weight:800;padding:5px 14px;border-radius:20px;border:1px solid rgba(99,91,255,0.2);">✨ AI Powered</span>
-    </div>
-    <div style="display:flex;gap:12px;margin-bottom:16px;flex-wrap:wrap;">
-      <input id="searchInput" type="text" placeholder="e.g. React, Machine Learning, Node.js, DevOps, Flutter..." 
-        style="flex:1;min-width:260px;padding:13px 18px;border:1.5px solid #eef0f6;border-radius:12px;font-size:14px;font-family:'Inter',Arial,sans-serif;outline:none;color:#0f1117;transition:border 0.2s;"
-        onfocus="this.style.borderColor='#635bff'" onblur="this.style.borderColor='#eef0f6'"
-        onkeydown="if(event.key==='Enter')searchRoadmap()">
-      <button onclick="searchRoadmap()" style="padding:13px 28px;background:linear-gradient(135deg,#635bff,#a855f7);color:white;border:none;border-radius:12px;font-size:14px;font-weight:800;cursor:pointer;font-family:'Inter',Arial,sans-serif;white-space:nowrap;box-shadow:0 4px 15px rgba(99,91,255,0.3);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)'" onmouseout="this.style.transform='none'">
-        🚀 Generate Roadmap
-      </button>
-    </div>
-    <!-- Quick suggestions -->
-    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:4px;">
-      <span style="color:#667085;font-size:12px;font-weight:600;line-height:28px;">Quick search:</span>
-      <span class="srm-chip" onclick="quickSearch('Python')">🐍 Python</span>
-      <span class="srm-chip" onclick="quickSearch('React')">⚛️ React</span>
-      <span class="srm-chip" onclick="quickSearch('Machine Learning')">🤖 ML</span>
-      <span class="srm-chip" onclick="quickSearch('DSA')">🌳 DSA</span>
-      <span class="srm-chip" onclick="quickSearch('DevOps')">⚙️ DevOps</span>
-      <span class="srm-chip" onclick="quickSearch('Flutter')">📱 Flutter</span>
-      <span class="srm-chip" onclick="quickSearch('Data Science')">📊 Data Science</span>
-      <span class="srm-chip" onclick="quickSearch('Node.js')">🟢 Node.js</span>
-    </div>
-    <!-- Result area -->
-    <div id="searchResult" style="display:none;margin-top:20px;border-top:1px solid #f0f0f7;padding-top:20px;"></div>
-  </div>
-
-  <!-- GOAL TABS -->
-  <div class="goal-tabs" id="goalTabs"></div>
-
-  <!-- MAIN LAYOUT -->
-  <div class="rm-layout">
-    <div>
-      <div class="timeline" id="timeline"></div>
-    </div>
-    <div class="right-panel">
-      <!-- PHASE BREAKDOWN -->
-      <div class="rp-card">
-        <div class="rp-title">📈 Phase Breakdown</div>
-        <div class="phase-progress" id="phaseBreakdown"></div>
-      </div>
-      <!-- AI TIPS -->
-      <div class="rp-card">
-        <div class="rp-title">💡 AI Tips for You</div>
-        <div id="aiTips"></div>
-      </div>
-      <!-- RESOURCES -->
-      <div class="rp-card">
-        <div class="rp-title">📚 Free Resources</div>
-        <div id="resources"></div>
-      </div>
-    </div>
-  </div>
-</main>
-
-<script>
-// ===================== DATA =====================
-const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
-let doneWeeks = new Set(JSON.parse(localStorage.getItem('sb_roadmap_done') || '[]'));
-
-const name   = profile.name || 'Student';
-const goal   = profile.goal || 'placement';
-const year   = profile.year || '3rd';
-const course = (profile.course || 'btech').toUpperCase();
-const status = profile.status || 'student';
-
-// Sidebar
-document.getElementById('sbAv').textContent = name.charAt(0).toUpperCase();
-document.getElementById('tbAv').textContent = name.charAt(0).toUpperCase();
-document.getElementById('sbName').textContent = name;
-document.getElementById('sbCourse').textContent = course + ' • ' + year + ' Year';
-
-// ===================== ROADMAP DATA =====================
-const ROADMAPS = {
-  placement: {
-    title: '🚀 Campus Placement Roadmap',
-    desc: '12-week plan to crack campus placements in top product & service companies',
-    phases: [
-      {
-        name: 'Foundation', badge: 'badge-foundation', cls: 'phase-1', icon: '📚',
-        weeks: [
-          { id:'p1w1', week:'Week 1', title:'Programming Fundamentals', desc:'Revise core concepts of your primary language (Python/Java/C++).', tasks:['Variables, loops, functions revision','Practice 10 basic problems on HackerRank','Learn time complexity basics (O notation)'], time:'6–8 hrs' },
-          { id:'p1w2', week:'Week 2', title:'Arrays & Strings', desc:'Most asked topic in all placements. Master these first!', tasks:['Two pointer technique','Sliding window problems','String manipulation — anagram, palindrome, substring'], time:'8–10 hrs' },
-          { id:'p1w3', week:'Week 3', title:'Sorting & Searching', desc:'Binary search is a must-know. All sorting algorithms basics.', tasks:['Merge sort, Quick sort implementation','Binary search variations','Search in rotated array, Peak element'], time:'7–9 hrs' },
-          { id:'p1w4', week:'Week 4', title:'LinkedList & Stack/Queue', desc:'Frequently tested in TCS, Infosys, Wipro and top product companies.', tasks:['Reverse linked list, Detect cycle','Stack using arrays & linked list','Queue, Circular Queue implementation'], time:'8–10 hrs' },
-        ]
-      },
-      {
-        name: 'Core DSA', badge: 'badge-intermediate', cls: 'phase-2', icon: '🧠',
-        weeks: [
-          { id:'p2w1', week:'Week 5', title:'Trees & Binary Trees', desc:'Trees appear in 70% of DSA interview rounds. Crucial topic.', tasks:['Inorder, Preorder, Postorder traversals','Height, diameter, LCA of tree','Level order traversal (BFS on tree)'], time:'10–12 hrs' },
-          { id:'p2w2', week:'Week 6', title:'Hashing & Hash Maps', desc:'O(1) lookup questions are everywhere — HashMap is your best friend.', tasks:['Count frequency of elements','Two sum, Group anagrams using HashMap','LRU Cache concept'], time:'8–10 hrs' },
-          { id:'p2w3', week:'Week 7', title:'Recursion & Backtracking', desc:'The backbone of many complex problems. Practice daily.', tasks:['Factorial, Fibonacci with memoization','N-Queens, Sudoku Solver','Subsets, Permutations generation'], time:'10–12 hrs' },
-          { id:'p2w4', week:'Week 8', title:'Graphs Basics', desc:'BFS, DFS are interview essentials. Graphs appear in top companies.', tasks:['BFS and DFS implementation','Detect cycle in directed/undirected graph','Shortest path — Dijkstra basics'], time:'10–12 hrs' },
-        ]
-      },
-      {
-        name: 'CS Fundamentals', badge: 'badge-advanced', cls: 'phase-3', icon: '💻',
-        weeks: [
-          { id:'p3w1', week:'Week 9', title:'DBMS & SQL', desc:'SQL is tested in almost every company — TCS, Infosys, Capgemini, Wipro.', tasks:['SELECT, WHERE, JOIN, GROUP BY, HAVING','Normalization 1NF, 2NF, 3NF','Transactions, ACID properties, Indexing'], time:'8–10 hrs' },
-          { id:'p3w2', week:'Week 10', title:'OS & Computer Networks', desc:'Conceptual questions in interview — very common in service companies.', tasks:['Process vs Thread, Deadlock, Scheduling','TCP/IP, OSI model, DNS, HTTP/HTTPS','Memory management, Virtual memory'], time:'8–10 hrs' },
-          { id:'p3w3', week:'Week 11', title:'Resume + LinkedIn Polish', desc:'Your resume is your first impression. Make it count!', tasks:['Update resume with all projects & skills','Get LinkedIn to 500+ connections','Write a strong LinkedIn summary'], time:'5–6 hrs' },
-          { id:'p3w4', week:'Week 12', title:'Mock Interviews + Applications', desc:'Final sprint — simulate real placement conditions daily.', tasks:['Take 2 mock interviews (use Interview Prep page)','Apply to 10+ companies per day','Prepare HR answers: strengths, weakness, STAR method'], time:'12–15 hrs' },
-        ]
-      }
-    ],
-    tips: ['Solve minimum 100 LeetCode problems before placements','Focus on Easy+Medium — avoid Hard until basics are strong','Practice typing code fast — placement drives have time limits'],
-    resources: [
-      {icon:'🌐', name:'LeetCode', sub:'DSA Practice Platform', url:'https://leetcode.com'},
-      {icon:'📺', name:'Striver DSA Sheet', sub:'Love Babbar / TakeUForward', url:'https://takeuforward.org/strivers-a2z-dsa-course/'},
-      {icon:'📚', name:'GeeksForGeeks', sub:'CS Concepts + MCQs', url:'https://geeksforgeeks.org'},
-      {icon:'🎯', name:'IndiaBIX', sub:'Aptitude for placements', url:'https://indiabix.com'},
-    ]
-  },
-  interview: {
-    title: '🎤 Interview Preparation Roadmap',
-    desc: '10-week intensive plan to crack technical + HR interviews at product companies',
-    phases: [
-      {
-        name: 'Technical Foundation', badge: 'badge-foundation', cls: 'phase-1', icon: '🔧',
-        weeks: [
-          { id:'i1w1', week:'Week 1', title:'DSA Patterns — Arrays', desc:'Learn the 5 must-know patterns: Two pointers, Sliding window, Prefix sum, Kadane\'s, Boyer-Moore.', tasks:['Two pointer: 3Sum, Container with most water','Sliding window: Max sum subarray, Longest substring','Prefix sum: Subarray sum equals k'], time:'10–12 hrs' },
-          { id:'i1w2', week:'Week 2', title:'DSA Patterns — Trees & Graphs', desc:'Trees and graphs dominate technical rounds at FAANG and product startups.', tasks:['Tree: DFS patterns, path problems','Graph: BFS shortest path, number of islands','Dynamic programming on trees'], time:'12–14 hrs' },
-          { id:'i1w3', week:'Week 3', title:'Dynamic Programming', desc:'DP is the most feared topic — but only 10 patterns cover 90% of DP questions.', tasks:['0/1 Knapsack, Coin Change, LCS','DP on strings: Edit Distance, Longest Palindromic Subsequence','DP on grids: Unique paths, Minimum path sum'], time:'14–16 hrs' },
-        ]
-      },
-      {
-        name: 'System Design Basics', badge: 'badge-intermediate', cls: 'phase-2', icon: '🏗️',
-        weeks: [
-          { id:'i2w1', week:'Week 4', title:'Low Level Design (OOP)', desc:'OOP + design patterns are essential for most SDE roles.', tasks:['SOLID principles with examples','Design patterns: Singleton, Factory, Observer','Code a Parking Lot / Library Management System'], time:'10–12 hrs' },
-          { id:'i2w2', week:'Week 5', title:'High Level Design Intro', desc:'For SDE-2 and senior roles. Good to know basics even for freshers.', tasks:['Load balancer, CDN, Caching (Redis)','Database: SQL vs NoSQL, sharding, replication','Design URL Shortener, Rate Limiter'], time:'8–10 hrs' },
-        ]
-      },
-      {
-        name: 'Interview Simulation', badge: 'badge-advanced', cls: 'phase-3', icon: '🎯',
-        weeks: [
-          { id:'i3w1', week:'Week 6', title:'Mock Technical Interview #1', desc:'Simulate real interview: 45 mins, 2 DSA problems, explain thinking aloud.', tasks:['Use Interview Prep page — 2 Hard DSA questions','Time yourself strictly — 20 mins per problem','Record yourself explaining solution'], time:'8–10 hrs' },
-          { id:'i3w2', week:'Week 7', title:'SQL & Database Round', desc:'Many companies include a SQL round. Be very thorough.', tasks:['Write complex JOIN queries with GROUP BY','Window functions: ROW_NUMBER, RANK, LEAD/LAG','Explain query execution plan'], time:'8–10 hrs' },
-          { id:'i3w3', week:'Week 8', title:'HR & Behavioral Round', desc:'HR round is eliminatory at many companies. Prepare specific stories.', tasks:['Prepare 5 STAR stories (Situation-Task-Action-Result)','Tell me about yourself — practice 2-min version','Research company culture, mission, recent news'], time:'5–7 hrs' },
-          { id:'i3w4', week:'Week 9', title:'Company Research + Applications', desc:'Targeted applications beat spray-and-pray. Quality over quantity.', tasks:['Target 5 specific companies — research each deeply','Customize resume for each application','Apply via referrals wherever possible'], time:'5–6 hrs' },
-          { id:'i3w5', week:'Week 10', title:'Final Mock + Offer Negotiation', desc:'Last push — treat every mock as real. Learn to negotiate offers.', tasks:['Full mock interview — technical + HR combined','Learn salary negotiation basics','Set up post-offer goals and 30-60-90 day plan'], time:'10–12 hrs' },
-        ]
-      }
-    ],
-    tips: ['Practice explaining your solution before coding it — interviewers care about clarity','Never go silent — think out loud even when stuck','Research behavioral questions for each specific company'],
-    resources: [
-      {icon:'🌐', name:'NeetCode.io', sub:'Best DSA roadmap by patterns', url:'https://neetcode.io'},
-      {icon:'📺', name:'System Design Primer', sub:'GitHub — HLD/LLD', url:'https://github.com/donnemartin/system-design-primer'},
-      {icon:'📚', name:'Blind 75', sub:'Must-solve 75 LeetCode problems', url:'https://leetcode.com/discuss/general-discussion/460599'},
-      {icon:'🎯', name:'InterviewBit', sub:'Company-wise interview prep', url:'https://interviewbit.com'},
-    ]
-  },
-  skills: {
-    title: '🧠 Skill Learning Roadmap',
-    desc: '12-week project-based learning plan to master in-demand tech skills',
-    phases: [
-      {
-        name: 'Pick Your Stack', badge: 'badge-foundation', cls: 'phase-1', icon: '🎯',
-        weeks: [
-          { id:'s1w1', week:'Week 1', title:'Choose Your Domain', desc:'Pick one domain to focus on. Full Stack Web, Data Science, or App Dev.', tasks:['Research job market demand for each domain','Watch 2 intro videos on your chosen path','Set up development environment (VSCode, Git, etc.)'], time:'4–5 hrs' },
-          { id:'s1w2', week:'Week 2', title:'Git & GitHub Basics', desc:'Every developer needs Git. Version control is non-negotiable.', tasks:['Learn: init, add, commit, push, pull, merge','Create GitHub profile and first repository','Push a simple project to GitHub'], time:'5–6 hrs' },
-          { id:'s1w3', week:'Week 3', title:'Core Language Mastery', desc:'Python or JavaScript — pick one and go deep. Avoid switching.', tasks:['Complete 30 practice problems on chosen language','Build a simple CLI app (calculator, to-do list)','Understand functions, OOP, error handling'], time:'8–10 hrs' },
-        ]
-      },
-      {
-        name: 'Build & Create', badge: 'badge-intermediate', cls: 'phase-2', icon: '🏗️',
-        weeks: [
-          { id:'s2w1', week:'Week 4', title:'Project #1 — Beginner', desc:'Apply what you learned. Build a real (even if simple) project.', tasks:['Pick a project from Projects page (Beginner level)','Complete all 5 steps of the project','Push to GitHub with proper README'], time:'10–12 hrs' },
-          { id:'s2w2', week:'Week 5', title:'Frameworks & Libraries', desc:'No one codes from scratch. Learn the popular frameworks in your domain.', tasks:['Web: Learn React basics (components, state, props)','Data: Learn Pandas + Matplotlib basics','App: Learn Flutter or React Native basics'], time:'10–12 hrs' },
-          { id:'s2w3', week:'Week 6', title:'Databases & APIs', desc:'Connect your app to real data. REST APIs and databases are essential.', tasks:['Build a simple REST API (Flask or Node.js)','Connect to SQLite or MongoDB','CRUD operations: Create, Read, Update, Delete'], time:'10–12 hrs' },
-          { id:'s2w4', week:'Week 7', title:'Project #2 — Intermediate', desc:'Step up the complexity. Combine frontend + backend + database.', tasks:['Pick an Intermediate project from Projects page','Integrate API calls and database','Deploy on Netlify/Vercel (frontend) + Railway (backend)'], time:'15–18 hrs' },
-        ]
-      },
-      {
-        name: 'Portfolio & Job Ready', badge: 'badge-advanced', cls: 'phase-3', icon: '🚀',
-        weeks: [
-          { id:'s3w1', week:'Week 8', title:'Polish Your Projects', desc:'Good code is not enough — presentation matters. Add README, live demo, screenshots.', tasks:['Write detailed README for all GitHub projects','Record a 2-min demo video for each project','Add projects to your resume with GitHub + live links'], time:'6–8 hrs' },
-          { id:'s3w2', week:'Week 9', title:'LinkedIn & Online Presence', desc:'Recruiters find you online. Make your profile findable and impressive.', tasks:['Complete LinkedIn profile 100% (skills, experience, education)','Write a compelling LinkedIn About section','Post about your projects and learning journey'], time:'4–5 hrs' },
-          { id:'s3w3', week:'Week 10', title:'Open Source Contribution', desc:'Contributing to open source shows real-world collaboration skills.', tasks:['Find a beginner-friendly open source project on GitHub','Fix a bug or improve documentation','Submit your first Pull Request'], time:'8–10 hrs' },
-          { id:'s3w4', week:'Week 11', title:'Advanced Project (Capstone)', desc:'Build something that demonstrates your full stack — this is your showstopper project.', tasks:['Plan and build a full-stack capstone project','Use AI/ML features if relevant to your domain','Deploy live and share on LinkedIn'], time:'20–25 hrs' },
-          { id:'s3w5', week:'Week 12', title:'Job Applications & Networking', desc:'Start applying! Skills without applications don\'t get jobs.', tasks:['Apply to 5 jobs per day with customized resumes','Message 10 people in target companies for referrals','Attend 2 tech meetups or webinars this week'], time:'5–7 hrs' },
-        ]
-      }
-    ],
-    tips: ['Ship early, iterate fast — don\'t wait for perfect code','Document everything on GitHub — future you will thank you','Consistency of 2 hours daily beats 14-hour weekend sessions'],
-    resources: [
-      {icon:'📺', name:'freeCodeCamp', sub:'Free web dev + data science', url:'https://freecodecamp.org'},
-      {icon:'🌐', name:'The Odin Project', sub:'Full Stack web curriculum', url:'https://theodinproject.com'},
-      {icon:'📚', name:'Kaggle', sub:'Data Science + ML practice', url:'https://kaggle.com'},
-      {icon:'🎯', name:'Roadmap.sh', sub:'Developer roadmaps by role', url:'https://roadmap.sh'},
-    ]
-  },
-  switch: {
-    title: '🔄 Career Switch Roadmap',
-    desc: '10-week focused plan to transition into a new tech domain successfully',
-    phases: [
-      {
-        name: 'Clarity & Research', badge: 'badge-foundation', cls: 'phase-1', icon: '🔍',
-        weeks: [
-          { id:'sw1w1', week:'Week 1', title:'Define Your Target Role', desc:'Be specific — "Software Engineer" is too broad. Pick a niche and a target company type.', tasks:['Research 5 job descriptions for your target role','List the exact skills mentioned most frequently','Identify your skill gaps using Job Description analysis'], time:'4–6 hrs' },
-          { id:'sw1w2', week:'Week 2', title:'Leverage Transferable Skills', desc:'You\'re not starting from zero. Map your existing skills to new role requirements.', tasks:['List all current skills — technical and soft','Map each skill to new role requirements','Identify 3 stories from experience that fit new domain'], time:'4–5 hrs' },
-        ]
-      },
-      {
-        name: 'Skill Building', badge: 'badge-intermediate', cls: 'phase-2', icon: '🏗️',
-        weeks: [
-          { id:'sw2w1', week:'Week 3', title:'Learn Priority Skill #1', desc:'Focus on the single most in-demand skill for your target role. Go deep.', tasks:['Enroll in a focused Udemy/Coursera course','Complete 50% of course this week','Build a mini project applying the skill'], time:'12–15 hrs' },
-          { id:'sw2w2', week:'Week 4', title:'Build a Portfolio Project', desc:'Hiring managers trust portfolio over certificates. Build something real.', tasks:['Start a project relevant to your target domain','Push daily commits to GitHub','Document your learning process in a blog/LinkedIn post'], time:'15–18 hrs' },
-          { id:'sw2w3', week:'Week 5', title:'Learn Priority Skill #2', desc:'Add a complementary skill to your stack. Make yourself a complete package.', tasks:['Identify the second most required skill from job descriptions','Complete an online course or YouTube playlist','Integrate it into your portfolio project'], time:'10–12 hrs' },
-          { id:'sw2w4', week:'Week 6', title:'Complete Portfolio Project', desc:'Finish, polish, and deploy your project. This is your proof of work.', tasks:['Complete all features of the project','Write a detailed README with screenshots','Deploy live — Netlify, Vercel, or Heroku'], time:'12–15 hrs' },
-        ]
-      },
-      {
-        name: 'Job Hunt', badge: 'badge-advanced', cls: 'phase-3', icon: '🎯',
-        weeks: [
-          { id:'sw3w1', week:'Week 7', title:'Resume Rewrite for New Role', desc:'Your old resume won\'t work. Rewrite it for your new target role completely.', tasks:['Use Resume Builder — choose a modern template','Highlight transferable skills + new portfolio projects','Tailor for 3 specific companies you want to join'], time:'5–7 hrs' },
-          { id:'sw3w2', week:'Week 8', title:'LinkedIn & Network', desc:'80% of jobs are filled through network. Activate your connections.', tasks:['Update LinkedIn with new skills, projects, target role','Connect with 20 people in target industry this week','Send personalized messages — not copy-paste templates'], time:'4–5 hrs' },
-          { id:'sw3w3', week:'Week 9', title:'Apply & Interview Prep', desc:'Quality applications beat volume. Apply smart, not just hard.', tasks:['Apply to 5 companies per day with customized resumes','Practice interview questions for new domain daily','Prepare your "Why are you switching?" answer clearly'], time:'6–8 hrs' },
-          { id:'sw3w4', week:'Week 10', title:'Interviews + Offer Handling', desc:'Final phase — keep applying, keep learning, keep improving.', tasks:['Take all interviews — even safety companies first for practice','Follow up within 24 hours after every interview','Negotiate salary confidently — research market rates'], time:'varies' },
-        ]
-      }
-    ],
-    tips: ['Tell a clear story: "I was X, I learned Y, now I can do Z"','Don\'t hide your switch — frame it as a strength (diverse perspective)','Target companies known for hiring career switchers (startups, growth-stage)'],
-    resources: [
-      {icon:'📚', name:'Coursera', sub:'Professional certificates', url:'https://coursera.org'},
-      {icon:'📺', name:'LinkedIn Learning', sub:'Skill-specific courses', url:'https://linkedin.com/learning'},
-      {icon:'🌐', name:'Glassdoor', sub:'Company reviews & salaries', url:'https://glassdoor.co.in'},
-      {icon:'🎯', name:'AngelList', sub:'Startup job listings', url:'https://wellfound.com'},
-    ]
-  }
-};
-
-// ===================== RENDER =====================
-let currentGoal = goal;
-
-function renderRoadmap(g) {
-  currentGoal = g;
-  const rm = ROADMAPS[g] || ROADMAPS.placement;
-
-  // Hero
-  document.getElementById('heroTitle').textContent = rm.title;
-  document.getElementById('heroDesc').textContent = rm.desc;
-  document.querySelector('.tb-left p').textContent = 'AI-personalized for ' + name + ' • ' + course + ' ' + year + ' Year';
-
-  // Count weeks
-  const allWeeks = rm.phases.flatMap(p => p.weeks);
-  const totalWeeks = allWeeks.length;
-  const doneCount = allWeeks.filter(w => doneWeeks.has(w.id)).length;
-  const pct = totalWeeks > 0 ? Math.round((doneCount / totalWeeks) * 100) : 0;
-
-  document.getElementById('statWeeks').textContent = totalWeeks;
-  document.getElementById('statDone').textContent = doneCount;
-  document.getElementById('statPct').textContent = pct + '%';
-  document.getElementById('overallPct').textContent = pct + '% complete';
-  setTimeout(() => { document.getElementById('overallFill').style.width = pct + '%'; }, 200);
-
-  const notes = [
-    'Mark weeks as ✅ when you finish them to track your real progress!',
-    '🌱 Just started! Keep going — every week completed counts.',
-    '💪 Good progress! You\'re building momentum!',
-    '🔥 Over halfway! You\'re crushing it!',
-    '🏆 Almost done! Final push — you\'ve got this!',
-    '🎉 Roadmap Complete! Time to apply and interview!'
-  ];
-  const noteIdx = pct === 0 ? 0 : pct < 20 ? 1 : pct < 50 ? 2 : pct < 75 ? 3 : pct < 100 ? 4 : 5;
-  document.getElementById('overallNote').textContent = notes[noteIdx];
-
-  // Timeline
-  const tl = document.getElementById('timeline');
-  tl.innerHTML = rm.phases.map((phase, pi) => `
-    <div>
-      <div class="phase-header">
-        <div class="phase-num">${phase.icon}</div>
-        <div>
-          <div class="phase-title-text">Phase ${pi + 1}: ${phase.name}</div>
-          <div class="phase-sub">${phase.weeks.length} weeks • ${phase.weeks.reduce((a,w)=>a+(w.tasks?.length||0),0)} tasks</div>
+    <div class="hero-card">
+      <h1 class="hero-title">Your Roadmap: <span id="heroGoalName">Loading...</span></h1>
+      <p class="hero-subtitle">Based on your goal and skill level, here is your customized learning path.</p>
+      
+      <div class="progress-container">
+        <div style="display:flex; justify-content:space-between; margin-bottom:8px; font-size:0.9rem; font-weight:500;">
+          <span>Overall Progress</span>
+          <span id="overallPercent">0%</span>
         </div>
-        <span class="phase-badge ${phase.badge}">Phase ${pi + 1}</span>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" id="overallBar"></div>
+        </div>
       </div>
-      <div class="week-grid">
-        ${phase.weeks.map(w => {
-          const done = doneWeeks.has(w.id);
-          return `<div class="week-card ${phase.cls} ${done ? 'done' : ''}" id="card-${w.id}">
-            <div class="wc-top">
-              <span class="week-label">${w.week}</span>
-              <div class="wc-check ${done ? 'checked' : ''}" onclick="toggleWeek('${w.id}', this)" title="${done ? 'Mark as incomplete' : 'Mark as complete'}">${done ? '✅' : ''}</div>
-            </div>
-            <div class="week-title">${w.title}</div>
-            <div class="week-desc">${w.desc}</div>
-            <div class="week-tasks">
-              ${(w.tasks || []).map(t => `<div class="wt">${t}</div>`).join('')}
-            </div>
-            <div class="week-time">⏱️ ${w.time} this week</div>
-          </div>`;
-        }).join('')}
+      
+      <div class="stats-row">
+        <div class="stat-item">
+          <span class="stat-value" id="statTotal">0</span>
+          <span class="stat-label">Total Topics</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="statDone">0</span>
+          <span class="stat-label">Completed</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-value" id="statRemain">0</span>
+          <span class="stat-label">Remaining</span>
+        </div>
       </div>
-    </div>`).join('');
+    </div>
 
-  // Phase breakdown
-  const phaseColors = ['#635bff','#f79009','#12b76a','#f04438'];
-  document.getElementById('phaseBreakdown').innerHTML = rm.phases.map((ph, pi) => {
-    const phWeeks = ph.weeks;
-    const phDone = phWeeks.filter(w => doneWeeks.has(w.id)).length;
-    const phPct = phWeeks.length > 0 ? Math.round((phDone / phWeeks.length) * 100) : 0;
-    return `<div class="pp-item">
-      <div class="pp-dot" style="background:${phaseColors[pi]};"></div>
-      <div class="pp-label">Phase ${pi+1}: ${ph.name}</div>
-      <div class="pp-bar-wrap"><div class="pp-bar" style="width:${phPct}%;background:${phaseColors[pi]};"></div></div>
-      <div class="pp-pct" style="color:${phaseColors[pi]};">${phPct}%</div>
-    </div>`;
-  }).join('');
+    <div class="layout-grid">
+      <!-- LEFT: PHASES -->
+      <div class="phases-container">
+        <h2 class="section-title">🗺️ Learning Phases</h2>
+        <div id="phasesList"></div>
+      </div>
 
-  // AI Tips
-  document.getElementById('aiTips').innerHTML = rm.tips.map(t => `
-    <div class="tip-item"><span>💡</span>${t}</div>`).join('');
+      <!-- RIGHT: TIPS & RESOURCES -->
+      <div class="sidebar-right">
+        <!-- TIPS -->
+        <div class="tips-container">
+          <h2 class="section-title">💡 AI Tips for You</h2>
+          <div id="tipsList"></div>
+        </div>
 
-  // Resources
-  document.getElementById('resources').innerHTML = rm.resources.map(r => `
-    <div class="resource-item" onclick="window.open('${r.url}','_blank')">
-      <span class="ri-icon">${r.icon}</span>
-      <div class="ri-info"><h4>${r.name}</h4><span>${r.sub}</span></div>
-      <span class="ri-arrow">→</span>
-    </div>`).join('');
-}
+        <!-- RESOURCES -->
+        <div class="resources-container">
+          <h2 class="section-title">🎁 Free Resources</h2>
+          
+          <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('yt')">📹 YouTube</button>
+            <button class="tab-btn" onclick="switchTab('web')">📚 Websites</button>
+            <button class="tab-btn" onclick="switchTab('apps')">📱 Apps</button>
+            <button class="tab-btn" onclick="switchTab('books')">📖 Books</button>
+          </div>
 
-function toggleWeek(id, btn) {
-  if (doneWeeks.has(id)) {
-    doneWeeks.delete(id);
-    btn.classList.remove('checked');
-    btn.textContent = '';
-    document.getElementById('card-' + id).classList.remove('done');
-  } else {
-    doneWeeks.add(id);
-    btn.classList.add('checked');
-    btn.textContent = '✅';
-    document.getElementById('card-' + id).classList.add('done');
-  }
-  localStorage.setItem('sb_roadmap_done', JSON.stringify([...doneWeeks]));
-  // Re-render stats only
-  const rm = ROADMAPS[currentGoal];
-  const allWeeks = rm.phases.flatMap(p => p.weeks);
-  const totalWeeks = allWeeks.length;
-  const doneCount = allWeeks.filter(w => doneWeeks.has(w.id)).length;
-  const pct = totalWeeks > 0 ? Math.round((doneCount / totalWeeks) * 100) : 0;
-  document.getElementById('statDone').textContent = doneCount;
-  document.getElementById('statPct').textContent = pct + '%';
-  document.getElementById('overallPct').textContent = pct + '% complete';
-  document.getElementById('overallFill').style.width = pct + '%';
-  // Update phase breakdown
-  const phaseColors = ['#635bff','#f79009','#12b76a','#f04438'];
-  document.getElementById('phaseBreakdown').innerHTML = rm.phases.map((ph, pi) => {
-    const phWeeks = ph.weeks;
-    const phDone = phWeeks.filter(w => doneWeeks.has(w.id)).length;
-    const phPct = phWeeks.length > 0 ? Math.round((phDone / phWeeks.length) * 100) : 0;
-    return `<div class="pp-item">
-      <div class="pp-dot" style="background:${phaseColors[pi]};"></div>
-      <div class="pp-label">Phase ${pi+1}: ${ph.name}</div>
-      <div class="pp-bar-wrap"><div class="pp-bar" style="width:${phPct}%;background:${phaseColors[pi]};"></div></div>
-      <div class="pp-pct" style="color:${phaseColors[pi]};">${phPct}%</div>
-    </div>`;
-  }).join('');
-}
+          <div id="tab-yt" class="tab-content active">
+            <a href="https://www.youtube.com/@GateSmashers" target="_blank" class="resource-link">Gate Smashers</a>
+            <a href="https://www.youtube.com/@abdul_bari" target="_blank" class="resource-link">Abdul Bari</a>
+            <a href="https://www.youtube.com/@nesoacademy" target="_blank" class="resource-link">Neso Academy</a>
+            <a href="https://www.youtube.com/@CodeWithHarry" target="_blank" class="resource-link">CodeWithHarry</a>
+            <a href="https://www.youtube.com/@NeetCode" target="_blank" class="resource-link">NeetCode</a>
+            <a href="https://www.youtube.com/@takeUforward" target="_blank" class="resource-link">Striver (takeUforward)</a>
+          </div>
 
-// Goal tabs
-const goalDefs = [
-  {key:'placement', label:'🚀 Placement'},
-  {key:'interview', label:'🎤 Interview'},
-  {key:'skills',    label:'🧠 Skill Learning'},
-  {key:'switch',    label:'🔄 Career Switch'},
-];
-document.getElementById('goalTabs').innerHTML = goalDefs.map(gd => `
-  <button class="gt ${gd.key === goal ? 'active' : ''}" id="tab-${gd.key}" onclick="switchTab('${gd.key}')">${gd.label}</button>`).join('');
+          <div id="tab-web" class="tab-content">
+            <a href="https://www.geeksforgeeks.org" target="_blank" class="resource-link">GeeksforGeeks</a>
+            <a href="https://www.leetcode.com" target="_blank" class="resource-link">LeetCode</a>
+            <a href="https://neetcode.io" target="_blank" class="resource-link">NeetCode.io</a>
+            <a href="https://www.interviewbit.com" target="_blank" class="resource-link">InterviewBit</a>
+            <a href="https://nptel.ac.in" target="_blank" class="resource-link">NPTEL</a>
+            <a href="https://cp-algorithms.com" target="_blank" class="resource-link">CP-Algorithms</a>
+          </div>
 
-function switchTab(g) {
-  document.querySelectorAll('.gt').forEach(b => b.classList.remove('active'));
-  document.getElementById('tab-' + g).classList.add('active');
-  renderRoadmap(g);
-}
+          <div id="tab-apps" class="tab-content">
+            <a href="https://leetcode.com" target="_blank" class="resource-link">LeetCode App</a>
+            <a href="https://geeksforgeeks.org" target="_blank" class="resource-link">GeeksforGeeks App</a>
+            <a href="https://khanacademy.org" target="_blank" class="resource-link">Khan Academy</a>
+            <a href="https://brilliant.org" target="_blank" class="resource-link">Brilliant.org</a>
+          </div>
 
-// Initial render
-renderRoadmap(goal);
+          <div id="tab-books" class="tab-content">
+            <a href="#" class="resource-link" id="book1">Made Easy books (GATE)</a>
+            <a href="#" class="resource-link" id="book2">Cracking the Coding Interview</a>
+            <a href="#" class="resource-link" id="book3">CLRS (Algorithms)</a>
+          </div>
 
-// ===================== SEARCH ROADMAP =====================
-const SKILL_ROADMAPS = {
-  'python':{icon:'🐍',title:'Python Complete Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Foundations (Weeks 1–3)',color:'#635bff',tasks:['Python syntax: variables, data types, input/output','Control flow: if-else, loops (for, while)','Functions, parameters, return, lambda','Lists, Tuples, Sets, Dictionaries','String methods and formatting','File handling: read, write, append']},
-    {emoji:'🚀',title:'Phase 2 — Intermediate (Weeks 4–7)',color:'#f79009',tasks:['OOP: classes, inheritance, polymorphism','Exception handling: try-except-finally','Modules, packages, pip install','List comprehensions, generators, decorators','Working with JSON, CSV data files','Virtual environments & project structure']},
-    {emoji:'⭐',title:'Phase 3 — Advanced & Projects (Weeks 8–12)',color:'#12b76a',tasks:['Web Scraping with BeautifulSoup & requests','Build REST API with Flask or FastAPI','Data analysis with Pandas & NumPy','Machine Learning intro with Scikit-learn','Build 2 complete Python projects','Deploy a Python app on Railway/Heroku']}
-  ],resources:[
-    {icon:'📺',name:'Python for Everybody',src:'Coursera (Free Audit)',tag:'Best for Beginners',url:'https://coursera.org'},
-    {icon:'📚',name:'Automate the Boring Stuff',src:'automatetheboringstuff.com',tag:'Free Book',url:'https://automatetheboringstuff.com'},
-    {icon:'🎯',name:'LeetCode Python',src:'leetcode.com',tag:'Practice',url:'https://leetcode.com'},
-    {icon:'🌐',name:'Real Python Tutorials',src:'realpython.com',tag:'Deep Dives',url:'https://realpython.com'},
-  ]},
-  'react':{icon:'⚛️',title:'React.js Complete Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — JS Prerequisites (Weeks 1–2)',color:'#635bff',tasks:['JavaScript ES6+: arrow functions, destructuring, spread','Promises, async/await, Fetch API','DOM manipulation basics','npm basics for tooling']},
-    {emoji:'🚀',title:'Phase 2 — React Core (Weeks 3–6)',color:'#f79009',tasks:['JSX syntax, Components (functional & class)','Props, State, useState, useEffect hooks','React Router for navigation','Conditional rendering, lists & keys','Forms and user input handling','useContext for shared state']},
-    {emoji:'⭐',title:'Phase 3 — Advanced React (Weeks 7–12)',color:'#12b76a',tasks:['Redux Toolkit for global state','Custom Hooks, useMemo, useCallback','API calls with Axios or React Query','Authentication (JWT) in React apps','Testing with React Testing Library','Deploy React app on Vercel/Netlify']}
-  ],resources:[
-    {icon:'🌐',name:'React Official Docs',src:'react.dev',tag:'Must Read',url:'https://react.dev'},
-    {icon:'📺',name:'Full Stack Open',src:'fullstackopen.com',tag:'Free & Complete',url:'https://fullstackopen.com'},
-    {icon:'📺',name:'The Net Ninja React',src:'YouTube',tag:'Free',url:'https://youtube.com'},
-    {icon:'📚',name:'Road to React',src:'roadtoreact.com',tag:'Best Book',url:'https://roadtoreact.com'},
-  ]},
-  'machine learning':{icon:'🤖',title:'Machine Learning Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Math & Python (Weeks 1–3)',color:'#635bff',tasks:['Python: NumPy, Pandas, Matplotlib','Linear Algebra: matrices, vectors','Statistics: mean, variance, probability distributions','Calculus basics: derivatives, gradients']},
-    {emoji:'🚀',title:'Phase 2 — Core ML (Weeks 4–8)',color:'#f79009',tasks:['Supervised Learning: Linear/Logistic Regression','Decision Trees, Random Forest, SVM','Unsupervised: K-Means, PCA dimensionality reduction','Model evaluation: accuracy, precision, recall, F1, AUC','Cross-validation, hyperparameter tuning','Full Scikit-learn workflow: preprocess-train-evaluate']},
-    {emoji:'⭐',title:'Phase 3 — Deep Learning & Deploy (Weeks 9–14)',color:'#12b76a',tasks:['Neural Networks: perceptron, activation, backprop','TensorFlow or PyTorch fundamentals','CNN for image classification tasks','Build an end-to-end ML project on real dataset','Deploy model using Flask or Streamlit','Kaggle competition for portfolio']}
-  ],resources:[
-    {icon:'📺',name:'ML by Andrew Ng',src:'Coursera',tag:'Gold Standard',url:'https://coursera.org/learn/machine-learning'},
-    {icon:'🌐',name:'Kaggle Learn',src:'kaggle.com',tag:'Free + Datasets',url:'https://kaggle.com/learn'},
-    {icon:'📚',name:'Hands-on ML — Géron',src:'oreilly.com',tag:'Best Book',url:'https://oreilly.com'},
-    {icon:'📺',name:'Fast.ai Practical DL',src:'fast.ai',tag:'Free',url:'https://fast.ai'},
-  ]},
-  'dsa':{icon:'🌳',title:'DSA Complete Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Basics (Weeks 1–4)',color:'#635bff',tasks:['Big O notation: Time & Space complexity','Arrays: traversal, binary search, sorting','Strings: manipulation, pattern matching','Recursion: basics, factorial, fibonacci','Linked Lists: singly, doubly operations','Stacks & Queues: implementation & use cases']},
-    {emoji:'🚀',title:'Phase 2 — Intermediate (Weeks 5–9)',color:'#f79009',tasks:['Trees: Binary Tree, BST, traversals (in/pre/post/level)','Heaps / Priority Queue','Hashing: HashMap, HashSet, collision','Graphs: BFS, DFS, cycle detection','Greedy: activity selection, Huffman coding','Divide & Conquer: Merge Sort, Quick Sort']},
-    {emoji:'⭐',title:'Phase 3 — Advanced (Weeks 10–14)',color:'#12b76a',tasks:['Dynamic Programming: Knapsack, LCS, LIS, Coin Change','Graph: Dijkstra, Bellman-Ford, MST (Kruskal/Prim)','Tries, Segment Trees','Sliding Window + Two Pointer mastery','Backtracking: N-Queens, Sudoku, Permutations','Solve 150+ LeetCode problems']}
-  ],resources:[
-    {icon:'🎯',name:'LeetCode',src:'leetcode.com',tag:'Daily Practice',url:'https://leetcode.com'},
-    {icon:'📺',name:'Striver A2Z DSA',src:'takeuforward.org',tag:'Free',url:'https://takeuforward.org'},
-    {icon:'📺',name:'Love Babbar 450 DSA',src:'YouTube',tag:'Free',url:'https://youtube.com'},
-    {icon:'🌐',name:'GeeksForGeeks DSA',src:'geeksforgeeks.org',tag:'Reference',url:'https://geeksforgeeks.org'},
-  ]},
-  'devops':{icon:'⚙️',title:'DevOps Engineering Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Foundations (Weeks 1–4)',color:'#635bff',tasks:['Linux: commands, file system, permissions, scripting','Git & GitHub: version control, branching strategy','Networking: TCP/IP, DNS, HTTP/HTTPS, firewalls','Cloud intro: AWS/GCP/Azure free tier account setup']},
-    {emoji:'🚀',title:'Phase 2 — Core DevOps (Weeks 5–9)',color:'#f79009',tasks:['Docker: containers, images, Dockerfile, compose','Kubernetes: pods, services, deployments, ingress','CI/CD pipelines with GitHub Actions or Jenkins','Infrastructure as Code with Terraform','Monitoring: Prometheus + Grafana setup','AWS services: EC2, S3, RDS, Lambda, EKS']},
-    {emoji:'⭐',title:'Phase 3 — Advanced (Weeks 10–14)',color:'#12b76a',tasks:['Helm charts for Kubernetes app packaging','GitOps with ArgoCD','Service Mesh: Istio basics','DevSecOps: SAST, DAST, secret management','Multi-region HA deployment architecture','Get AWS Solutions Architect Associate certified']}
-  ],resources:[
-    {icon:'📺',name:'TechWorld with Nana',src:'YouTube',tag:'Best Free',url:'https://youtube.com/@TechWorldwithNana'},
-    {icon:'🌐',name:'Roadmap.sh DevOps',src:'roadmap.sh',tag:'Visual Guide',url:'https://roadmap.sh/devops'},
-    {icon:'🎯',name:'KodeKloud',src:'kodekloud.com',tag:'Hands-on Labs',url:'https://kodekloud.com'},
-    {icon:'📺',name:'AWS Free Tier + Tutorials',src:'aws.amazon.com',tag:'Free Practice',url:'https://aws.amazon.com/free'},
-  ]},
-  'flutter':{icon:'📱',title:'Flutter Mobile Dev Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Dart & Basics (Weeks 1–3)',color:'#635bff',tasks:['Dart: variables, functions, classes, async/await','Flutter setup: Android Studio / VSCode','Widgets: Stateless, Stateful, Material Design','Layouts: Column, Row, Stack, Container','Navigation: Navigator, named routes']},
-    {emoji:'🚀',title:'Phase 2 — Intermediate Flutter (Weeks 4–8)',color:'#f79009',tasks:['State management: Provider or Riverpod','REST API integration: http package, JSON parsing','Local storage: SharedPreferences, SQLite','Firebase: Auth, Firestore, Cloud Storage','Forms, validation, user input handling','ListView.builder, GridView for dynamic lists']},
-    {emoji:'⭐',title:'Phase 3 — Advanced & Publish (Weeks 9–12)',color:'#12b76a',tasks:['Bloc pattern for scalable apps','Custom animations: Hero, AnimatedContainer','Unit testing & widget testing in Flutter','Build & publish app on Google Play Store','Performance: const widgets, lazy loading','Deep links, push notifications integration']}
-  ],resources:[
-    {icon:'🌐',name:'Flutter Docs',src:'flutter.dev',tag:'Official',url:'https://flutter.dev/docs'},
-    {icon:'📺',name:'Flutter Bootcamp — Udemy',src:'udemy.com',tag:'Bestseller',url:'https://udemy.com'},
-    {icon:'📺',name:'The Net Ninja Flutter',src:'YouTube',tag:'Free',url:'https://youtube.com'},
-    {icon:'🎯',name:'DartPad Online',src:'dartpad.dev',tag:'Practice',url:'https://dartpad.dev'},
-  ]},
-  'node.js':{icon:'🟢',title:'Node.js Backend Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — JS & Node Basics (Weeks 1–3)',color:'#635bff',tasks:['JavaScript: async/await, Promises, closures, ES6+','Node.js: event loop, require/import, built-in modules','npm: package.json, scripts, popular packages','Express.js: routing, middleware, request/response']},
-    {emoji:'🚀',title:'Phase 2 — Backend Dev (Weeks 4–8)',color:'#f79009',tasks:['REST API design: CRUD, HTTP methods, status codes','MongoDB + Mongoose (NoSQL database)','PostgreSQL + Sequelize (SQL database)','JWT authentication, bcrypt password hashing','Input validation with Joi / express-validator','Environment variables and config management']},
-    {emoji:'⭐',title:'Phase 3 — Advanced (Weeks 9–12)',color:'#12b76a',tasks:['WebSockets with Socket.io for real-time apps','Redis caching for performance','File uploads with Multer','Docker containerization of Node app','Deploy on Railway, Render, or AWS EC2','API docs with Swagger/OpenAPI']}
-  ],resources:[
-    {icon:'📺',name:'Node.js Full Course — Traversy',src:'YouTube',tag:'Free',url:'https://youtube.com'},
-    {icon:'🌐',name:'Full Stack Open',src:'fullstackopen.com',tag:'Free',url:'https://fullstackopen.com'},
-    {icon:'📚',name:'Node.js Design Patterns',src:'oreilly.com',tag:'Advanced',url:'https://oreilly.com'},
-    {icon:'🌐',name:'Node.js Docs',src:'nodejs.org',tag:'Official',url:'https://nodejs.org/docs'},
-  ]},
-  'data science':{icon:'📊',title:'Data Science Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — Foundations (Weeks 1–4)',color:'#635bff',tasks:['Python: NumPy arrays, Pandas DataFrames','Statistics: descriptive stats, probability, normal distribution','SQL for data querying: SELECT, JOIN, GROUP BY','Data visualization: Matplotlib, Seaborn, Plotly']},
-    {emoji:'🚀',title:'Phase 2 — Core Data Science (Weeks 5–9)',color:'#f79009',tasks:['Exploratory Data Analysis (EDA) techniques','Data cleaning: missing values, outliers, encoding','Feature engineering and selection','Machine Learning: regression, classification, clustering','Model evaluation: cross-validation, metrics','Kaggle competitions for hands-on experience']},
-    {emoji:'⭐',title:'Phase 3 — Advanced (Weeks 10–14)',color:'#12b76a',tasks:['Deep Learning basics with TensorFlow or PyTorch','NLP: text processing, sentiment analysis','Time series analysis and forecasting','Business Intelligence: Tableau or Power BI','Build end-to-end capstone project with real data','Deploy as interactive Streamlit dashboard']}
-  ],resources:[
-    {icon:'🎯',name:'Kaggle',src:'kaggle.com',tag:'Free Datasets',url:'https://kaggle.com'},
-    {icon:'📺',name:'Data Science Specialization',src:'Coursera — JHU',tag:'Certificate',url:'https://coursera.org'},
-    {icon:'📚',name:'Python for Data Analysis',src:'oreilly.com',tag:'Best Book',url:'https://oreilly.com'},
-    {icon:'🌐',name:'Towards Data Science',src:'towardsdatascience.com',tag:'Articles',url:'https://towardsdatascience.com'},
-  ]},
-  'sql':{icon:'🗄️',title:'SQL & Database Roadmap',phases:[
-    {emoji:'🌱',title:'Phase 1 — SQL Basics (Weeks 1–2)',color:'#635bff',tasks:['SELECT, WHERE, ORDER BY, LIMIT statements','INSERT, UPDATE, DELETE operations','Aggregate: COUNT, SUM, AVG, MAX, MIN','GROUP BY and HAVING clause','INNER JOIN, LEFT JOIN, RIGHT JOIN, FULL OUTER JOIN']},
-    {emoji:'🚀',title:'Phase 2 — Intermediate (Weeks 3–5)',color:'#f79009',tasks:['Subqueries: correlated and non-correlated','CTEs (WITH clause) for readable, modular queries','Window functions: ROW_NUMBER, RANK, LEAD, LAG, NTILE','Indexes: types, creation, covering indexes','Transactions: ACID, COMMIT, ROLLBACK, ISOLATION levels','Views, Stored Procedures, Triggers basics']},
-    {emoji:'⭐',title:'Phase 3 — Advanced DB Design (Weeks 6–8)',color:'#12b76a',tasks:['Database normalization: 1NF → 3NF → BCNF','ER Diagram design from real-world requirements','Query optimization: EXPLAIN, execution plans','PostgreSQL advanced features: JSON, partitioning','Replication, sharding, CAP theorem basics','Solve 50+ SQL problems on LeetCode']}
-  ],resources:[
-    {icon:'🎯',name:'LeetCode SQL',src:'leetcode.com',tag:'Practice',url:'https://leetcode.com'},
-    {icon:'🌐',name:'SQLZoo',src:'sqlzoo.net',tag:'Interactive',url:'https://sqlzoo.net'},
-    {icon:'📺',name:'SQL Full Course — Mosh',src:'YouTube',tag:'Free',url:'https://youtube.com'},
-    {icon:'🌐',name:'Mode SQL Tutorial',src:'mode.com',tag:'Free',url:'https://mode.com/sql-tutorial'},
-  ]}
-};
+        </div>
+      </div>
+    </div>
+  </div>
 
-function quickSearch(skill){
-  document.getElementById('searchInput').value = skill;
-  searchRoadmap();
-}
+  <script>
+    // DATA DEFINITIONS
+    const ROADMAPS = {
+      "Campus Placement": [
+        {
+          id: 'p1', name: 'Phase 1: Build CS Foundation', duration: 'Weeks 1-4', color: 'var(--phase1)',
+          topics: [
+            { id: 't1_1', name: 'Data Structures Basics', res: 'GeeksforGeeks DSA' },
+            { id: 't1_2', name: 'Arrays & Strings', res: 'LeetCode Easy' },
+            { id: 't1_3', name: 'Recursion', res: 'Abdul Bari Algorithms YouTube' },
+            { id: 't1_4', name: 'Basic Algorithms', res: 'GFG' }
+          ]
+        },
+        {
+          id: 'p2', name: 'Phase 2: Core DSA', duration: 'Weeks 5-8', color: 'var(--phase2)',
+          topics: [
+            { id: 't2_1', name: 'Linked Lists', res: 'Striver SDE Sheet' },
+            { id: 't2_2', name: 'Trees & BST', res: 'LeetCode' },
+            { id: 't2_3', name: 'Heaps', res: 'NeetCode' },
+            { id: 't2_4', name: 'Graphs Basics', res: 'Striver SDE Sheet' }
+          ]
+        },
+        {
+          id: 'p3', name: 'Phase 3: Advanced DSA + Problem Solving', duration: 'Weeks 9-12', color: 'var(--phase3)',
+          topics: [
+            { id: 't3_1', name: 'Dynamic Programming', res: 'NeetCode.io' },
+            { id: 't3_2', name: 'Greedy Algorithms', res: 'LeetCode Medium' },
+            { id: 't3_3', name: 'Advanced Graph Algorithms', res: 'Abdul Bari Algorithms' },
+            { id: 't3_4', name: 'Backtracking', res: 'Striver SDE Sheet' }
+          ]
+        },
+        {
+          id: 'p4', name: 'Phase 4: Company Preparation', duration: 'Weeks 13-16', color: 'var(--phase4)',
+          topics: [
+            { id: 't4_1', name: 'System Design Basics', res: 'Grokking System Design' },
+            { id: 't4_2', name: 'OOP, DBMS, OS Concepts', res: 'InterviewBit' },
+            { id: 't4_3', name: 'Mock Interviews', res: 'Pramp.com' },
+            { id: 't4_4', name: 'Resume & HR Prep', res: 'YouTube' }
+          ]
+        }
+      ],
+      "Crack GATE Exam": [
+        {
+          id: 'g1', name: 'Phase 1: Engineering Mathematics + Digital Logic', duration: 'Month 1-2', color: 'var(--phase1)',
+          topics: [
+            { id: 'g1_1', name: 'Linear Algebra & Calculus', res: 'NPTEL' },
+            { id: 'g1_2', name: 'Probability', res: 'NPTEL' },
+            { id: 'g1_3', name: 'Boolean Algebra', res: 'Gate Smashers' },
+            { id: 'g1_4', name: 'K-Maps', res: 'Gate Smashers' }
+          ]
+        },
+        {
+          id: 'g2', name: 'Phase 2: Programming, DS, Algorithms', duration: 'Month 3-4', color: 'var(--phase2)',
+          topics: [
+            { id: 'g2_1', name: 'C Programming', res: 'Gate Smashers DS' },
+            { id: 'g2_2', name: 'Data Structures (Arrays to Graphs)', res: 'Gate Smashers DS' },
+            { id: 'g2_3', name: 'Algorithm complexity', res: 'Abdul Bari Algorithms' }
+          ]
+        },
+        {
+          id: 'g3', name: 'Phase 3: OS, DBMS, CN', duration: 'Month 5-6', color: 'var(--phase3)',
+          topics: [
+            { id: 'g3_1', name: 'Process management & Memory', res: 'Neso Academy' },
+            { id: 'g3_2', name: 'Normalization & SQL', res: 'GFG GATE' },
+            { id: 'g3_3', name: 'OSI model, TCP/IP', res: 'Neso Academy' }
+          ]
+        },
+        {
+          id: 'g4', name: 'Phase 4: COA + TOC + Compiler + Revision', duration: 'Month 7-8', color: 'var(--phase4)',
+          topics: [
+            { id: 'g4_1', name: 'Pipelining, Cache', res: 'Made Easy' },
+            { id: 'g4_2', name: 'DFA/NFA, CFG', res: 'Gate Smashers' },
+            { id: 'g4_3', name: 'Lexical Analysis', res: 'GFG' },
+            { id: 'g4_4', name: 'Full syllabus revision & PYQs', res: 'GATE PYQs' }
+          ]
+        }
+      ],
+      "Tech Interviews (FAANG)": [
+        {
+          id: 'f1', name: 'Phase 1: DSA Foundations', duration: 'Month 1', color: 'var(--phase1)',
+          topics: [
+            { id: 'f1_1', name: 'Arrays, Strings, Math', res: 'NeetCode 150' },
+            { id: 'f1_2', name: 'Recursion & Binary Search', res: 'LeetCode Easy' },
+            { id: 'f1_3', name: 'Two Pointers', res: 'NeetCode 150' }
+          ]
+        },
+        {
+          id: 'f2', name: 'Phase 2: Core DSA', duration: 'Month 2-3', color: 'var(--phase2)',
+          topics: [
+            { id: 'f2_1', name: 'Trees & Graphs', res: 'LeetCode Medium' },
+            { id: 'f2_2', name: 'Dynamic Programming', res: 'Striver Sheet' },
+            { id: 'f2_3', name: 'Backtracking, Heaps, Tries', res: 'NeetCode 150' }
+          ]
+        },
+        {
+          id: 'f3', name: 'Phase 3: System Design', duration: 'Month 4', color: 'var(--phase3)',
+          topics: [
+            { id: 'f3_1', name: 'Scalability & Load Balancing', res: 'System Design Primer' },
+            { id: 'f3_2', name: 'Caching & Databases', res: 'Grokking System Design' },
+            { id: 'f3_3', name: 'Microservices', res: 'YouTube' }
+          ]
+        },
+        {
+          id: 'f4', name: 'Phase 4: Mock + Hard Problems', duration: 'Month 5-6', color: 'var(--phase4)',
+          topics: [
+            { id: 'f4_1', name: 'LeetCode Hard', res: 'Blind 75' },
+            { id: 'f4_2', name: 'Behavioral questions', res: 'Interviewing.io' },
+            { id: 'f4_3', name: 'Company-specific prep', res: 'Pramp' }
+          ]
+        }
+      ],
+      "Career Switch / Upskill": [
+        {
+          id: 'c1', name: 'Phase 1: Pick Domain & Learn Basics', duration: 'Month 1-2', color: 'var(--phase1)',
+          topics: [
+            { id: 'c1_1', name: 'Choose Domain (Web/DS/ML/Cloud)', res: 'Coursera / Udemy' },
+            { id: 'c1_2', name: 'Learn Fundamentals', res: 'FreeCodeCamp' }
+          ]
+        },
+        {
+          id: 'c2', name: 'Phase 2: Build Projects', duration: 'Month 3-4', color: 'var(--phase2)',
+          topics: [
+            { id: 'c2_1', name: 'Project 1: Basic App', res: 'YouTube Tutorials' },
+            { id: 'c2_2', name: 'Project 2: Intermediate System', res: 'Official Docs' },
+            { id: 'c2_3', name: 'Project 3: Real-world clone with GitHub', res: 'GitHub' }
+          ]
+        },
+        {
+          id: 'c3', name: 'Phase 3: Portfolio + Applications', duration: 'Month 5-6', color: 'var(--phase3)',
+          topics: [
+            { id: 'c3_1', name: 'Resume building', res: 'Canva / Novoresume' },
+            { id: 'c3_2', name: 'LinkedIn optimization', res: 'LinkedIn' },
+            { id: 'c3_3', name: 'Job portal hunting', res: 'Naukri / Indeed' }
+          ]
+        },
+        {
+          id: 'c4', name: 'Phase 4: Interview Prep', duration: 'Month 7', color: 'var(--phase4)',
+          topics: [
+            { id: 'c4_1', name: 'Domain-specific interviews', res: 'GlassDoor' },
+            { id: 'c4_2', name: 'Coding rounds', res: 'InterviewBit' },
+            { id: 'c4_3', name: 'HR rounds & Negotiation', res: 'YouTube' }
+          ]
+        }
+      ]
+    };
 
-function searchRoadmap(){
-  const raw = document.getElementById('searchInput').value.trim();
-  const query = raw.toLowerCase();
-  if(!query){ alert('Please type a skill to search!'); return; }
-  const result = document.getElementById('searchResult');
-  result.style.display = 'block';
+    const TIPS = {
+      "Crack GATE Exam": [
+        "🎯 Start with Engineering Maths — it's 13 marks in GATE. Begin with Linear Algebra.",
+        "📅 Study 4-6 hours daily. Morning for theory, evening for practice problems.",
+        "📝 Solve last 10 years GATE PYQs — 60% of questions repeat in pattern.",
+        "🔄 Revise weekly — don't move to next topic without completing previous one.",
+        "💪 Join GATE Telegram groups for daily problems and solutions."
+      ],
+      "Campus Placement": [
+        "🏆 Target 100 LeetCode problems before your placement season",
+        "📋 Apply for internships 6 months before — they often convert to PPO",
+        "🗣️ Practice speaking your solutions aloud during mock interviews",
+        "🔗 Connect with seniors from your college on LinkedIn for referrals",
+        "📚 Know your CS fundamentals: OS, DBMS, Networks — often asked in technical rounds"
+      ],
+      "Tech Interviews (FAANG)": [
+        "🌲 Focus heavily on Trees, Graphs, and DP. FAANG loves these.",
+        "🗣️ Communication is key. Always discuss brute force before optimizing.",
+        "📐 Master System Design if you have 2+ YOE. It's the deciding factor.",
+        "👥 Do at least 10 mock interviews on Pramp or with peers.",
+        "🎯 Solve the Blind 75 and NeetCode 150 thoroughly."
+      ],
+      "Career Switch / Upskill": [
+        "🚀 Build a strong portfolio. Show, don't just tell your skills.",
+        "🔗 Networking is crucial. Reach out to recruiters on LinkedIn directly.",
+        "🛠️ Learn Git & GitHub properly. It shows you're ready for a team.",
+        "💻 Contribute to open-source projects to gain real-world experience.",
+        "📈 Tailor your resume specifically for the domain you're switching to."
+      ]
+    };
 
-  // Show loading pulse
-  result.innerHTML = '<div style="text-align:center;padding:20px;color:#667085;font-size:14px;font-weight:600;">🤖 AI is generating your roadmap...</div>';
+    // STATE
+    const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
+    let goal = profile.goal || 'Campus Placement';
+    const skillLevel = profile.skillLevel || profile.skill_level || 'beginner';
+    const name = localStorage.getItem('sb_name') || 'Student';
+    let doneMap = JSON.parse(localStorage.getItem('sb_roadmap_done') || '{}');
+    
+    // Fallback if goal not in ROADMAPS
+    if (!ROADMAPS[goal]) {
+      goal = 'Campus Placement';
+    }
 
-  setTimeout(() => {
-    // Find matching roadmap
-    let rm = null;
-    for(const key of Object.keys(SKILL_ROADMAPS)){
-      if(query===key || query.includes(key) || key.includes(query)){
-        rm = SKILL_ROADMAPS[key]; break;
+    const currentRoadmap = ROADMAPS[goal];
+
+    // INIT
+    function init() {
+      // Setup sidebar info
+      document.getElementById('sbName').innerText = name;
+      document.getElementById('sbAv').innerText = name.charAt(0).toUpperCase();
+
+      if (!profile.goal) {
+        document.getElementById('onboardAlert').style.display = 'block';
+      }
+
+      document.getElementById('heroGoalName').innerText = goal;
+      
+      renderPhases();
+      updateHeroStats();
+      renderTips();
+    }
+
+    function togglePhase(id) {
+      const content = document.getElementById('phase-content-' + id);
+      if (content.classList.contains('active')) {
+        content.classList.remove('active');
+      } else {
+        content.classList.add('active');
       }
     }
 
-    if(!rm){
-      // Generic roadmap
-      result.innerHTML = `
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;">
-          <span style="font-size:32px;">🔮</span>
-          <div><h3 style="font-size:17px;font-weight:900;">${raw} — AI Learning Roadmap</h3>
-          <p style="color:#667085;font-size:13px;">Generated specifically for: ${raw}</p></div>
-        </div>
-        ${[
-          {e:'🌱',t:'Phase 1 — Foundations (Weeks 1–3)',c:'#635bff',tasks:['Understand core concepts & terminology of '+raw,'Set up dev environment and required tools','Complete an introductory course or tutorial','Build first small "Hello World" project','Read official documentation thoroughly']},
-          {e:'🚀',t:'Phase 2 — Practice & Build (Weeks 4–8)',c:'#f79009',tasks:['Complete intermediate-level course on Udemy/Coursera','Build 2 small real projects using '+raw,'Join communities on Reddit, Discord for '+raw,'Practice on relevant platforms and challenges','Explore popular open source repos using '+raw]},
-          {e:'⭐',t:'Phase 3 — Advanced & Portfolio (Weeks 9–12)',c:'#12b76a',tasks:['Build a full capstone project using '+raw,'Deploy live with URL and documentation','Write a GitHub README and blog post about it','Apply for roles requiring '+raw,'Contribute to an open source project']}
-        ].map(ph=>`
-          <div class="srm-phase" style="border-color:${ph.c}22;">
-            <div class="srm-phase-title" style="color:${ph.c}"><span>${ph.e}</span>${ph.t}</div>
-            ${ph.tasks.map(t=>`<div class="srm-task">${t}</div>`).join('')}
-          </div>`).join('')}
-        <div style="background:#f8f9ff;border-radius:12px;padding:14px 16px;border:1px solid rgba(99,91,255,0.1);">
-          <div style="font-size:12px;font-weight:800;color:#667085;margin-bottom:10px;">📚 RECOMMENDED RESOURCES</div>
-          ${[
-            {icon:'📺',name:'Udemy — '+raw+' Course',src:'udemy.com',tag:'Top Rated',url:'https://udemy.com'},
-            {icon:'🌐',name:'freeCodeCamp — '+raw,src:'freecodecamp.org',tag:'Free',url:'https://freecodecamp.org'},
-            {icon:'📚',name:'GeeksForGeeks — '+raw,src:'geeksforgeeks.org',tag:'Reference',url:'https://geeksforgeeks.org'},
-            {icon:'🌐',name:'Roadmap.sh',src:'roadmap.sh',tag:'Visual Guide',url:'https://roadmap.sh'},
-          ].map(r=>`<div class="srm-res" onclick="window.open('${r.url}','_blank')"><span class="srm-res-icon">${r.icon}</span><div><b>${r.name}</b><span> — ${r.src}</span></div><span class="srm-res-tag">${r.tag}</span></div>`).join('')}
-        </div>`;
-      result.scrollIntoView({behavior:'smooth',block:'nearest'});
-      return;
+    function handleCheck(topicId, phaseIdx) {
+      const cb = document.getElementById('cb-' + topicId);
+      doneMap[topicId] = cb.checked;
+      localStorage.setItem('sb_roadmap_done', JSON.stringify(doneMap));
+      
+      updateHeroStats();
+      updatePhaseStats(phaseIdx);
+      checkLocks();
     }
 
-    result.innerHTML = `
-      <div style="display:flex;align-items:center;gap:10px;margin-bottom:18px;flex-wrap:wrap;">
-        <span style="font-size:36px;">${rm.icon}</span>
-        <div><h3 style="font-size:18px;font-weight:900;">${rm.title}</h3>
-        <p style="color:#667085;font-size:13px;">AI-curated step-by-step roadmap with free resources</p></div>
-        <span style="margin-left:auto;background:#eeedff;color:#635bff;font-size:11px;font-weight:800;padding:5px 12px;border-radius:20px;">✨ AI Generated</span>
-      </div>
-      ${rm.phases.map(ph=>`
-        <div class="srm-phase" style="border-color:${ph.color}33;">
-          <div class="srm-phase-title" style="color:${ph.color};"><span>${ph.emoji}</span>${ph.title}</div>
-          ${ph.tasks.map(t=>`<div class="srm-task">${t}</div>`).join('')}
-        </div>`).join('')}
-      <div style="background:#f8f9ff;border-radius:12px;padding:16px;border:1px solid rgba(99,91,255,0.1);">
-        <div style="font-size:12px;font-weight:800;color:#667085;margin-bottom:10px;">📚 BEST RESOURCES TO LEARN ${raw.toUpperCase()}</div>
-        ${rm.resources.map(r=>`<div class="srm-res" onclick="window.open('${r.url}','_blank')"><span class="srm-res-icon">${r.icon}</span><div><b>${r.name}</b><span> — ${r.src}</span></div><span class="srm-res-tag">${r.tag}</span></div>`).join('')}
-      </div>`;
-    result.scrollIntoView({behavior:'smooth',block:'nearest'});
-  }, 600);
-}
-</script>
-<script>
-(function(){
-  var n = localStorage.getItem('sb_name') || 'Student';
-  var av = document.getElementById('sbAv');
-  var nm = document.getElementById('sbName');
-  if(av) av.textContent = n.charAt(0).toUpperCase();
-  if(nm) nm.textContent = n;
-})();
-</script>
+    function updatePhaseStats(phaseIdx) {
+      const phase = currentRoadmap[phaseIdx];
+      let doneCount = 0;
+      phase.topics.forEach(t => {
+        if(doneMap[t.id]) doneCount++;
+      });
+      const percent = Math.round((doneCount / phase.topics.length) * 100);
+      
+      const fill = document.getElementById(`phase-fill-${phaseIdx}`);
+      const text = document.getElementById(`phase-text-${phaseIdx}`);
+      
+      if(fill) {
+        fill.style.width = percent + '%';
+        fill.style.backgroundColor = phase.color;
+      }
+      if(text) {
+        text.innerText = `${doneCount}/${phase.topics.length}`;
+      }
+
+      const checkmark = document.getElementById(`phase-check-${phaseIdx}`);
+      if(checkmark) {
+        checkmark.style.display = (doneCount === phase.topics.length) ? 'inline' : 'none';
+      }
+    }
+
+    function checkLocks() {
+      // Phase N unlocks if Phase N-1 is >= 50% done
+      for(let i = 1; i < currentRoadmap.length; i++) {
+        const prevPhase = currentRoadmap[i-1];
+        let prevDone = 0;
+        prevPhase.topics.forEach(t => {
+          if(doneMap[t.id]) prevDone++;
+        });
+        const prevPercent = (prevDone / prevPhase.topics.length) * 100;
+        
+        const card = document.getElementById(`phase-card-${i}`);
+        if(prevPercent >= 50) {
+          card.classList.remove('locked-phase');
+        } else {
+          card.classList.add('locked-phase');
+          document.getElementById(`phase-content-${i}`).classList.remove('active');
+        }
+      }
+    }
+
+    function renderPhases() {
+      const container = document.getElementById('phasesList');
+      container.innerHTML = '';
+
+      currentRoadmap.forEach((phase, idx) => {
+        const isLocked = idx > 0; // Temporarily lock all except first, will update in checkLocks
+        
+        let topicsHtml = '';
+        phase.topics.forEach(topic => {
+          const isChecked = doneMap[topic.id] ? 'checked' : '';
+          topicsHtml += `
+            <div class="topic-item">
+              <input type="checkbox" class="topic-checkbox" id="cb-${topic.id}" ${isChecked} onchange="handleCheck('${topic.id}', ${idx})">
+              <div class="topic-details">
+                <div class="topic-name">${topic.name}</div>
+                <div class="topic-resources">📚 ${topic.res}</div>
+              </div>
+            </div>
+          `;
+        });
+
+        const card = document.createElement('div');
+        card.className = `phase-card ${isLocked ? 'locked-phase' : ''}`;
+        card.id = `phase-card-${idx}`;
+        
+        card.innerHTML = `
+          <div class="phase-header" onclick="togglePhase(${idx})">
+            <div class="phase-info">
+              <div class="phase-title" style="color: ${phase.color}">
+                ${phase.name} <span id="phase-check-${idx}" style="display:none; color:green;">✅</span>
+              </div>
+              <div class="phase-meta">⏱️ ${phase.duration} • ${phase.topics.length} topics</div>
+            </div>
+            <div class="phase-progress">
+              <span style="font-size:0.8rem; font-weight:600;" id="phase-text-${idx}">0/${phase.topics.length}</span>
+              <div class="small-progress-bg">
+                <div class="small-progress-fill" id="phase-fill-${idx}"></div>
+              </div>
+            </div>
+          </div>
+          <div class="phase-content ${idx === 0 ? 'active' : ''}" id="phase-content-${idx}">
+            ${topicsHtml}
+          </div>
+        `;
+        
+        container.appendChild(card);
+        updatePhaseStats(idx);
+      });
+      
+      checkLocks();
+    }
+
+    function updateHeroStats() {
+      let total = 0;
+      let done = 0;
+
+      currentRoadmap.forEach(phase => {
+        phase.topics.forEach(t => {
+          total++;
+          if (doneMap[t.id]) done++;
+        });
+      });
+
+      const remain = total - done;
+      const percent = total > 0 ? Math.round((done / total) * 100) : 0;
+
+      document.getElementById('statTotal').innerText = total;
+      document.getElementById('statDone').innerText = done;
+      document.getElementById('statRemain').innerText = remain;
+      
+      document.getElementById('overallPercent').innerText = percent + '%';
+      document.getElementById('overallBar').style.width = percent + '%';
+    }
+
+    function renderTips() {
+      const container = document.getElementById('tipsList');
+      const goalTips = TIPS[goal] || TIPS["Campus Placement"];
+      
+      let html = '';
+      goalTips.forEach(tip => {
+        html += `
+          <div class="tip-card">
+            <div>${tip}</div>
+          </div>
+        `;
+      });
+      container.innerHTML = html;
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+      
+      event.target.classList.add('active');
+      document.getElementById('tab-' + tabId).classList.add('active');
+    }
+
+    // Initialize page
+    init();
+  </script>
 </body>
 </html>

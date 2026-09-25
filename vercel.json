@@ -1,0 +1,20 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/server/server.js" },
+    { "source": "/admin", "destination": "/admin-login.html" },
+    { "source": "/login", "destination": "/login.html" },
+    { "source": "/signup", "destination": "/signup.html" },
+    { "source": "/dashboard", "destination": "/dashboard.html" },
+    { "source": "/gate", "destination": "/gate.html" },
+    { "source": "/course-prep", "destination": "/course-prep.html" },
+    { "source": "/roadmap", "destination": "/roadmap.html" },
+    { "source": "/projects", "destination": "/projects.html" },
+    { "source": "/resume", "destination": "/resume.html" },
+    { "source": "/interview", "destination": "/interview.html" },
+    { "source": "/quiz", "destination": "/quiz.html" },
+    { "source": "/profile", "destination": "/profile.html" },
+    { "source": "/my-progress", "destination": "/my-progress.html" },
+    { "source": "/onboard", "destination": "/onboard.html" }
+  ]
+}

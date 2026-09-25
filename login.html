@@ -119,10 +119,14 @@ function showSuc(msg){document.getElementById('sucBox').textContent=msg;document
 function hideMsg(){document.getElementById('errBox').style.display='none';document.getElementById('sucBox').style.display='none';}
 document.addEventListener('keydown',e=>{if(e.key==='Enter')doLogin();});
 
-// If already logged in, redirect
-if(localStorage.getItem('sb_token') && localStorage.getItem('sb_name')){
-  window.location.href='dashboard.html';
-}
+// Pre-fill email if known from previous session
+window.addEventListener('DOMContentLoaded', () => {
+  const savedEmail = localStorage.getItem('sb_email');
+  if(savedEmail && document.getElementById('email')) {
+    document.getElementById('email').value = savedEmail;
+  }
+});
+
 </script>
 </body>
 </html>

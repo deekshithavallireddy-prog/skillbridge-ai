@@ -4,6 +4,7 @@
 <meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0">
 <title>Setup Profile — SkillBridge AI</title>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="js/courses.js"></script>
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:flex;align-items:center;justify-content:center;padding:28px 20px;}
@@ -13,18 +14,18 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
 .prog-label{color:#64748b;font-size:13px;font-weight:600;}
 .prog-step{color:#2563eb;font-size:13px;font-weight:800;}
 .prog-bar{height:6px;background:#e2e8f0;border-radius:10px;overflow:hidden;}
-.prog-fill{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:10px;transition:width 0.5s ease;}
+.prog-fill{height:100%;background:linear-gradient(90deg,#2563eb,#7c3aed);border-radius:10px;transition:width 0.4s ease;}
 .card{background:white;border-radius:24px;padding:44px 40px;border:1px solid #e2e8f0;box-shadow:0 4px 24px rgba(0,0,0,0.08);}
-.step{display:none;animation:slideIn 0.4s ease;}
+.step{display:none;animation:slideIn 0.35s ease;}
 .step.active{display:block;}
-@keyframes slideIn{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
+@keyframes slideIn{from{opacity:0;transform:translateX(16px)}to{opacity:1;transform:translateX(0)}}
 .step-emoji{font-size:44px;text-align:center;display:block;margin-bottom:14px;}
 .step-title{font-size:24px;font-weight:900;color:#1e293b;text-align:center;letter-spacing:-0.5px;margin-bottom:8px;}
-.step-sub{color:#64748b;text-align:center;font-size:14px;line-height:1.65;margin-bottom:28px;}
+.step-sub{color:#64748b;text-align:center;font-size:14px;line-height:1.65;margin-bottom:26px;}
 .options{display:grid;gap:10px;}
 .options.cols2{grid-template-columns:1fr 1fr;}
 .options.cols3{grid-template-columns:1fr 1fr 1fr;}
-.opt{background:#f8fafc;border:2px solid #e2e8f0;border-radius:14px;padding:18px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;color:#475569;}
+.opt{background:#f8fafc;border:2px solid #e2e8f0;border-radius:14px;padding:16px 16px;cursor:pointer;transition:all 0.2s;display:flex;align-items:center;gap:12px;color:#475569;}
 .opt:hover{background:#eff6ff;border-color:#93c5fd;color:#1e293b;}
 .opt.selected{background:#eff6ff;border-color:#2563eb;color:#1e293b;box-shadow:0 2px 12px rgba(37,99,235,0.15);}
 .opt-icon{font-size:26px;flex-shrink:0;}
@@ -32,7 +33,7 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
 .opt-text p{font-size:12px;color:#94a3b8;line-height:1.4;}
 .opt-sm{background:#f8fafc;border:2px solid #e2e8f0;border-radius:12px;padding:14px 12px;cursor:pointer;transition:all 0.2s;text-align:center;color:#475569;font-size:13px;font-weight:600;}
 .opt-sm:hover{background:#eff6ff;border-color:#93c5fd;color:#2563eb;}
-.opt-sm.selected{background:#eff6ff;border-color:#2563eb;color:#2563eb;}
+.opt-sm.selected{background:#eff6ff;border-color:#2563eb;color:#2563eb;box-shadow:0 2px 10px rgba(37,99,235,0.15);}
 .opt-sm .sm-icon{font-size:22px;display:block;margin-bottom:5px;}
 .skill-chips{display:flex;flex-wrap:wrap;gap:8px;}
 .chip{padding:9px 16px;border-radius:30px;border:1.5px solid #e2e8f0;background:#f8fafc;color:#64748b;font-size:13px;font-weight:600;cursor:pointer;transition:all 0.2s;}
@@ -46,12 +47,12 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
 .btn-back:hover{background:#f1f5f9;border-color:#94a3b8;}
 .btn-next{flex:2;padding:13px;border:none;border-radius:11px;background:#2563eb;color:white;font-size:15px;font-weight:800;cursor:pointer;transition:all 0.2s;font-family:'Inter',sans-serif;box-shadow:0 4px 14px rgba(37,99,235,0.35);}
 .btn-next:hover{background:#1d4ed8;transform:translateY(-1px);box-shadow:0 8px 22px rgba(37,99,235,0.4);}
-.note{color:#94a3b8;font-size:12px;text-align:center;margin-top:12px;}
+.error-tip{background:#fef2f2;border:1px solid #fecaca;color:#dc2626;padding:10px 14px;border-radius:10px;font-size:13px;font-weight:600;margin-top:14px;display:none;text-align:center;}
 .section-label{color:#94a3b8;font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;margin-top:18px;}
 .level-cards{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;margin-bottom:20px;}
 .level-card{background:#f8fafc;border:2px solid #e2e8f0;border-radius:16px;padding:20px 14px;cursor:pointer;transition:all 0.22s;text-align:center;color:#475569;}
 .level-card:hover{background:#eff6ff;border-color:#93c5fd;color:#1e293b;}
-.level-card.selected{background:#eff6ff;border-color:#2563eb;color:#1e293b;}
+.level-card.selected{background:#eff6ff;border-color:#2563eb;color:#1e293b;box-shadow:0 2px 12px rgba(37,99,235,0.15);}
 .lc-icon{font-size:32px;margin-bottom:8px;}
 .lc-title{font-size:14px;font-weight:800;color:#1e293b;margin-bottom:4px;}
 .lc-sub{font-size:11px;color:#94a3b8;line-height:1.4;}
@@ -60,23 +61,29 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
 .res-box h4{font-size:13px;font-weight:800;color:#0369a1;margin-bottom:12px;}
 .res-item{display:flex;align-items:flex-start;gap:8px;margin-bottom:8px;font-size:12.5px;color:#0c4a6e;line-height:1.5;}
 .res-item::before{content:'→';color:#0ea5e9;font-weight:800;flex-shrink:0;}
-@media(max-width:600px){.card{padding:28px 22px;}.options.cols2,.options.cols3{grid-template-columns:1fr 1fr;}.level-cards{grid-template-columns:1fr;}}
+.search-wrapper{margin-top:14px;position:relative;}
+.search-results-box{position:absolute;top:100%;left:0;right:0;background:white;border:1px solid #e2e8f0;border-radius:12px;box-shadow:0 10px 25px rgba(0,0,0,0.1);z-index:50;max-height:200px;overflow-y:auto;display:none;margin-top:6px;}
+.search-item{padding:10px 14px;cursor:pointer;border-bottom:1px solid #f1f5f9;display:flex;align-items:center;gap:10px;text-align:left;}
+.search-item:hover{background:#eff6ff;}
+@media(max-width:600px){.card{padding:28px 20px;}.options.cols2,.options.cols3{grid-template-columns:1fr 1fr;}.level-cards{grid-template-columns:1fr;}}
 </style>
 </head>
 <body>
 <div class="wrap">
   <div class="prog-top">
-    <div class="prog-info"><span class="prog-label">Setting up your profile</span><span class="prog-step" id="stepLabel">Step 1 of 6</span></div>
-    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:16.6%"></div></div>
+    <div class="prog-info"><span class="prog-label">Setting up your profile</span><span class="prog-step" id="stepLabel">Step 1 of 7</span></div>
+    <div class="prog-bar"><div class="prog-fill" id="progFill" style="width:14.28%"></div></div>
   </div>
 
   <div class="card">
+    <div id="stepError" class="error-tip"></div>
+
     <!-- STEP 1: Name -->
     <div class="step active" id="s1">
       <span class="step-emoji">👋</span>
       <div class="step-title">What's your name?</div>
-      <div class="step-sub">Let's personalize your SkillBridge AI experience</div>
-      <input type="text" id="nameInput" class="name-input" placeholder="Your full name..." maxlength="50">
+      <div class="step-sub">Let's personalize your SkillBridge AI experience (Required)</div>
+      <input type="text" id="nameInput" class="name-input" placeholder="Your full name..." maxlength="50" autocomplete="name">
       <div class="nav-btns"><button class="btn-next" onclick="nextStep()">Continue →</button></div>
     </div>
 
@@ -84,7 +91,7 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s2">
       <span class="step-emoji">🎓</span>
       <div class="step-title">What's your current status?</div>
-      <div class="step-sub">This helps us tailor your roadmap</div>
+      <div class="step-sub">Select your current educational or career stage (Required)</div>
       <div class="options">
         <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">🎓</span><div class="opt-text"><h4>B.Tech / B.E. Student</h4><p>Currently pursuing undergraduate engineering</p></div></div>
         <div class="opt" onclick="sel(this,'status')"><span class="opt-icon">🎯</span><div class="opt-text"><h4>Preparing for GATE</h4><p>Focused on GATE CS/IT exam preparation</p></div></div>
@@ -98,15 +105,22 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s3">
       <span class="step-emoji">📚</span>
       <div class="step-title">Your branch / course?</div>
-      <div class="step-sub">Select your primary field of study</div>
+      <div class="step-sub">Select your primary field or search for any other course (Required)</div>
       <div class="options cols2">
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">💻</span>Computer Science</div>
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🔌</span>ECE / EEE</div>
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">⚙️</span>Mechanical</div>
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🏗️</span>Civil</div>
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🧪</span>Chemical</div>
-        <div class="opt-sm" onclick="sel(this,'course')"><span class="sm-icon">🎯</span>Other</div>
+        <div class="opt-sm" onclick="selCourse(this,'Computer Science','btech-cs')"><span class="sm-icon">💻</span>Computer Science</div>
+        <div class="opt-sm" onclick="selCourse(this,'ECE / EEE','btech-ece')"><span class="sm-icon">🔌</span>ECE / EEE</div>
+        <div class="opt-sm" onclick="selCourse(this,'Mechanical','btech-mech')"><span class="sm-icon">⚙️</span>Mechanical</div>
+        <div class="opt-sm" onclick="selCourse(this,'Civil','btech-civil')"><span class="sm-icon">🏗️</span>Civil</div>
+        <div class="opt-sm" onclick="selCourse(this,'Data Science & AI','data-science')"><span class="sm-icon">🤖</span>Data Science & AI</div>
+        <div class="opt-sm" onclick="selOtherCourse(this)"><span class="sm-icon">🔍</span>Other Course...</div>
       </div>
+
+      <div id="otherCourseBox" class="search-wrapper" style="display:none;">
+        <input type="text" id="courseSearchInput" class="name-input" style="font-size:14px;padding:12px;" placeholder="Search 50+ courses (e.g. Machine Learning, UPSC, AWS...)" oninput="onCourseSearch(this.value)" autocomplete="off">
+        <div id="courseSearchResults" class="search-results-box"></div>
+        <div id="selectedCourseBadge" style="display:none;margin-top:8px;background:#eff6ff;border:1px solid #bfdbfe;border-radius:10px;padding:10px 14px;font-size:13px;color:#1e40af;font-weight:700;text-align:center;"></div>
+      </div>
+
       <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
     </div>
 
@@ -114,7 +128,7 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s4">
       <span class="step-emoji">📅</span>
       <div class="step-title">Your current year / level?</div>
-      <div class="step-sub">Helps us set realistic timelines</div>
+      <div class="step-sub">Select your active year of study or level (Required)</div>
       <div class="options cols3">
         <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">1️⃣</span>1st Year</div>
         <div class="opt-sm" onclick="sel(this,'year')"><span class="sm-icon">2️⃣</span>2nd Year</div>
@@ -130,12 +144,12 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s5">
       <span class="step-emoji">🎯</span>
       <div class="step-title">What's your primary goal?</div>
-      <div class="step-sub">We'll build your personalized roadmap around this</div>
+      <div class="step-sub">We'll build your personalized roadmap around this (Required)</div>
       <div class="options">
-        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🏢</span><div class="opt-text"><h4>Campus Placement</h4><p>Prepare for company recruitments at college</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🏢</span><div class="opt-text"><h4>Campus Placement</h4><p>Prepare for company recruitments & aptitude tests</p></div></div>
         <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🎓</span><div class="opt-text"><h4>Crack GATE Exam</h4><p>Prepare for GATE CS/IT for M.Tech or PSU jobs</p></div></div>
-        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🎤</span><div class="opt-text"><h4>Tech Interviews</h4><p>Prepare for product companies (FAANG, startups)</p></div></div>
-        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🔄</span><div class="opt-text"><h4>Career Switch / Upskill</h4><p>Move to a new tech domain or role</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🎤</span><div class="opt-text"><h4>Tech Interviews</h4><p>Prepare for top product companies (FAANG, Unicorns)</p></div></div>
+        <div class="opt" onclick="sel(this,'goal')"><span class="opt-icon">🔄</span><div class="opt-text"><h4>Career Switch / Upskill</h4><p>Master new technologies and transition domain</p></div></div>
       </div>
       <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
     </div>
@@ -144,12 +158,12 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s6">
       <span class="step-emoji">🛠️</span>
       <div class="step-title">Select your skills</div>
-      <div class="step-sub">Choose all that you have experience with (select multiple)</div>
+      <div class="step-sub">Choose at least 1 skill you know or want to master (Required)</div>
       <div class="section-label">Programming Languages</div>
-      <div class="skill-chips" id="skillChips">
+      <div class="skill-chips">
         <span class="chip" onclick="toggleChip(this)">Python</span><span class="chip" onclick="toggleChip(this)">Java</span><span class="chip" onclick="toggleChip(this)">C</span><span class="chip" onclick="toggleChip(this)">C++</span><span class="chip" onclick="toggleChip(this)">JavaScript</span><span class="chip" onclick="toggleChip(this)">TypeScript</span>
       </div>
-      <div class="section-label">CS Core</div>
+      <div class="section-label">CS Core Fundamentals</div>
       <div class="skill-chips">
         <span class="chip" onclick="toggleChip(this)">DSA</span><span class="chip" onclick="toggleChip(this)">DBMS</span><span class="chip" onclick="toggleChip(this)">OS</span><span class="chip" onclick="toggleChip(this)">Computer Networks</span><span class="chip" onclick="toggleChip(this)">Algorithms</span>
       </div>
@@ -157,11 +171,10 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
       <div class="skill-chips">
         <span class="chip" onclick="toggleChip(this)">React</span><span class="chip" onclick="toggleChip(this)">Node.js</span><span class="chip" onclick="toggleChip(this)">HTML/CSS</span><span class="chip" onclick="toggleChip(this)">Django</span><span class="chip" onclick="toggleChip(this)">Flask</span>
       </div>
-      <div class="section-label">Other</div>
+      <div class="section-label">AI, Data & Tools</div>
       <div class="skill-chips">
         <span class="chip" onclick="toggleChip(this)">Machine Learning</span><span class="chip" onclick="toggleChip(this)">SQL</span><span class="chip" onclick="toggleChip(this)">Git</span><span class="chip" onclick="toggleChip(this)">Linux</span>
       </div>
-      <div class="note" style="text-align:left;margin-top:14px;">Select at least 1 skill to continue</div>
       <div class="nav-btns"><button class="btn-back" onclick="prevStep()">← Back</button><button class="btn-next" onclick="nextStep()">Continue →</button></div>
     </div>
 
@@ -169,7 +182,7 @@ body{font-family:'Inter',sans-serif;min-height:100vh;background:#f8fafc;display:
     <div class="step" id="s7">
       <span class="step-emoji">📊</span>
       <div class="step-title">What's your current level?</div>
-      <div class="step-sub">Be honest — we'll build a roadmap that actually fits you</div>
+      <div class="step-sub">Select your overall experience level to complete setup (Required)</div>
       <div class="level-cards">
         <div class="level-card" onclick="selLevel(this,'beginner')">
           <div class="lc-icon">🌱</div>
@@ -200,95 +213,238 @@ const totalSteps = 7;
 const profile = {};
 let selectedLevel = '';
 
+function showError(msg){
+  const err = document.getElementById('stepError');
+  err.textContent = msg;
+  err.style.display = 'block';
+  err.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function clearError(){
+  const err = document.getElementById('stepError');
+  err.style.display = 'none';
+  err.textContent = '';
+}
+
 function updateProgress(){
-  document.getElementById('progFill').style.width=(currentStep/totalSteps*100)+'%';
-  document.getElementById('stepLabel').textContent='Step '+currentStep+' of '+totalSteps;
+  document.getElementById('progFill').style.width = ((currentStep / totalSteps) * 100) + '%';
+  document.getElementById('stepLabel').textContent = 'Step ' + currentStep + ' of ' + totalSteps;
 }
 
 function showStep(n){
-  document.querySelectorAll('.step').forEach(s=>s.classList.remove('active'));
-  document.getElementById('s'+n).classList.add('active');
-  currentStep=n;
+  clearError();
+  document.querySelectorAll('.step').forEach(s => s.classList.remove('active'));
+  document.getElementById('s' + n).classList.add('active');
+  currentStep = n;
   updateProgress();
 }
 
 function nextStep(){
-  // Validate
-  if(currentStep===1){
-    const name=document.getElementById('nameInput').value.trim();
-    if(!name){alert('Please enter your name!');return;}
-    profile.name=name;
-    localStorage.setItem('sb_name',name);
+  clearError();
+  // STRICT MANDATORY VALIDATION FOR ALL STEPS
+  if(currentStep === 1){
+    const name = document.getElementById('nameInput').value.trim();
+    if(!name || name.length < 2){
+      showError('⚠️ Please enter your valid full name to continue.');
+      return;
+    }
+    profile.name = name;
+    localStorage.setItem('sb_name', name);
+  } else if(currentStep === 2){
+    if(!profile.status){
+      showError('⚠️ Please select your current status to continue.');
+      return;
+    }
+  } else if(currentStep === 3){
+    if(!profile.course){
+      showError('⚠️ Please select your branch or choose a course to continue.');
+      return;
+    }
+  } else if(currentStep === 4){
+    if(!profile.year){
+      showError('⚠️ Please select your year of study to continue.');
+      return;
+    }
+  } else if(currentStep === 5){
+    if(!profile.goal){
+      showError('⚠️ Please select your primary career goal to continue.');
+      return;
+    }
+  } else if(currentStep === 6){
+    const chips = document.querySelectorAll('#s6 .chip.selected');
+    if(!chips.length){
+      showError('⚠️ Please select at least one skill to continue.');
+      return;
+    }
+    profile.skills = Array.from(chips).map(c => c.textContent.trim());
   }
-  if(currentStep===6){
-    const chips=document.querySelectorAll('.chip.selected');
-    if(!chips.length){alert('Please select at least one skill!');return;}
-    profile.skills=Array.from(chips).map(c=>c.textContent);
+
+  if(currentStep < totalSteps) {
+    showStep(currentStep + 1);
   }
-  if(currentStep<totalSteps) showStep(currentStep+1);
 }
 
 function prevStep(){
-  if(currentStep>1) showStep(currentStep-1);
+  clearError();
+  if(currentStep > 1) showStep(currentStep - 1);
 }
 
 function sel(el, field){
-  el.closest('.options').querySelectorAll('.opt,.opt-sm').forEach(o=>o.classList.remove('selected'));
+  clearError();
+  el.closest('.options').querySelectorAll('.opt,.opt-sm').forEach(o => o.classList.remove('selected'));
   el.classList.add('selected');
-  profile[field]=el.querySelector('h4')?.textContent||el.textContent.trim();
+  profile[field] = el.querySelector('h4')?.textContent || el.textContent.trim();
 }
 
-function toggleChip(el){el.classList.toggle('selected');}
+function selCourse(el, courseName, courseId){
+  clearError();
+  document.getElementById('otherCourseBox').style.display = 'none';
+  el.closest('.options').querySelectorAll('.opt-sm').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  profile.course = courseName;
+  profile.customCourse = courseId;
+  profile.customCourseName = courseName;
+  localStorage.setItem('sb_selected_course', courseId);
+  localStorage.setItem('sb_selected_course_name', courseName);
+}
+
+function selOtherCourse(el){
+  clearError();
+  el.closest('.options').querySelectorAll('.opt-sm').forEach(o => o.classList.remove('selected'));
+  el.classList.add('selected');
+  const box = document.getElementById('otherCourseBox');
+  box.style.display = 'block';
+  const inp = document.getElementById('courseSearchInput');
+  inp.focus();
+}
+
+function onCourseSearch(q){
+  const resBox = document.getElementById('courseSearchResults');
+  const trimmed = q.trim();
+  if(trimmed.length < 2){
+    resBox.style.display = 'none';
+    return;
+  }
+  const matches = (window.searchCourses) ? window.searchCourses(trimmed) : [];
+  if(!matches.length){
+    resBox.innerHTML = `
+      <div style="padding:10px 14px;color:#64748b;font-size:13px;">No exact match found.</div>
+      <div onclick="applyCustomCourse('${trimmed.replace(/'/g,"\\'")}','${trimmed.toLowerCase().replace(/\\s+/g,'-')}')" style="padding:10px 14px;border-top:1px solid #f1f5f9;cursor:pointer;color:#2563eb;font-weight:700;font-size:13px;">
+        ➕ Use "${trimmed}" as your course
+      </div>
+    `;
+  } else {
+    resBox.innerHTML = matches.map(c => `
+      <div class="search-item" onclick="applyCustomCourse('${c.name.replace(/'/g,"\\'")}','${c.id}')">
+        <span style="font-size:18px;">${c.icon || '📚'}</span>
+        <div>
+          <div style="font-size:13px;font-weight:700;color:#1e293b;">${c.name}</div>
+          <div style="font-size:11px;color:#64748b;">${c.category} • ${c.duration}</div>
+        </div>
+      </div>
+    `).join('');
+  }
+  resBox.style.display = 'block';
+}
+
+function applyCustomCourse(name, id){
+  clearError();
+  document.getElementById('courseSearchResults').style.display = 'none';
+  document.getElementById('courseSearchInput').value = name;
+  const badge = document.getElementById('selectedCourseBadge');
+  badge.innerHTML = `✅ Selected Course: <strong>${name}</strong>`;
+  badge.style.display = 'block';
+
+  profile.course = name;
+  profile.customCourse = id;
+  profile.customCourseName = name;
+  localStorage.setItem('sb_selected_course', id);
+  localStorage.setItem('sb_selected_course_name', name);
+}
+
+function toggleChip(el){
+  clearError();
+  el.classList.toggle('selected');
+}
 
 function selLevel(el, level){
-  document.querySelectorAll('.level-card').forEach(c=>c.classList.remove('selected'));
+  clearError();
+  document.querySelectorAll('.level-card').forEach(c => c.classList.remove('selected'));
   el.classList.add('selected');
-  selectedLevel=level;
-  profile.skillLevel=level;
-  // Show resources
-  const skills=profile.skills||[];
-  const primary=skills[0]||'Programming';
-  const res={
-    beginner:['Start with the official documentation','FreeCodeCamp & W3Schools for basics','YouTube: CS50 by Harvard (free)','Build 1 simple project to practice'],
-    intermediate:['LeetCode Medium problems (10/week)','Build 2 real projects and upload to GitHub','Udemy: Complete courses with projects','Join communities: GitHub, Stack Overflow'],
-    professional:['LeetCode Hard + System Design','Read research papers and tech blogs','Open-source contributions','Mock interviews on Pramp or Interviewing.io']
+  selectedLevel = level;
+  profile.skillLevel = level;
+  
+  const skills = profile.skills || ['Programming'];
+  const primary = skills[0] || 'Tech';
+  const res = {
+    beginner: ['Official documentation & foundational guides', 'FreeCodeCamp & interactive coding playgrounds', 'YouTube foundational tutorials (free)', 'Build 1 simple real-world project to solidify basics'],
+    intermediate: ['Solve algorithmic challenges (5–10/week)', 'Build full-stack/domain projects and upload to GitHub', 'Explore advanced system design and architecture', 'Participate in open source and tech communities'],
+    professional: ['System design, concurrency and scalable patterns', 'Contribute to open-source and review architectural designs', 'Mock interview rounds and domain specialization', 'Lead technical initiatives and portfolio showcases']
   };
-  const box=document.getElementById('levelResources');
-  box.style.display='block';
-  box.innerHTML=`<h4>📚 Recommended for ${el.querySelector('.lc-title').textContent}s (${primary}):</h4>`+
-    res[level].map(r=>`<div class="res-item">${r}</div>`).join('');
+
+  const box = document.getElementById('levelResources');
+  box.style.display = 'block';
+  box.innerHTML = `<h4>📚 Tailored Recommendations for ${el.querySelector('.lc-title').textContent} (${primary}):</h4>` +
+    res[level].map(r => `<div class="res-item">${r}</div>`).join('');
 }
 
 async function finish(){
-  if(!selectedLevel){alert('Please select your experience level!');return;}
-  const skills=Array.from(document.querySelectorAll('.chip.selected')).map(c=>c.textContent);
-  profile.skills=skills;
-  profile.skillLevel=selectedLevel;
-
-  // Skill levels for dashboard
-  const skillLevels={};
-  const base={beginner:35,intermediate:60,professional:80};
-  skills.forEach(s=>{skillLevels[s]=base[selectedLevel]+(Math.random()*15|0);});
-  localStorage.setItem('sb_skill_levels',JSON.stringify(skillLevels));
-  localStorage.setItem('sb_profile',JSON.stringify(profile));
-
-  // Save to backend
-  const token=localStorage.getItem('sb_token');
-  if(token){
-    try{
-      await fetch(API+'/user/profile',{
-        method:'PUT',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-        body:JSON.stringify({name:profile.name,course:profile.course||'',year:profile.year||'',goal:profile.goal||'',skills,skill_level:selectedLevel})
-      });
-    }catch(e){console.log('Backend not reached, using localStorage');}
+  clearError();
+  if(!selectedLevel){
+    showError('⚠️ Please select your current experience level to complete setup!');
+    return;
   }
 
-  window.location.href='dashboard.html';
+  const chips = document.querySelectorAll('#s6 .chip.selected');
+  const skills = Array.from(chips).map(c => c.textContent.trim());
+  profile.skills = (skills.length > 0) ? skills : (profile.skills || ['General Tech']);
+  profile.skillLevel = selectedLevel;
+
+  // Skill levels for dashboard calculations
+  const skillLevels = {};
+  const base = { beginner: 35, intermediate: 60, professional: 85 };
+  profile.skills.forEach(s => {
+    skillLevels[s] = (base[selectedLevel] || 50) + (Math.floor(Math.random() * 12));
+  });
+
+  localStorage.setItem('sb_skill_levels', JSON.stringify(skillLevels));
+  localStorage.setItem('sb_profile', JSON.stringify(profile));
+  localStorage.setItem('sb_name', profile.name || localStorage.getItem('sb_name') || 'Student');
+
+  // Sync to Backend
+  const token = localStorage.getItem('sb_token');
+  if(token){
+    try{
+      await fetch(API + '/user/profile', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+        body: JSON.stringify({
+          name: profile.name,
+          course: profile.course || '',
+          year: profile.year || '',
+          goal: profile.goal || '',
+          skills: profile.skills,
+          skill_level: selectedLevel,
+          customCourse: profile.customCourse || '',
+          customCourseName: profile.customCourseName || ''
+        })
+      });
+    } catch(e) {
+      console.log('Backend sync offline, stored in localStorage');
+    }
+  }
+
+  window.location.href = 'dashboard.html';
 }
 
-// Pre-fill name if known
-const existing=localStorage.getItem('sb_name');
-if(existing) document.getElementById('nameInput').value=existing;
+// Pre-fill name if already stored from signup
+window.addEventListener('DOMContentLoaded', () => {
+  const existing = localStorage.getItem('sb_name');
+  if(existing) {
+    document.getElementById('nameInput').value = existing;
+    profile.name = existing;
+  }
+});
 </script>
 </body>
 </html>

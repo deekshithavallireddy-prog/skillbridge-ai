@@ -1,0 +1,9 @@
+services:
+  - type: web
+    name: skillbridge-ai
+    env: node
+    plan: free
+    region: singapore
+    buildCommand: npm install
+    startCommand: node server/server.js
+    autoDeploy: true

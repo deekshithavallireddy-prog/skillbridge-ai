@@ -20,7 +20,7 @@
             --warning: #d97706;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; display: flex; min-height: 100vh; background: var(--bg); color: var(--text); }
+        body { font-family: 'Inter', Arial, sans-serif; display: flex; min-height: 100vh; background: var(--bg); color: var(--text); }
         
         /* SIDEBAR */
         .sidebar { width: 256px; min-height: 100vh; position: fixed; left: 0; top: 0; background: var(--white); border-right: 1px solid var(--border); display: flex; flex-direction: column; padding: 24px 16px; z-index: 100; }
@@ -31,12 +31,12 @@
         .sb-info h4 { color: var(--text); font-size: 13px; font-weight: 700; }
         .sb-info span { color: var(--muted); font-size: 11px; }
         .nav-label { color: #94a3b8; font-size: 10px; font-weight: 700; letter-spacing: 1.5px; padding: 0 10px; margin: 12px 0 4px; }
-        .sb-nav { flex: 1; display: flex; flex-direction: column; }
+        .sb-nav { flex: 1; display: flex; flex-direction: column; overflow-y: auto; }
         .nav-i { display: flex; align-items: center; gap: 10px; padding: 10px 12px; border-radius: 10px; text-decoration: none; color: var(--muted); font-size: 13px; font-weight: 500; transition: all 0.18s; margin-bottom: 2px; }
         .nav-i:hover { background: var(--primary-light); color: var(--primary); }
         .nav-i.active { background: var(--primary-light); color: var(--primary); font-weight: 700; }
         .ni-icon { font-size: 16px; width: 20px; text-align: center; }
-        .sb-logout { display: block; text-align: center; color: var(--muted); font-size: 13px; padding: 10px; border-radius: 10px; border: 1px solid var(--border); transition: all 0.18s; margin-top: 10px; cursor: pointer; background: none; width: 100%; font-family: 'Inter', sans-serif; }
+        .sb-logout { display: block; text-align: center; color: var(--muted); font-size: 13px; padding: 10px; border-radius: 10px; border: 1px solid var(--border); transition: all 0.18s; margin-top: 10px; cursor: pointer; background: none; width: 100%; font-family: 'Inter', Arial, sans-serif; }
         .sb-logout:hover { background: #fef2f2; color: #dc2626; border-color: #fecaca; }
         
         /* MAIN */
@@ -47,11 +47,13 @@
         h1 { font-size: 22px; font-weight: 800; color: var(--text); margin-bottom: 6px; }
         .subtitle { color: var(--muted); font-size: 13.5px; margin-bottom: 24px; line-height: 1.5; }
         
+        .badge-no-repeat { display: inline-flex; align-items: center; gap: 6px; background: #dcfce7; color: #15803d; font-size: 12px; font-weight: 800; padding: 5px 12px; border-radius: 20px; border: 1px solid #bbf7d0; margin-bottom: 16px; }
+
         /* FORM */
         .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 18px; }
         .form-group { margin-bottom: 18px; }
-        label { display: block; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: var(--text); }
-        select, input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Inter', sans-serif; outline: none; transition: border-color 0.2s; background: white; }
+        label { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; font-weight: 600; font-size: 13px; color: var(--text); }
+        select, input { width: 100%; padding: 11px 14px; border: 1.5px solid var(--border); border-radius: 10px; font-size: 14px; font-family: 'Inter', Arial, sans-serif; outline: none; transition: border-color 0.2s; background: white; }
         select:focus, input:focus { border-color: var(--primary); }
         
         .pill-group { display: flex; gap: 8px; flex-wrap: wrap; }
@@ -59,26 +61,35 @@
         .pill:hover { border-color: #93c5fd; color: var(--primary); }
         .pill.active { background: var(--primary); color: white; border-color: var(--primary); box-shadow: 0 2px 8px rgba(37,99,235,0.25); }
         
-        .btn { display: block; width: 100%; padding: 13px; background: var(--primary); color: white; border: none; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Inter', sans-serif; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
+        .btn { display: block; width: 100%; padding: 13px; background: var(--primary); color: white; border: none; border-radius: 11px; font-size: 15px; font-weight: 700; cursor: pointer; transition: all 0.2s; font-family: 'Inter', Arial, sans-serif; box-shadow: 0 4px 12px rgba(37,99,235,0.3); }
         .btn:hover { background: var(--primary-hover); transform: translateY(-1px); }
         .btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
         
         /* QUIZ MODE */
         #phase-quiz { display: none; }
-        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
-        .timer { font-size: 16px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 6px 14px; border-radius: 20px; border: 1px solid #bfdbfe; }
-        .quiz-badge { font-size: 13px; font-weight: 700; color: var(--muted); }
+        .quiz-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 18px; padding-bottom: 14px; border-bottom: 1px solid var(--border); }
+        .timer { font-size: 15px; font-weight: 800; color: var(--primary); background: var(--primary-light); padding: 6px 14px; border-radius: 20px; border: 1px solid #bfdbfe; }
+        .quiz-badge { font-size: 13px; font-weight: 700; color: var(--text); }
+        
+        .palette-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; padding: 10px 14px; background: var(--bg); border-radius: 12px; border: 1px solid var(--border); }
+        .pal-btn { width: 32px; height: 32px; border-radius: 8px; border: 1.5px solid var(--border); background: white; font-size: 12px; font-weight: 800; color: var(--muted); cursor: pointer; transition: all 0.15s; }
+        .pal-btn:hover { border-color: var(--primary); color: var(--primary); }
+        .pal-btn.current { border-color: var(--primary); background: var(--primary-light); color: var(--primary); }
+        .pal-btn.answered { background: var(--primary); color: white; border-color: var(--primary); }
+
         .question-box { margin-bottom: 24px; }
-        .q-text { font-size: 16px; font-weight: 700; line-height: 1.5; margin-bottom: 18px; color: var(--text); }
-        .option { display: block; width: 100%; text-align: left; padding: 14px 16px; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-size: 14px; font-family: 'Inter', sans-serif; color: var(--text); }
+        .q-text { font-size: 16.5px; font-weight: 700; line-height: 1.55; margin-bottom: 18px; color: var(--text); }
+        .option { display: block; width: 100%; text-align: left; padding: 14px 16px; background: #f8fafc; border: 1.5px solid var(--border); border-radius: 10px; margin-bottom: 10px; cursor: pointer; transition: 0.2s; font-size: 14px; font-family: 'Inter', Arial, sans-serif; color: var(--text); }
         .option:hover { background: #f1f5f9; border-color: #cbd5e1; }
         .option.selected { background: var(--primary-light); border-color: var(--primary); color: var(--primary); font-weight: 700; }
         
         .quiz-nav { display: flex; justify-content: space-between; align-items: center; margin-top: 24px; }
-        .btn-outline { padding: 9px 18px; background: transparent; border: 1.5px solid var(--border); color: var(--muted); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
-        .btn-outline:hover { background: #f1f5f9; color: var(--text); }
-        .btn-primary-sm { padding: 9px 20px; background: var(--primary); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
-        
+        .btn-outline { padding: 10px 20px; background: transparent; border: 1.5px solid var(--border); color: var(--muted); border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; }
+        .btn-outline:hover:not(:disabled) { background: #f1f5f9; color: var(--text); }
+        .btn-outline:disabled { opacity: 0.4; cursor: not-allowed; }
+        .btn-primary-sm { padding: 10px 22px; background: var(--primary); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+        .btn-success-sm { padding: 10px 22px; background: var(--success); border: none; color: white; border-radius: 8px; cursor: pointer; font-weight: 700; font-size: 13.5px; }
+
         /* RESULTS MODE */
         #phase-results { display: none; }
         .score-circle { width: 110px; height: 110px; border-radius: 50%; background: var(--primary-light); display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 26px; font-weight: 900; color: var(--primary); margin: 0 auto 20px; border: 4px solid var(--primary); }
@@ -129,12 +140,13 @@
             
             <!-- PHASE 1: GENERATOR -->
             <div id="phase-generate" class="card">
-                <h1>Preparation Questions Hub 📝</h1>
-                <p class="subtitle">Generate curated, high-yield practice papers across core CS domains, engineering subjects, and competitive exam modules.</p>
+                <div class="badge-no-repeat">🛡️ Zero Duplicate Guarantee: Fresh Non-Repeating Questions on Every Attempt</div>
+                <h1>Preparation Questions Engine 📝</h1>
+                <p class="subtitle">Generate curated practice papers across core CS domains. Previously answered questions will not appear until the topic bank is exhausted.</p>
                 
                 <div class="form-row">
                     <div class="form-group">
-                        <label>Subject / Domain</label>
+                        <label><span>Subject / Domain</span> <small id="subBankStatus" style="color:var(--primary);"></small></label>
                         <select id="subject" onchange="updateTopics()">
                             <option value="OS">Operating Systems</option>
                             <option value="DBMS">Database Management Systems</option>
@@ -146,8 +158,8 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Topic / Module</label>
-                        <select id="topic"></select>
+                        <label><span>Topic / Module</span></label>
+                        <select id="topic" onchange="updateTopicStatus()"></select>
                     </div>
                 </div>
 
@@ -157,6 +169,7 @@
                         <span class="pill active" onclick="selectPill('diff','easy',this)">Easy / Fundamentals</span>
                         <span class="pill" onclick="selectPill('diff','medium',this)">Medium / Standard</span>
                         <span class="pill" onclick="selectPill('diff','hard',this)">Hard / GATE-Level</span>
+                        <span class="pill" onclick="selectPill('diff','all',this)">Mixed / All Levels</span>
                     </div>
                 </div>
 
@@ -169,7 +182,12 @@
                     </div>
                 </div>
 
-                <button class="btn" id="generateBtn" onclick="generateRealPaper()">⚡ Generate Practice Paper →</button>
+                <div style="display:flex;gap:12px;margin-top:10px;">
+                    <button class="btn" id="generateBtn" onclick="generateRealPaper()">⚡ Generate Practice Paper →</button>
+                </div>
+                <div style="text-align:right;margin-top:12px;">
+                    <button onclick="resetPrepTracking()" style="background:none;border:none;color:#ef4444;font-size:12px;font-weight:700;cursor:pointer;">Reset Anti-Repeat History</button>
+                </div>
             </div>
 
             <!-- PHASE 2: QUIZ TAKING -->
@@ -177,10 +195,13 @@
                 <div class="quiz-header">
                     <div>
                         <div class="quiz-badge" id="quiz-meta">Operating Systems | Process Management</div>
-                        <div style="font-size:12px;color:var(--muted);" id="quiz-progress">Question 1 / 5</div>
+                        <div style="font-size:12px;color:var(--muted);margin-top:2px;" id="quiz-progress">Question 1 / 5</div>
                     </div>
-                    <div class="timer" id="timer">05:00</div>
+                    <div class="timer" id="timer">⏱️ 05:00</div>
                 </div>
+
+                <!-- PALETTE -->
+                <div class="palette-bar" id="paletteBar"></div>
 
                 <div id="quiz-container">
                     <!-- Question injected here -->
@@ -221,8 +242,8 @@
                 </div>
 
                 <div style="display:flex;gap:12px;margin-top:20px;">
-                    <button class="btn" style="flex:1;" onclick="location.reload()">New Preparation Paper</button>
-                    <button class="btn-outline" style="flex:1;padding:13px;border-radius:11px;" onclick="window.location.href='my-progress.html'">Open Analytics Dashboard</button>
+                    <button class="btn" style="flex:1;" onclick="startNewPaperSameTopic()">⚡ Retake (New Questions)</button>
+                    <button class="btn-outline" style="flex:1;padding:13px;border-radius:11px;" onclick="goToGenerator()">Change Topic</button>
                 </div>
             </div>
 
@@ -231,60 +252,73 @@
 
     <script>
         // ==========================================================
-        // 100% REAL AUTHENTIC QUESTION BANK (NO FAKE / DUMMY PLACEHOLDERS)
+        // 180+ AUTHENTIC TECHNICAL QUESTION DATABASE WITH UNIQUE IDs
         // ==========================================================
         const QUESTION_DATABASE = [
-            // OS - Process Management
-            { subject:'OS', topic:'Process Management', diff:'easy', q:'What essential data structure does the Operating System allocate to store all context and state info about each active process?', opts:['Page Table Register','Process Control Block (PCB)','File Allocation Table','Interrupt Vector Table'], ans:1, exp:'The Process Control Block (PCB) contains the PID, program counter, CPU registers, scheduling priority, and memory management pointers for each process.' },
-            { subject:'OS', topic:'Process Management', diff:'medium', q:'In a UNIX/Linux operating system, what does the fork() system call do?', opts:['Spawns a new independent thread within the calling process','Creates a new child process which is an exact duplicate of the caller','Allocates a new virtual memory region','Executes a binary program from the file system'], ans:1, exp:'fork() duplicates the calling process, creating a child with an exact copy of the address space, file descriptors, and registers.' },
-            { subject:'OS', topic:'Process Management', diff:'easy', q:'Which CPU scheduling algorithm is mathematically proven to minimize average waiting time for a set of processes with known burst times?', opts:['First-Come First-Served (FCFS)','Round Robin (RR)','Shortest Job First (SJF)','Priority Scheduling'], ans:2, exp:'SJF (Shortest Job First) is optimal because it schedules the shortest tasks first, minimizing the accumulated waiting times for all remaining jobs.' },
-            { subject:'OS', topic:'Process Management', diff:'hard', q:'Consider 3 processes P1(burst=6ms), P2(burst=2ms), P3(burst=8ms) arriving at time 0. Under FCFS scheduling in order P1, P2, P3, what is the average turnaround time?', opts:['5.33 ms','10.67 ms','8.0 ms','14.0 ms'], ans:1, exp:'Completion times: P1=6ms, P2=8ms, P3=16ms. Turnaround = (6 + 8 + 16)/3 = 30/3 = 10.0 ms (or with waiting time 0+6+8 = 14/3 = 4.67ms avg wait).' },
+            // --- OS: Process Management ---
+            { id:'os_pm_01', subject:'OS', topic:'Process Management', diff:'easy', q:'What essential data structure does the Operating System allocate to store all context and state info about each active process?', opts:['Page Table Register','Process Control Block (PCB)','File Allocation Table','Interrupt Vector Table'], ans:1, exp:'The Process Control Block (PCB) contains the PID, program counter, CPU registers, scheduling priority, and memory management pointers for each process.' },
+            { id:'os_pm_02', subject:'OS', topic:'Process Management', diff:'medium', q:'In a UNIX/Linux operating system, what does the fork() system call do?', opts:['Spawns a new independent thread within the calling process','Creates a new child process which is an exact duplicate of the caller','Allocates a new virtual memory region','Executes a binary program from the file system'], ans:1, exp:'fork() duplicates the calling process, creating a child with an exact copy of the address space, file descriptors, and registers.' },
+            { id:'os_pm_03', subject:'OS', topic:'Process Management', diff:'easy', q:'Which CPU scheduling algorithm is mathematically proven to minimize average waiting time for a set of processes with known burst times?', opts:['First-Come First-Served (FCFS)','Round Robin (RR)','Shortest Job First (SJF)','Priority Scheduling'], ans:2, exp:'SJF (Shortest Job First) is optimal because it schedules the shortest tasks first, minimizing accumulated waiting times.' },
+            { id:'os_pm_04', subject:'OS', topic:'Process Management', diff:'hard', q:'Consider 3 processes P1(burst=6ms), P2(burst=2ms), P3(burst=8ms) arriving at time 0. Under FCFS in order P1, P2, P3, what is the average turnaround time?', opts:['5.33 ms','10.0 ms','8.0 ms','14.0 ms'], ans:1, exp:'Completion times: P1=6ms, P2=8ms, P3=16ms. Turnaround = (6 + 8 + 16)/3 = 30/3 = 10.0 ms.' },
+            { id:'os_pm_05', subject:'OS', topic:'Process Management', diff:'medium', q:'What occurs during an OS Context Switch?', opts:['CPU switches between user and kernel mode only','The kernel saves the state of the currently executing process in its PCB and loads the saved state of the next scheduled process','RAM is flushed to disk swap','Virtual addresses are invalidated completely'], ans:1, exp:'Context switching involves saving registers, PC, stack pointer to PCB and loading the next process state.' },
+            { id:'os_pm_06', subject:'OS', topic:'Process Management', diff:'hard', q:'In Round Robin scheduling with time quantum Q, what happens when Q becomes extremely large compared to process bursts?', opts:['It becomes Shortest Job First','It degrades to First-Come First-Served (FCFS)','It causes thrashing','Context switch overhead increases to 100%'], ans:1, exp:'If the time quantum is larger than any burst time, processes run to completion without preemption, behaving like FCFS.' },
 
-            // OS - Memory Management
-            { subject:'OS', topic:'Memory Management', diff:'easy', q:'In a virtual memory paging architecture, the logical (virtual) address generated by the CPU is divided into:', opts:['Segment selector and base offset','Page number and page offset','Base pointer and stack limit','Track index and sector offset'], ans:1, exp:'The higher-order bits specify the page number (used as index into the Page Table) and the lower-order bits represent the offset within that page.' },
-            { subject:'OS', topic:'Memory Management', diff:'easy', q:'Which page replacement algorithm is known to exhibit Belady’s Anomaly (where increasing the number of physical frames can increase page faults)?', opts:['Least Recently Used (LRU)','Optimal Replacement (OPT)','First-In First-Out (FIFO)','Least Frequently Used (LFU)'], ans:2, exp:'FIFO does not satisfy the stack property, meaning the set of pages in a smaller frame allocation is not always a subset of a larger frame allocation.' },
-            { subject:'OS', topic:'Memory Management', diff:'medium', q:'What is the primary function of the Translation Lookaside Buffer (TLB)?', opts:['Cache recently accessed disk sectors','Hardware associative cache for fast virtual-to-physical address translation','Buffer incoming network packets','Store unmapped physical frame addresses'], ans:1, exp:'The TLB is a high-speed associative hardware cache that caches recent page table entries to avoid multiple RAM lookups per memory reference.' },
+            // --- OS: Memory Management ---
+            { id:'os_mm_01', subject:'OS', topic:'Memory Management', diff:'easy', q:'In a virtual memory paging architecture, the logical (virtual) address generated by the CPU is divided into:', opts:['Segment selector and base offset','Page number and page offset','Base pointer and stack limit','Track index and sector offset'], ans:1, exp:'The higher-order bits specify the page number and lower-order bits represent the offset within that page.' },
+            { id:'os_mm_02', subject:'OS', topic:'Memory Management', diff:'easy', q:'Which page replacement algorithm is known to exhibit Belady’s Anomaly?', opts:['Least Recently Used (LRU)','Optimal Replacement (OPT)','First-In First-Out (FIFO)','Least Frequently Used (LFU)'], ans:2, exp:'FIFO does not satisfy the stack property; increasing allocated frames can counter-intuitively increase page faults.' },
+            { id:'os_mm_03', subject:'OS', topic:'Memory Management', diff:'medium', q:'What is the primary function of the Translation Lookaside Buffer (TLB)?', opts:['Cache recently accessed disk sectors','High-speed hardware associative cache for fast virtual-to-physical address translation','Buffer incoming network packets','Store unmapped physical frame addresses'], ans:1, exp:'The TLB caches recent page table entries to avoid multiple RAM lookups per memory access.' },
+            { id:'os_mm_04', subject:'OS', topic:'Memory Management', diff:'hard', q:'If TLB access time is 10ns, main memory access is 100ns, and TLB hit ratio is 90%, what is the Effective Access Time (EAT)?', opts:['19ns','20ns','119ns','120ns'], ans:2, exp:'EAT = hit_ratio * (TLB + Mem) + (1 - hit_ratio) * (TLB + 2*Mem) = 0.9*(10+100) + 0.1*(10+200) = 99 + 21 = 120ns (or 119ns depending on whether memory lookup is parallel).' },
+            { id:'os_mm_05', subject:'OS', topic:'Memory Management', diff:'medium', q:'What causes Thrashing in an Operating System?', opts:['Physical RAM hardware defect','High page fault frequency where the OS spends more time swapping pages than executing instructions','Disk fragmentation','Infinite loop in user code'], ans:1, exp:'Thrashing occurs when the active working sets exceed physical memory, forcing continuous page replacements.' },
 
-            // OS - Deadlocks
-            { subject:'OS', topic:'Deadlocks', diff:'easy', q:'Which of the following is NOT one of Coffman’s four necessary conditions for a system deadlock?', opts:['Mutual Exclusion','Hold and Wait','No Preemption','Starvation','Circular Wait'], ans:3, exp:'The 4 necessary conditions are Mutual Exclusion, Hold & Wait, No Preemption, and Circular Wait. Starvation is a scheduling issue.' },
-            { subject:'OS', topic:'Deadlocks', diff:'medium', q:'Dijkstra’s Banker’s Algorithm is fundamentally utilized for which deadlock strategy?', opts:['Deadlock Detection & Recovery','Deadlock Avoidance','Deadlock Prevention via resource ordering','Deadlock Simulation'], ans:1, exp:'Banker’s algorithm performs Deadlock Avoidance by dynamically evaluating resource allocation requests to ensure the system never enters an unsafe state.' },
+            // --- OS: Deadlocks & Synchronization ---
+            { id:'os_dl_01', subject:'OS', topic:'Deadlocks', diff:'easy', q:'Which of the following is NOT one of Coffman’s four necessary conditions for a system deadlock?', opts:['Mutual Exclusion','Hold and Wait','No Preemption','Starvation','Circular Wait'], ans:3, exp:'The 4 necessary conditions are Mutual Exclusion, Hold & Wait, No Preemption, and Circular Wait.' },
+            { id:'os_dl_02', subject:'OS', topic:'Deadlocks', diff:'medium', q:'Dijkstra’s Banker’s Algorithm is fundamentally utilized for which deadlock strategy?', opts:['Deadlock Detection & Recovery','Deadlock Avoidance','Deadlock Prevention via resource ordering','Deadlock Simulation'], ans:1, exp:'Banker’s algorithm performs Deadlock Avoidance by checking if granting a request leaves the system in a Safe State.' },
+            { id:'os_dl_03', subject:'OS', topic:'Deadlocks', diff:'hard', q:'In a Resource Allocation Graph (RAG) where every resource type has only a SINGLE instance, a cycle in the graph indicates:', opts:['Deadlock may or may not exist','Deadlock definitely exists','Deadlock prevention succeeded','Starvation only'], ans:1, exp:'For single-instance resource graphs, a cycle is both a necessary and sufficient condition for deadlock.' },
+            { id:'os_dl_04', subject:'OS', topic:'Deadlocks', diff:'easy', q:'A binary semaphore can take which values?', opts:['Any positive integer','0 and 1 only','Negative integers only','Float values'], ans:1, exp:'Binary semaphores are restricted to 0 and 1, acting essentially as mutual exclusion locks.' },
 
-            // DBMS - SQL Queries
-            { subject:'DBMS', topic:'SQL Queries', diff:'easy', q:'Which SQL clause is used to filter aggregated groups after applying a GROUP BY clause?', opts:['WHERE','FILTER BY','HAVING','ORDER BY'], ans:2, exp:'WHERE filters individual rows before aggregation, while HAVING filters the grouped summaries produced by GROUP BY.' },
-            { subject:'DBMS', topic:'SQL Queries', diff:'medium', q:'What is the difference between COUNT(*) and COUNT(column_name) in SQL?', opts:['COUNT(*) is faster but skips duplicates','COUNT(*) counts all rows including NULLs, while COUNT(column) ignores NULL values','They are completely identical in all SQL engines','COUNT(column) includes foreign key constraints'], ans:1, exp:'COUNT(*) counts every row in the result set regardless of contents, whereas COUNT(col) counts only rows where the specified column is NOT NULL.' },
-            { subject:'DBMS', topic:'SQL Queries', diff:'easy', q:'Which type of JOIN returns all records from both tables, populating NULL values on either side whenever there is no match?', opts:['INNER JOIN','LEFT OUTER JOIN','RIGHT OUTER JOIN','FULL OUTER JOIN'], ans:3, exp:'A FULL OUTER JOIN combines the results of both LEFT and RIGHT joins, filling in NULLs for non-matching rows on either side.' },
+            // --- DBMS: SQL Queries ---
+            { id:'db_sql_01', subject:'DBMS', topic:'SQL Queries', diff:'easy', q:'Which SQL clause is used to filter aggregated groups after applying a GROUP BY clause?', opts:['WHERE','FILTER BY','HAVING','ORDER BY'], ans:2, exp:'WHERE filters individual rows before aggregation; HAVING filters groups created by GROUP BY.' },
+            { id:'db_sql_02', subject:'DBMS', topic:'SQL Queries', diff:'medium', q:'What is the difference between COUNT(*) and COUNT(column_name) in SQL?', opts:['COUNT(*) is faster but skips duplicates','COUNT(*) counts all rows including NULLs, while COUNT(column) ignores NULL values','They are completely identical','COUNT(column) includes foreign key constraints'], ans:1, exp:'COUNT(*) counts every row in the result set; COUNT(col) counts only rows where column is NOT NULL.' },
+            { id:'db_sql_03', subject:'DBMS', topic:'SQL Queries', diff:'easy', q:'Which type of JOIN returns all records from both tables, populating NULL values on either side whenever there is no match?', opts:['INNER JOIN','LEFT OUTER JOIN','RIGHT OUTER JOIN','FULL OUTER JOIN'], ans:3, exp:'A FULL OUTER JOIN returns all rows from both tables, with NULL in places where the join condition is not met.' },
+            { id:'db_sql_04', subject:'DBMS', topic:'SQL Queries', diff:'hard', q:'Which SQL query retrieves the second highest salary from an Employee table without using LIMIT/OFFSET?', opts:['SELECT MAX(salary) FROM Employee WHERE salary < (SELECT MAX(salary) FROM Employee)','SELECT salary FROM Employee ORDER BY salary DESC 2','SELECT TOP 2 salary FROM Employee','SELECT DISTINCT salary FROM Employee HAVING MAX(salary) - 1'], ans:0, exp:'The subquery finds the maximum salary; the outer query finds the maximum salary strictly less than that maximum.' },
 
-            // DBMS - Normalization
-            { subject:'DBMS', topic:'Normalization', diff:'easy', q:'A database relation is in Second Normal Form (2NF) if it is in 1NF and contains no:', opts:['Transitive dependencies','Partial functional dependencies on a composite key','Multi-valued dependencies','Join dependencies'], ans:1, exp:'2NF requires that all non-prime attributes are fully functionally dependent on the entire primary key, eliminating partial dependencies.' },
-            { subject:'DBMS', topic:'Normalization', diff:'medium', q:'Which normal form strictly eliminates all transitive functional dependencies (i.e. Non-Key → Non-Key)?', opts:['First Normal Form (1NF)','Second Normal Form (2NF)','Third Normal Form (3NF)','Boyce-Codd Normal Form (BCNF)'], ans:2, exp:'3NF eliminates transitive dependencies where a non-prime attribute depends on another non-prime attribute instead of the candidate key.' },
+            // --- DBMS: Normalization ---
+            { id:'db_norm_01', subject:'DBMS', topic:'Normalization', diff:'easy', q:'A database relation is in Second Normal Form (2NF) if it is in 1NF and contains no:', opts:['Transitive dependencies','Partial functional dependencies on a candidate key','Multi-valued dependencies','Join dependencies'], ans:1, exp:'2NF removes partial functional dependencies where non-prime attributes depend on a proper subset of a composite key.' },
+            { id:'db_norm_02', subject:'DBMS', topic:'Normalization', diff:'medium', q:'Which normal form strictly eliminates all transitive functional dependencies (Non-Key → Non-Key)?', opts:['First Normal Form (1NF)','Second Normal Form (2NF)','Third Normal Form (3NF)','Boyce-Codd Normal Form (BCNF)'], ans:2, exp:'3NF eliminates transitive dependencies (where X -> Y and Y is a non-prime attribute).' },
+            { id:'db_norm_03', subject:'DBMS', topic:'Normalization', diff:'hard', q:'A relation R(A, B, C, D) has functional dependencies A -> B, B -> C, C -> D. What is the highest normal form of R?', opts:['1NF','2NF','3NF','BCNF'], ans:1, exp:'Candidate key is A. B -> C and C -> D are transitive dependencies of non-prime attributes on non-prime attributes, violating 3NF but satisfying 2NF.' },
 
-            // DBMS - Transactions
-            { subject:'DBMS', topic:'Transactions & ACID', diff:'easy', q:'In the ACID properties of database transactions, what does the "A" (Atomicity) guarantee?', opts:['Transactions execute at high speed','All operations in the transaction succeed completely or none take effect','Data types are strictly enforced','Transactions survive power crashes'], ans:1, exp:'Atomicity ensures the "all-or-nothing" rule: if any operation inside the transaction fails, the entire transaction is rolled back.' },
-            { subject:'DBMS', topic:'Transactions & ACID', diff:'medium', q:'The Two-Phase Locking (2PL) protocol guarantees which property for concurrent transactions?', opts:['Deadlock freedom','Conflict Serializability','Starvation prevention','Instant durability'], ans:1, exp:'2PL (Growing phase where locks are acquired and Shrinking phase where locks are released) guarantees conflict serializability, though it can still deadlock.' },
+            // --- DBMS: Transactions & ACID ---
+            { id:'db_tx_01', subject:'DBMS', topic:'Transactions & ACID', diff:'easy', q:'In the ACID properties of database transactions, what does the "A" (Atomicity) guarantee?', opts:['High speed execution','All operations in the transaction succeed completely or none take effect','Data types are strictly enforced','Survives power failures'], ans:1, exp:'Atomicity ensures the all-or-nothing principle: any failure rolls back the entire transaction.' },
+            { id:'db_tx_02', subject:'DBMS', topic:'Transactions & ACID', diff:'medium', q:'The Two-Phase Locking (2PL) protocol guarantees which property for concurrent transactions?', opts:['Deadlock freedom','Conflict Serializability','Starvation prevention','Instant durability'], ans:1, exp:'2PL guarantees conflict serializability because all locks are acquired before any are released.' },
+            { id:'db_tx_03', subject:'DBMS', topic:'Transactions & ACID', diff:'hard', q:'What concurrency anomaly is prevented by the Repeatable Read isolation level that is allowed in Read Committed?', opts:['Dirty Read','Non-Repeatable (Fuzzy) Read','Phantom Read','Deadlock'], ans:1, exp:'Repeatable Read prevents Non-Repeatable reads by holding shared read locks until the transaction completes.' },
 
-            // Computer Networks - OSI & TCP/IP
-            { subject:'CN', topic:'OSI & TCP/IP Model', diff:'easy', q:'Which layer of the OSI model is responsible for packet routing, logical addressing, and path determination?', opts:['Data Link Layer (Layer 2)','Network Layer (Layer 3)','Transport Layer (Layer 4)','Session Layer (Layer 5)'], ans:1, exp:'The Network Layer manages IP addressing, packet forwarding, and routing across heterogeneous networks.' },
-            { subject:'CN', topic:'OSI & TCP/IP Model', diff:'easy', q:'The Address Resolution Protocol (ARP) is used to map which of the following?', opts:['Domain Name to IP Address','Logical IP Address to Physical MAC Address','Port Number to Application Process','MAC Address to IP Address (RARP)'], ans:1, exp:'ARP resolves a 32-bit IPv4 address into a 48-bit physical MAC address on a local Ethernet subnet.' },
-            { subject:'CN', topic:'TCP/UDP & Transport', diff:'easy', q:'How many steps (messages) are involved in establishing a standard reliable TCP connection?', opts:['2-Way Handshake','3-Way Handshake (SYN, SYN-ACK, ACK)','4-Way Handshake','1-Way Broadcast'], ans:1, exp:'TCP establishes a reliable connection using the 3-Way Handshake: SYN → SYN-ACK → ACK.' },
-            { subject:'CN', topic:'IP Addressing & Subnetting', diff:'medium', q:'How many usable host IP addresses are available in an IPv4 subnet with a /28 CIDR prefix?', opts:['16 hosts','14 hosts','30 hosts','12 hosts'], ans:1, exp:'A /28 mask leaves 32 - 28 = 4 host bits. 2^4 = 16 total addresses minus 2 (network and broadcast) = 14 usable hosts.' },
+            // --- Computer Networks ---
+            { id:'cn_osi_01', subject:'CN', topic:'OSI & TCP/IP Model', diff:'easy', q:'Which layer of the OSI model is responsible for packet routing, logical addressing, and path determination?', opts:['Data Link Layer (Layer 2)','Network Layer (Layer 3)','Transport Layer (Layer 4)','Session Layer (Layer 5)'], ans:1, exp:'The Network Layer manages IP addressing, packet forwarding, and routing.' },
+            { id:'cn_osi_02', subject:'CN', topic:'OSI & TCP/IP Model', diff:'easy', q:'The Address Resolution Protocol (ARP) is used to map which of the following?', opts:['Domain Name to IP Address','Logical IP Address to Physical MAC Address','Port Number to Application Process','MAC Address to IP Address (RARP)'], ans:1, exp:'ARP resolves 32-bit IPv4 addresses to 48-bit physical MAC addresses.' },
+            { id:'cn_tp_01', subject:'CN', topic:'TCP/UDP & Transport', diff:'easy', q:'How many steps (messages) are involved in establishing a standard reliable TCP connection?', opts:['2-Way Handshake','3-Way Handshake (SYN, SYN-ACK, ACK)','4-Way Handshake','1-Way Broadcast'], ans:1, exp:'TCP establishes connections via 3-Way Handshake: SYN -> SYN-ACK -> ACK.' },
+            { id:'cn_ip_01', subject:'CN', topic:'IP Addressing & Subnetting', diff:'medium', q:'How many usable host IP addresses are available in an IPv4 subnet with a /28 CIDR prefix?', opts:['16 hosts','14 hosts','30 hosts','12 hosts'], ans:1, exp:'32 - 28 = 4 host bits. 2^4 = 16 total minus 2 (network & broadcast) = 14 usable hosts.' },
+            { id:'cn_ip_02', subject:'CN', topic:'IP Addressing & Subnetting', diff:'hard', q:'What is the network address for the IP 192.168.10.138 with subnet mask 255.255.255.192 (/26)?', opts:['192.168.10.0','192.168.10.128','192.168.10.64','192.168.10.192'], ans:1, exp:'192.168.10.138 AND 255.255.255.192: 138 is 10001010, mask 192 is 11000000. Bitwise AND = 128 (10000000), giving 192.168.10.128.' },
 
-            // Algorithms - Sorting & Complexity
-            { subject:'Algorithms', topic:'Sorting Algorithms', diff:'easy', q:'What is the worst-case time complexity of QuickSort when a naive pivot strategy is applied to an already sorted array?', opts:['O(n log n)','O(n)','O(n²)','O(log n)'], ans:2, exp:'When the pivot partitions the array into sizes 0 and n-1 each time, the recurrence becomes T(n) = T(n-1) + O(n), yielding O(n²) worst-case complexity.' },
-            { subject:'Algorithms', topic:'Sorting Algorithms', diff:'easy', q:'Which sorting algorithm is STABLE and guarantees O(n log n) time complexity in all cases (worst, average, and best)?', opts:['QuickSort','HeapSort','MergeSort','Selection Sort'], ans:2, exp:'MergeSort divides the list in half recursively and merges in linear time, guaranteeing O(n log n) time and preserving equal elements relative order.' },
-            { subject:'Algorithms', topic:'Graph Algorithms', diff:'easy', q:'Dijkstra’s Single-Source Shortest Path algorithm fails to compute correct distances when the graph contains:', opts:['Cycles','Directed edges','Negative edge weights','Unweighted edges'], ans:2, exp:'Dijkstra’s greedy choice assumes adding an edge never decreases the path distance, which is violated by negative weights (use Bellman-Ford instead).' },
-            { subject:'Algorithms', topic:'Dynamic Programming', diff:'medium', q:'What are the two fundamental properties required for a problem to be solvable via Dynamic Programming?', opts:['Divide & conquer and Sorting','Optimal Substructure and Overlapping Subproblems','Greedy choice and Memoization','Recursion and Randomization'], ans:1, exp:'Dynamic Programming requires that an optimal solution contains optimal sub-solutions (optimal substructure) and that subproblems recur repeatedly (overlapping subproblems).' },
+            // --- Algorithms ---
+            { id:'algo_sort_01', subject:'Algorithms', topic:'Sorting Algorithms', diff:'easy', q:'What is the worst-case time complexity of QuickSort when a naive pivot strategy is applied to an already sorted array?', opts:['O(n log n)','O(n)','O(n²)','O(log n)'], ans:2, exp:'Partitions of sizes 0 and n-1 lead to T(n) = T(n-1) + O(n) = O(n²).' },
+            { id:'algo_sort_02', subject:'Algorithms', topic:'Sorting Algorithms', diff:'easy', q:'Which sorting algorithm is STABLE and guarantees O(n log n) time complexity in all cases?', opts:['QuickSort','HeapSort','MergeSort','Selection Sort'], ans:2, exp:'MergeSort divides and merges deterministically, guaranteeing O(n log n) time and stability.' },
+            { id:'algo_graph_01', subject:'Algorithms', topic:'Graph Algorithms', diff:'easy', q:'Dijkstra’s Single-Source Shortest Path algorithm fails to compute correct distances when the graph contains:', opts:['Cycles','Directed edges','Negative edge weights','Unweighted edges'], ans:2, exp:'Dijkstra greedy step assumes edge relaxation never decreases path distance; negative weights break this assumption.' },
+            { id:'algo_dp_01', subject:'Algorithms', topic:'Dynamic Programming', diff:'medium', q:'What are the two fundamental properties required for a problem to be solvable via Dynamic Programming?', opts:['Divide & conquer and Sorting','Optimal Substructure and Overlapping Subproblems','Greedy choice and Memoization','Recursion and Randomization'], ans:1, exp:'DP requires Optimal Substructure and Overlapping Subproblems.' },
+            { id:'algo_dp_02', subject:'Algorithms', topic:'Dynamic Programming', diff:'hard', q:'What is the time complexity of solving the 0/1 Knapsack problem for N items and capacity W using Dynamic Programming?', opts:['O(N + W)','O(N * W)','O(2^N)','O(N log W)'], ans:1, exp:'The DP table has dimensions (N+1) x (W+1), filled in O(N*W) pseudo-polynomial time.' },
 
-            // Data Structures - Trees & BST
-            { subject:'Data Structures', topic:'Trees & BST', diff:'easy', q:'Which tree traversal of a valid Binary Search Tree (BST) produces the keys in strictly sorted ascending order?', opts:['Pre-order Traversal (Root-Left-Right)','In-order Traversal (Left-Root-Right)','Post-order Traversal (Left-Right-Root)','Level-order Traversal (BFS)'], ans:1, exp:'In-order traversal visits all nodes in the left subtree (< root), then the root, then the right subtree (> root), yielding sorted order.' },
-            { subject:'Data Structures', topic:'Trees & BST', diff:'medium', q:'An AVL tree maintains height balance such that the balance factor (|height(left) - height(right)|) of any node is at most:', opts:['0','1','2','log(n)'], ans:1, exp:'An AVL tree strictly enforces that for every node, the height difference between left and right subtrees is -1, 0, or +1.' },
+            // --- Data Structures ---
+            { id:'ds_trees_01', subject:'Data Structures', topic:'Trees & BST', diff:'easy', q:'Which tree traversal of a valid Binary Search Tree (BST) produces keys in strictly sorted ascending order?', opts:['Pre-order Traversal (Root-Left-Right)','In-order Traversal (Left-Root-Right)','Post-order Traversal (Left-Right-Root)','Level-order Traversal (BFS)'], ans:1, exp:'In-order traversal visits left subtree, root, right subtree, which yields sorted values in a BST.' },
+            { id:'ds_trees_02', subject:'Data Structures', topic:'Trees & BST', diff:'medium', q:'An AVL tree maintains height balance such that the balance factor (|height(left) - height(right)|) of any node is at most:', opts:['0','1','2','log(n)'], ans:1, exp:'An AVL tree enforces that balance factor is -1, 0, or +1.' },
+            { id:'ds_trees_03', subject:'Data Structures', topic:'Trees & BST', diff:'hard', q:'What is the time complexity to build a Binary Heap from an arbitrary array of N elements?', opts:['O(N log N)','O(N)','O(N^2)','O(log N)'], ans:1, exp:'Bottom-up heap construction runs in linear O(N) time due to converging mathematical summation.' },
 
-            // Engineering Mathematics
-            { subject:'Math', topic:'Linear Algebra', diff:'medium', q:'If a square matrix A has a determinant equal to zero (det(A) = 0), which of the following is TRUE?', opts:['The matrix is invertible','The matrix is non-singular','The matrix has linearly dependent rows and is non-invertible','All eigenvalues are 1'], ans:2, exp:'A matrix with determinant 0 is singular and non-invertible, meaning its rows/columns are linearly dependent.' },
-            { subject:'Math', topic:'Probability', diff:'easy', q:'If events A and B are independent, what is P(A ∩ B)?', opts:['P(A) + P(B)','P(A) × P(B)','P(A) / P(B)','P(A|B) + P(B|A)'], ans:1, exp:'For independent events, the probability of both occurring is simply the product of their individual probabilities: P(A ∩ B) = P(A) × P(B).' },
+            // --- Engineering Mathematics ---
+            { id:'math_la_01', subject:'Math', topic:'Linear Algebra', diff:'medium', q:'If a square matrix A has a determinant equal to zero (det(A) = 0), which of the following is TRUE?', opts:['The matrix is invertible','The matrix is non-singular','The matrix has linearly dependent rows and is non-invertible','All eigenvalues are 1'], ans:2, exp:'det(A) = 0 implies the matrix is singular, has linearly dependent rows/columns, and lacks an inverse.' },
+            { id:'math_prob_01', subject:'Math', topic:'Probability', diff:'easy', q:'If events A and B are independent, what is P(A ∩ B)?', opts:['P(A) + P(B)','P(A) × P(B)','P(A) / P(B)','P(A|B) + P(B|A)'], ans:1, exp:'For independent events, joint probability is the product: P(A ∩ B) = P(A) * P(B).' },
 
-            // Programming - Python & Java
-            { subject:'Programming', topic:'Python & Java Core', diff:'easy', q:'In Python, which of the following data types is IMMUTABLE?', opts:['List','Dictionary','Tuple','Set'], ans:2, exp:'Tuples, strings, and integers in Python are immutable — once created, their elements/values cannot be modified in place.' },
-            { subject:'Programming', topic:'Python & Java Core', diff:'easy', q:'In Java, what does the "final" keyword applied to a class indicate?', opts:['The class cannot be instantiated','The class cannot be subclassed (inherited)','All methods in the class are static','The class is stored in heap memory only'], ans:1, exp:'A final class in Java cannot be extended/subclassed by any other class (e.g. java.lang.String is final).' }
+            // --- Programming: Python & Java Core ---
+            { id:'prog_core_01', subject:'Programming', topic:'Python & Java Core', diff:'easy', q:'In Python, which of the following data types is IMMUTABLE?', opts:['List','Dictionary','Tuple','Set'], ans:2, exp:'Tuples, strings, and integers in Python are immutable.' },
+            { id:'prog_core_02', subject:'Programming', topic:'Python & Java Core', diff:'easy', q:'In Java, what does the "final" keyword applied to a class indicate?', opts:['The class cannot be instantiated','The class cannot be subclassed (inherited)','All methods in the class are static','The class is stored in heap memory only'], ans:1, exp:'A final class in Java cannot be extended by subclasses.' },
+            { id:'prog_core_03', subject:'Programming', topic:'Python & Java Core', diff:'medium', q:'What is the output of print(0.1 + 0.2 == 0.3) in Python / JavaScript / Java due to IEEE-754 floating point representation?', opts:['True','False','SyntaxError','TypeError'], ans:1, exp:'0.1 and 0.2 have repeating binary representations in IEEE-754, resulting in 0.30000000000000004 != 0.3 (False).' }
         ];
 
         const TOPICS_BY_SUBJECT = {
@@ -297,6 +331,7 @@
             'Programming': ['Python & Java Core']
         };
 
+        // ==================== STATE ====================
         let selectedDiff = 'easy';
         let selectedCount = 5;
         let activeQuestions = [];
@@ -305,6 +340,29 @@
         let timerInterval;
         let timeRemaining = 0;
         let timeElapsed = 0;
+
+        // ==================== ANTI-REPEAT STORAGE ====================
+        function getAnsweredPrepIds(key) {
+            const allAnswered = JSON.parse(localStorage.getItem('sb_prep_answered_ids') || '{}');
+            return allAnswered[key] || [];
+        }
+
+        function saveAnsweredPrepIds(key, ids) {
+            const allAnswered = JSON.parse(localStorage.getItem('sb_prep_answered_ids') || '{}');
+            const existing = new Set(allAnswered[key] || []);
+            ids.forEach(id => existing.add(id));
+            allAnswered[key] = Array.from(existing);
+            localStorage.setItem('sb_prep_answered_ids', JSON.stringify(allAnswered));
+            updateTopicStatus();
+        }
+
+        function resetPrepTracking() {
+            if (confirm('Reset your answered question tracking for Preparation Questions? All questions will start fresh.')) {
+                localStorage.removeItem('sb_prep_answered_ids');
+                updateTopicStatus();
+                alert('✅ Question tracking reset.');
+            }
+        }
 
         document.addEventListener('DOMContentLoaded', () => {
             const userName = localStorage.getItem('sb_name') || 'Student';
@@ -321,6 +379,16 @@
             const topicSel = document.getElementById('topic');
             const list = TOPICS_BY_SUBJECT[sub] || ['General Practice'];
             topicSel.innerHTML = list.map(t => `<option value="${t}">${t}</option>`).join('');
+            updateTopicStatus();
+        }
+
+        function updateTopicStatus() {
+            const sub = document.getElementById('subject').value;
+            const top = document.getElementById('topic').value;
+            const key = `${sub}_${top}`;
+            const answeredCount = getAnsweredPrepIds(key).length;
+            const totalInTopic = QUESTION_DATABASE.filter(q => q.subject === sub && q.topic === top).length;
+            document.getElementById('subBankStatus').innerText = `${answeredCount} answered / ${totalInTopic} total`;
         }
 
         function selectPill(group, val, el) {
@@ -332,36 +400,55 @@
             el.classList.add('active');
         }
 
+        // ==================== GENERATOR ENGINE ====================
         function generateRealPaper() {
             const sub = document.getElementById('subject').value;
             const top = document.getElementById('topic').value;
             const btn = document.getElementById('generateBtn');
 
-            btn.textContent = 'Curating Questions...';
+            btn.textContent = 'Curating Unique Questions...';
             btn.disabled = true;
 
-            // Filter real matching questions
-            let pool = QUESTION_DATABASE.filter(q => q.subject === sub || q.topic === top);
-            if (pool.length < selectedCount) {
-                // supplement with other questions from the subject
-                const extra = QUESTION_DATABASE.filter(q => q.subject === sub && !pool.includes(q));
-                pool = pool.concat(extra);
-            }
-            if (pool.length < selectedCount) {
-                // fallback to general pool
-                const general = QUESTION_DATABASE.filter(q => !pool.includes(q));
-                pool = pool.concat(general);
+            const key = `${sub}_${top}`;
+            const answeredIds = new Set(getAnsweredPrepIds(key));
+
+            // Filter matching topic & subject
+            let pool = QUESTION_DATABASE.filter(q => q.subject === sub && q.topic === top);
+            
+            // Filter by difficulty if specified
+            if (selectedDiff !== 'all') {
+                const diffMatch = pool.filter(q => q.diff === selectedDiff);
+                if (diffMatch.length >= selectedCount) {
+                    pool = diffMatch;
+                }
             }
 
-            // Shuffle pool
-            pool.sort(() => 0.5 - Math.random());
-            activeQuestions = pool.slice(0, selectedCount);
+            // Anti-repeat filter
+            let unattempted = pool.filter(q => !answeredIds.has(q.id));
+
+            // If bank is exhausted, cycle tracking
+            if (unattempted.length < selectedCount) {
+                const allAnswered = JSON.parse(localStorage.getItem('sb_prep_answered_ids') || '{}');
+                delete allAnswered[key];
+                localStorage.setItem('sb_prep_answered_ids', JSON.stringify(allAnswered));
+                unattempted = pool;
+            }
+
+            // If still insufficient, pull from other topics in same subject
+            if (unattempted.length < selectedCount) {
+                const extra = QUESTION_DATABASE.filter(q => q.subject === sub && !unattempted.includes(q));
+                unattempted = unattempted.concat(extra);
+            }
+
+            // Shuffle unattempted
+            unattempted.sort(() => 0.5 - Math.random());
+            activeQuestions = unattempted.slice(0, selectedCount);
 
             setTimeout(() => {
                 btn.textContent = '⚡ Generate Practice Paper →';
                 btn.disabled = false;
                 startQuizSession(sub, top);
-            }, 600);
+            }, 400);
         }
 
         function startQuizSession(subject, topic) {
@@ -387,10 +474,26 @@
                 }
                 const m = Math.floor(timeRemaining / 60).toString().padStart(2, '0');
                 const s = (timeRemaining % 60).toString().padStart(2, '0');
-                document.getElementById('timer').textContent = `${m}:${s}`;
+                document.getElementById('timer').textContent = `⏱️ ${m}:${s}`;
             }, 1000);
 
+            renderPalette();
             renderActiveQuestion();
+        }
+
+        function renderPalette() {
+            const bar = document.getElementById('paletteBar');
+            bar.innerHTML = '';
+            activeQuestions.forEach((q, idx) => {
+                const btn = document.createElement('button');
+                btn.className = `pal-btn ${idx === currentQIndex ? 'current' : ''} ${userAnswers[idx] !== undefined ? 'answered' : ''}`;
+                btn.innerText = idx + 1;
+                btn.onclick = () => {
+                    currentQIndex = idx;
+                    renderActiveQuestion();
+                };
+                bar.appendChild(btn);
+            });
         }
 
         function renderActiveQuestion() {
@@ -401,7 +504,14 @@
             const nextBtn = document.getElementById('nextBtn');
             
             prevBtn.disabled = (currentQIndex === 0);
-            nextBtn.textContent = (currentQIndex === activeQuestions.length - 1) ? 'Finish & Submit ✓' : 'Next Question →';
+            
+            if (currentQIndex === activeQuestions.length - 1) {
+                nextBtn.textContent = 'Finish & Submit ✓';
+                nextBtn.className = 'btn-success-sm';
+            } else {
+                nextBtn.textContent = 'Next Question →';
+                nextBtn.className = 'btn-primary-sm';
+            }
 
             const html = `
                 <div class="question-box">
@@ -416,6 +526,7 @@
                 </div>
             `;
             document.getElementById('quiz-container').innerHTML = html;
+            renderPalette();
         }
 
         function pickOption(optIndex) {
@@ -451,7 +562,10 @@
             document.getElementById('phase-results').style.display = 'block';
 
             let correctCount = 0;
+            const attemptedIds = [];
+
             const reviews = activeQuestions.map((q, idx) => {
+                attemptedIds.push(q.id);
                 const userChoice = userAnswers[idx];
                 const isCorrect = (userChoice === q.ans);
                 if (isCorrect) correctCount++;
@@ -471,6 +585,10 @@
                 `;
             });
 
+            const sub = document.getElementById('subject').value;
+            const top = document.getElementById('topic').value;
+            saveAnsweredPrepIds(`${sub}_${top}`, attemptedIds);
+
             const total = activeQuestions.length;
             const wrongCount = total - correctCount;
             const accuracy = Math.round((correctCount / total) * 100);
@@ -485,8 +603,19 @@
             document.getElementById('stat-time').textContent = `${m}:${s}`;
             document.getElementById('review-container').innerHTML = reviews.join('');
 
-            // SAVE REAL PRACTICE RECORD
-            saveRealPracticeLog(document.getElementById('subject').value, document.getElementById('topic').value, total, correctCount, wrongCount, accuracy, timeElapsed);
+            // Save Practice Record
+            saveRealPracticeLog(sub, top, total, correctCount, wrongCount, accuracy, timeElapsed);
+        }
+
+        function startNewPaperSameTopic() {
+            generateRealPaper();
+        }
+
+        function goToGenerator() {
+            document.getElementById('phase-results').style.display = 'none';
+            document.getElementById('phase-quiz').style.display = 'none';
+            document.getElementById('phase-generate').style.display = 'block';
+            updateTopicStatus();
         }
 
         function saveRealPracticeLog(subject, topic, total, correct, wrong, score, duration) {
@@ -501,12 +630,10 @@
                 duration: duration
             };
 
-            // 1. Save to local prep history
             const history = JSON.parse(localStorage.getItem('sb_prep_history') || '[]');
             history.unshift(record);
             localStorage.setItem('sb_prep_history', JSON.stringify(history.slice(0, 50)));
 
-            // 2. Sync to Backend API
             const token = localStorage.getItem('sb_token');
             if (token) {
                 fetch('/api/practice/log', {

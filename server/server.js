@@ -59,6 +59,7 @@ app.use('/api/user', require('./routes/users'));
 app.use('/api/practice', require('./routes/practice'));
 app.use('/api/gate', require('./routes/gate'));
 app.use('/api/questions', require('./routes/questions'));
+app.use('/api/resume', require('./routes/resume'));
 app.use('/api/admin', require('./routes/admin'));
 
 // Health check

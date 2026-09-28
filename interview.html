@@ -7,542 +7,579 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
-        :root { --primary: #2563eb; --bg: #f8fafc; --white: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
+        :root { --primary: #2563eb; --primary-light: #eff6ff; --bg: #f8fafc; --white: #ffffff; --border: #e2e8f0; --text: #1e293b; --muted: #64748b; }
         body { font-family:'Inter',Arial,sans-serif; background:var(--bg); display:flex; min-height:100vh; color:var(--text); }
 
         /* SIDEBAR */
         .sidebar{width:260px;min-height:100vh;position:fixed;left:0;top:0;bottom:0;background:var(--white);display:flex;flex-direction:column;padding:26px 16px 22px;z-index:100;border-right:1px solid var(--border);}
         .sb-logo{font-size:19px;font-weight:900;color:var(--text);display:flex;align-items:center;gap:6px;padding:0 8px;margin-bottom:24px;}
         .sb-logo span{color:var(--primary);}
-        .sb-user{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:26px;}
-        .sb-av{width:40px;height:40px;border-radius:11px;background:var(--primary);color:var(--white);font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+        .sb-user{display:flex;align-items:center;gap:11px;background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:13px;margin-bottom:24px;}
+        .sb-av{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:var(--white);font-weight:900;font-size:17px;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
         .sb-info h4{color:var(--text);font-size:13.5px;font-weight:700;margin-bottom:2px;}
         .sb-info span{color:var(--muted);font-size:11px;}
-        .nav-label{color:var(--muted);font-size:9.5px;font-weight:800;letter-spacing:1.5px;padding:0 10px;margin:14px 0 5px;}
-        .sb-nav{flex:1;display:flex;flex-direction:column;}
+        .nav-label{color:var(--muted);font-size:10px;font-weight:800;letter-spacing:1.5px;padding:0 10px;margin:12px 0 5px;}
+        .sb-nav{flex:1;display:flex;flex-direction:column;overflow-y:auto;}
         .nav-i{display:flex;align-items:center;gap:11px;padding:11px 13px;border-radius:11px;text-decoration:none;color:var(--muted);font-size:13px;font-weight:500;transition:all 0.2s;margin-bottom:2px;}
         .nav-i:hover{background:var(--bg);color:var(--text);}
-        .nav-i.active{background:#eff6ff;color:#2563eb;font-weight:700;}
+        .nav-i.active{background:#eff6ff;color:var(--primary);font-weight:700;}
         .ni-icon{font-size:17px;width:22px;text-align:center;flex-shrink:0;}
-        .sb-back{display:block;text-align:center;color:var(--muted);font-size:12.5px;text-decoration:none;padding:12px;border-radius:11px;border:1px solid var(--border);transition:all 0.2s;margin-top:14px;background:transparent;cursor:pointer;font-family:'Inter',Arial,sans-serif;font-weight:600;}
-        .sb-back:hover{background:var(--bg);color:var(--text);}
+        .sb-logout{display:block;text-align:center;color:#ef4444;font-size:12.5px;font-weight:600;text-decoration:none;padding:11px;border-radius:11px;border:1px solid #fee2e2;background:#fff;cursor:pointer;transition:all 0.2s;margin-top:14px;width:100%;}
+        .sb-logout:hover{background:#fef2f2;}
 
         /* MAIN */
         .main{margin-left:260px;flex:1;padding:30px 34px;}
-        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+        .topbar{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;}
         .tb-left h1{font-size:23px;font-weight:900;letter-spacing:-0.5px;margin-bottom:4px;color:var(--text);}
         .tb-left p{color:var(--muted);font-size:13px;}
         .tb-right{display:flex;align-items:center;gap:12px;}
         .ai-pill{display:flex;align-items:center;gap:7px;background:rgba(37,99,235,0.1);border:1px solid rgba(37,99,235,0.2);color:var(--primary);padding:8px 15px;border-radius:30px;font-size:12.5px;font-weight:700;}
         .ap-dot{width:7px;height:7px;background:var(--primary);border-radius:50%;animation:pd 1.5s infinite;}
         @keyframes pd{0%,100%{opacity:1;transform:scale(1)}50%{opacity:0.4;transform:scale(1.5)}}
-        .tb-av{width:40px;height:40px;border-radius:10px;background:var(--primary);color:var(--white);font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;}
+        .tb-av{width:40px;height:40px;border-radius:10px;background:linear-gradient(135deg,#2563eb,#3b82f6);color:var(--white);font-weight:900;font-size:16px;display:flex;align-items:center;justify-content:center;}
 
         /* STATS ROW */
         .stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:24px;}
         .stat-c{background:var(--white);border-radius:16px;padding:18px 20px;border:1px solid var(--border);display:flex;align-items:center;gap:14px;transition:all 0.3s;}
-        .stat-c:hover{transform:translateY(-3px);box-shadow:0 10px 30px rgba(37,99,235,0.08);}
         .stat-c-icon{font-size:28px;}
         .stat-c-info p{font-size:12px;color:var(--muted);font-weight:500;margin-bottom:3px;}
         .stat-c-info h3{font-size:22px;font-weight:900;letter-spacing:-1px;color:var(--text);}
 
-        /* CATEGORY TABS */
-        .cat-tabs{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:24px;}
-        .cat-tab{padding:10px 20px;border-radius:30px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-size:13px;font-weight:700;cursor:pointer;transition:all 0.25s;font-family:'Inter',Arial,sans-serif;display:flex;align-items:center;gap:6px;}
+        /* TOPIC TABS */
+        .topic-selector{background:white;border-radius:18px;padding:20px;border:1px solid var(--border);margin-bottom:24px;}
+        .topic-selector h3{font-size:14px;font-weight:800;color:var(--text);margin-bottom:14px;display:flex;justify-content:space-between;align-items:center;}
+        .cat-tabs{display:flex;gap:8px;flex-wrap:wrap;}
+        .cat-tab{padding:9px 15px;border-radius:30px;border:1.5px solid var(--border);background:var(--white);color:var(--muted);font-size:12.5px;font-weight:700;cursor:pointer;transition:all 0.2s;font-family:'Inter',Arial,sans-serif;display:flex;align-items:center;gap:6px;}
         .cat-tab:hover{border-color:var(--primary);color:var(--primary);}
-        .cat-tab.active{background:var(--primary);border-color:transparent;color:var(--white);box-shadow:0 4px 15px rgba(37,99,235,0.3);}
-        .cat-tab .ct-count{background:rgba(255,255,255,0.25);padding:2px 7px;border-radius:10px;font-size:11px;}
-        .cat-tab:not(.active) .ct-count{background:var(--bg);color:var(--muted);}
+        .cat-tab.active{background:var(--primary);border-color:transparent;color:var(--white);box-shadow:0 4px 15px rgba(37,99,235,0.25);}
 
-        /* LAYOUT */
-        .interview-layout{display:grid;grid-template-columns:1fr 380px;gap:22px;align-items:start;}
+        /* MODE TABS */
+        .mode-bar{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;}
+        .view-mode-tabs{display:flex;background:#e2e8f0;padding:4px;border-radius:12px;gap:4px;}
+        .view-tab-btn{padding:8px 16px;border-radius:9px;border:none;background:transparent;font-size:12.5px;font-weight:700;cursor:pointer;color:var(--muted);transition:all 0.2s;}
+        .view-tab-btn.active{background:white;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.06);}
 
-        /* QUESTIONS LIST */
-        .questions-wrap{}
+        /* FOCUS 20-QUESTION PRACTICE MODE */
+        .focus-mode-wrap{background:white;border-radius:20px;border:1px solid var(--border);padding:30px;max-width:820px;margin:0 auto 24px;}
+        .fm-header{display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid var(--border);padding-bottom:18px;margin-bottom:22px;}
+        .fm-prog-label{font-size:13.5px;font-weight:800;color:var(--muted);}
+        .fm-prog-label b{color:var(--primary);font-size:18px;}
+        .fm-badges{display:flex;gap:8px;align-items:center;}
+        .diff-tag{font-size:11px;font-weight:800;padding:4px 10px;border-radius:20px;}
+        .tag-easy{background:#dcfce7;color:#15803d;}
+        .tag-medium{background:#fef3c7;color:#b45309;}
+        .tag-hard{background:#fee2e2;color:#b91c1c;}
+
+        .fm-q-title{font-size:19px;font-weight:800;color:var(--text);line-height:1.5;margin-bottom:20px;}
+        
+        .fm-hint-box{background:#f8fafc;border:1px dashed #cbd5e1;border-radius:12px;padding:14px 18px;margin-bottom:20px;font-size:13px;color:var(--muted);}
+        .fm-hint-box b{color:var(--text);}
+
+        .model-answer-panel{background:#f0fdf4;border:1.5px solid #bbf7d0;border-radius:14px;padding:22px;margin-bottom:24px;display:none;animation:fadeIn 0.3s ease;}
+        .model-answer-panel.show{display:block;}
+        .map-title{font-size:13px;font-weight:800;color:#166534;margin-bottom:10px;display:flex;align-items:center;gap:6px;}
+        .map-body{font-size:14px;line-height:1.7;color:#14532d;}
+        .map-body ul{margin:10px 0 10px 20px;}
+        .map-body li{margin-bottom:6px;}
+        .map-tips{margin-top:14px;background:#ffffff;padding:12px 14px;border-radius:10px;border:1px solid #dcfce7;font-size:12.5px;color:#15803d;}
+
+        .fm-actions{display:flex;justify-content:space-between;align-items:center;margin-top:24px;}
+        .btn-action{padding:12px 22px;border-radius:12px;font-size:13.5px;font-weight:800;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;border:none;}
+        .btn-outline{background:white;border:1.5px solid var(--border);color:var(--text);}
+        .btn-outline:hover:not(:disabled){background:#f1f5f9;}
+        .btn-outline:disabled{opacity:0.4;cursor:not-allowed;}
+        .btn-primary{background:linear-gradient(135deg,#2563eb,#3b82f6);color:white;box-shadow:0 6px 18px rgba(37,99,235,0.25);}
+        .btn-primary:hover{transform:translateY(-1px);box-shadow:0 8px 24px rgba(37,99,235,0.35);}
+        .btn-reveal{background:#16a34a;color:white;box-shadow:0 6px 18px rgba(22,163,74,0.25);}
+
+        /* BROWSE LIST VIEW */
+        .browse-view{display:none;}
+        .browse-view.active{display:block;}
         .q-search{display:flex;gap:10px;margin-bottom:18px;}
-        .q-search input{flex:1;padding:12px 16px;background:var(--white);border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;font-family:'Inter',Arial,sans-serif;outline:none;transition:all 0.2s;color:var(--text);}
-        .q-search input:focus{border-color:var(--primary);box-shadow:0 0 0 3px rgba(37,99,235,0.1);}
-        .q-search input::placeholder{color:#aaa;}
-        .diff-filter{display:flex;gap:8px;}
-        .df-btn{padding:10px 16px;border-radius:10px;border:1.5px solid var(--border);background:var(--white);font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;color:var(--muted);}
-        .df-btn:hover{border-color:var(--primary);color:var(--primary);}
-        .df-btn.active{background:var(--primary);border-color:transparent;color:var(--white);}
+        .q-search input{flex:1;padding:12px 16px;background:var(--white);border:1.5px solid var(--border);border-radius:12px;font-size:13.5px;font-family:'Inter',Arial,sans-serif;outline:none;}
+        .q-search input:focus{border-color:var(--primary);}
+        .q-card{background:var(--white);border-radius:16px;border:1px solid var(--border);padding:20px;margin-bottom:12px;transition:all 0.2s;}
+        .q-card:hover{box-shadow:0 6px 20px rgba(0,0,0,0.05);border-color:#93c5fd;}
+        .qc-header{display:flex;justify-content:space-between;align-items:flex-start;cursor:pointer;}
+        .qc-title{font-size:15px;font-weight:800;color:var(--text);flex:1;padding-right:12px;}
+        .qc-ans{margin-top:14px;padding-top:14px;border-top:1px solid var(--border);display:none;font-size:13.5px;line-height:1.6;color:#334155;}
+        .qc-ans.show{display:block;}
 
-        /* QUESTION CARDS */
-        .q-list{display:flex;flex-direction:column;gap:12px;}
-        .q-card{background:var(--white);border-radius:16px;border:1px solid var(--border);overflow:hidden;transition:all 0.3s;}
-        .q-card:hover{box-shadow:0 8px 25px rgba(37,99,235,0.08);border-color:var(--primary);}
-        .q-card.practiced{border-color:rgba(18,183,106,0.3);background:rgba(18,183,106,0.02);}
-        .q-header{padding:18px 20px;display:flex;align-items:center;gap:14px;cursor:pointer;}
-        .q-num{width:32px;height:32px;border-radius:8px;background:var(--bg);color:var(--muted);font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0;}
-        .q-card.practiced .q-num{background:#e6f9f0;color:#12b76a;}
-        .q-main{flex:1;}
-        .q-text{font-size:14px;font-weight:700;color:var(--text);margin-bottom:5px;line-height:1.5;}
-        .q-meta{display:flex;align-items:center;gap:8px;}
-        .q-diff{font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:10px;}
-        .diff-easy{background:#e6f9f0;color:#12b76a;}
-        .diff-medium{background:#fff4e5;color:#f79009;}
-        .diff-hard{background:#fce8e8;color:#f04438;}
-        .q-tag{font-size:10.5px;font-weight:700;background:#eff6ff;color:var(--primary);padding:3px 9px;border-radius:10px;}
-        .q-actions{display:flex;align-items:center;gap:8px;flex-shrink:0;}
-        .q-expand-btn{width:30px;height:30px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);cursor:pointer;font-size:16px;transition:all 0.25s;display:flex;align-items:center;justify-content:center;}
-        .q-expand-btn:hover{background:var(--primary);border-color:var(--primary);color:var(--white);}
-        .q-expand-btn.open{background:var(--primary);border-color:transparent;color:var(--white);transform:rotate(180deg);}
-        .q-practice-btn{padding:7px 14px;border-radius:8px;border:1.5px solid var(--border);background:var(--white);font-size:12px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;color:var(--muted);white-space:nowrap;}
-        .q-practice-btn:hover{background:var(--primary);border-color:transparent;color:var(--white);}
-        .q-practice-btn.done{background:#e6f9f0;border-color:rgba(18,183,106,0.2);color:#12b76a;}
+        /* READINESS SUMMARY */
+        .summary-card{background:white;border-radius:20px;border:1px solid var(--border);padding:36px;text-align:center;max-width:700px;margin:0 auto;display:none;}
+        .summary-card.show{display:block;}
 
-        /* ANSWER REVEAL */
-        .q-answer{display:none;padding:0 20px 20px;}
-        .q-answer.show{display:block;animation:slideDown 0.3s cubic-bezier(.4,0,.2,1);}
-        @keyframes slideDown{from{opacity:0;transform:translateY(-10px)}to{opacity:1;transform:translateY(0)}}
-        .ans-box{background:var(--bg);border-radius:12px;padding:18px;border-left:4px solid var(--primary);}
-        .ans-label{font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
-        .ans-text{font-size:13.5px;color:var(--text);line-height:1.8;}
-        .ans-text b{color:var(--text);}
-        .ans-tips{margin-top:12px;display:flex;flex-wrap:wrap;gap:7px;}
-        .ans-tip{background:var(--white);border:1px solid var(--border);padding:5px 12px;border-radius:8px;font-size:11.5px;color:var(--muted);font-weight:500;}
-
-        /* PRACTICE PANEL */
-        .practice-panel{background:var(--white);border:1px solid var(--border);border-radius:20px;padding:26px;position:sticky;top:20px;}
-        .pp-title{font-size:15px;font-weight:800;color:var(--text);margin-bottom:20px;display:flex;align-items:center;gap:8px;}
-
-        /* TIMER */
-        .timer-box{background:var(--bg);border:1px solid var(--border);border-radius:16px;padding:20px;text-align:center;margin-bottom:18px;}
-        .timer-display{font-size:44px;font-weight:900;color:var(--primary);letter-spacing:-2px;font-variant-numeric:tabular-nums;}
-        .timer-label{color:var(--muted);font-size:12px;margin-bottom:14px;}
-        .timer-btns{display:flex;gap:8px;}
-        .t-btn{flex:1;padding:10px;border-radius:10px;border:none;font-size:12.5px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;}
-        .t-start{background:var(--primary);color:var(--white);}
-        .t-reset{background:var(--white);color:var(--muted);border:1px solid var(--border);}
-        .t-reset:hover{background:var(--bg);color:var(--text);}
-
-        /* RANDOM Q */
-        .random-q-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;}
-        .rq-label{font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;text-transform:uppercase;margin-bottom:10px;}
-        .rq-text{font-size:14px;font-weight:700;color:var(--text);line-height:1.6;margin-bottom:14px;min-height:48px;}
-        .rq-btn{width:100%;padding:11px;background:var(--white);border:1px solid var(--border);border-radius:10px;color:var(--primary);font-size:13px;font-weight:700;cursor:pointer;font-family:'Inter',Arial,sans-serif;transition:all 0.2s;}
-        .rq-btn:hover{background:var(--bg);border-color:var(--primary);}
-
-        /* PROGRESS */
-        .progress-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:18px;margin-bottom:18px;}
-        .pb-row{display:flex;justify-content:space-between;margin-bottom:8px;}
-        .pb-row span{color:var(--muted);font-size:12px;}
-        .pb-row b{color:var(--text);font-size:12px;}
-        .pp-bar{height:7px;background:var(--border);border-radius:10px;overflow:hidden;margin-bottom:12px;}
-        .pp-fill{height:100%;border-radius:10px;background:var(--primary);transition:width 0.5s;}
-        .pp-cats{display:flex;flex-direction:column;gap:8px;}
-        .pp-cat{display:flex;justify-content:space-between;align-items:center;}
-        .pp-cat span{color:var(--muted);font-size:11.5px;}
-        .pp-cat-bar{width:80px;height:5px;background:var(--border);border-radius:5px;overflow:hidden;}
-        .pp-cat-fill{height:100%;border-radius:5px;}
-
-        /* COMPANY SECTION */
-        .company-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-bottom:20px;}
-        .co-card{background:var(--white);border-radius:14px;padding:18px;border:1px solid var(--border);cursor:pointer;transition:all 0.25s;text-align:center;}
-        .co-card:hover{transform:translateY(-3px);box-shadow:0 10px 25px rgba(37,99,235,0.1);border-color:var(--primary);}
-        .co-card.selected{border-color:var(--primary);background:#eff6ff;}
-        .co-logo{font-size:28px;margin-bottom:8px;}
-        .co-name{font-size:13px;font-weight:800;color:var(--text);margin-bottom:3px;}
-        .co-count{font-size:11px;color:var(--muted);}
-
-        /* FADE */
-        .fade-up{opacity:0;transform:translateY(22px);transition:all 0.6s cubic-bezier(.4,0,.2,1);transition-delay:var(--d,0s);}
-        .fade-up.show{opacity:1;transform:translateY(0);}
-
-        @media(max-width:1100px){.interview-layout{grid-template-columns:1fr;}.practice-panel{position:static;}.stats-row{grid-template-columns:1fr 1fr;}.company-cards{grid-template-columns:repeat(2,1fr);}}
-        @media(max-width:768px){.sidebar{display:none;}.main{margin-left:0;padding:20px;}.stats-row{grid-template-columns:1fr 1fr;}}
+        @media(max-width:900px){
+            .sidebar{display:none;}
+            .main{margin-left:0;padding:20px;}
+            .stats-row{grid-template-columns:1fr 1fr;}
+        }
     </style>
 </head>
 <body>
 
-    <!-- SIDEBAR -->
-    <aside class="sidebar">
-        <div class="sb-logo">⚡ <span>SkillBridge AI</span></div>
-        <div class="sb-user">
-            <div class="sb-av" id="sbAv">S</div>
-            <div class="sb-info"><h4 id="sbName">Student</h4><span id="sbCourse">B.Tech</span></div>
+<aside class="sidebar">
+  <div class="sb-logo">⚡ Skill<span>Bridge AI</span></div>
+  <div class="sb-user">
+    <div class="sb-av" id="sbAv">S</div>
+    <div class="sb-info">
+      <h4 id="sbName">Student</h4>
+      <span>SkillBridge AI</span>
+    </div>
+  </div>
+  <nav class="sb-nav">
+    <p class="nav-label">MAIN</p>
+    <a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a>
+    <a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a>
+    <a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a>
+    <a href="roadmap.html" class="nav-i"><span class="ni-icon">🗺️</span> Roadmap</a>
+    <p class="nav-label">LEARNING</p>
+    <a href="gate.html" class="nav-i"><span class="ni-icon">🎓</span> GATE Prep</a>
+    <a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> Preparation Questions</a>
+    <a href="interview.html" class="nav-i active"><span class="ni-icon">🎤</span> Interview Prep</a>
+    <a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a>
+    <p class="nav-label">TOOLS</p>
+    <a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a>
+    <a href="projects.html" class="nav-i"><span class="ni-icon">💻</span> Projects</a>
+  </nav>
+  <button class="sb-logout" onclick="localStorage.clear();window.location.href='login.html'">🚪 Logout</button>
+</aside>
+
+<main class="main">
+    <div class="topbar">
+        <div class="tb-left">
+            <h1>Interview Preparation Hub</h1>
+            <p>Master top interview questions across 15+ specialized technical domains.</p>
         </div>
-        <div class="sb-nav">
-            <p class="nav-label">MAIN</p>
-            <a href="dashboard.html" class="nav-i"><span class="ni-icon">📊</span> Dashboard</a>
-            <a href="my-progress.html" class="nav-i"><span class="ni-icon">📈</span> My Progress</a>
-            <a href="profile.html" class="nav-i"><span class="ni-icon">👤</span> Profile</a>
-            <a href="roadmap.html" class="nav-i"><span class="ni-icon">🗺️</span> Roadmap</a>
-            <p class="nav-label">TOOLS</p>
-            <a href="gate.html" class="nav-i"><span class="ni-icon">🎓</span> GATE Prep</a>
-            <a href="ai-questions.html" class="nav-i"><span class="ni-icon">🤖</span> Preparation Questions</a>
-            <a href="interview.html" class="nav-i active"><span class="ni-icon">🎤</span> Interview Prep</a>
-            <a href="quiz.html" class="nav-i"><span class="ni-icon">🧠</span> Skill Quiz</a>
-            <a href="resume.html" class="nav-i"><span class="ni-icon">📄</span> Resume</a>
-            <a href="projects.html" class="nav-i"><span class="ni-icon">💻</span> Projects</a>
+        <div class="tb-right">
+            <div class="ai-pill"><span class="ap-dot"></span> 20-Q Focused Drill Active</div>
+            <div class="tb-av" id="tbAv">S</div>
         </div>
-        <button class="sb-back" onclick="logout()" style="width:100%; cursor:pointer;">🚪 Logout</button>
-    </aside>
+    </div>
 
-    <!-- MAIN -->
-    <main class="main">
-        <header class="topbar">
-            <div class="tb-left"><h1>🎤 Interview Preparation</h1><p>Practice real interview questions — Technical, HR, DSA & Company-specific</p></div>
-            <div class="tb-right"><div class="ai-pill"><span class="ap-dot"></span> AI Active</div><div class="tb-av" id="tbAv">S</div></div>
-        </header>
-
-        <!-- STATS -->
-        <div class="stats-row fade-up show">
-            <div class="stat-c"><span class="stat-c-icon">✅</span><div class="stat-c-info"><p>Questions Practiced</p><h3 id="pracCount">0</h3></div></div>
-            <div class="stat-c"><span class="stat-c-icon">🏆</span><div class="stat-c-info"><p>Total Score</p><h3 id="scoreDisplay">0</h3></div></div>
-            <div class="stat-c"><span class="stat-c-icon">⏱️</span><div class="stat-c-info"><p>Time Practiced</p><h3>47m</h3></div></div>
-            <div class="stat-c"><span class="stat-c-icon">🎯</span><div class="stat-c-info"><p>Readiness Score</p><h3>72%</h3></div></div>
-        </div>
-
-        <!-- CATEGORY TABS -->
-        <div class="cat-tabs fade-up show">
-            <button class="cat-tab active" onclick="setCategory('all',this)">🗂️ All <span class="ct-count" id="ct-all">50</span></button>
-            <button class="cat-tab" onclick="setCategory('dsa',this)">🌳 DSA <span class="ct-count">6</span></button>
-            <button class="cat-tab" onclick="setCategory('python',this)">🐍 Python <span class="ct-count">5</span></button>
-            <button class="cat-tab" onclick="setCategory('java',this)">☕ Java <span class="ct-count">3</span></button>
-            <button class="cat-tab" onclick="setCategory('dbms',this)">🗄️ DBMS <span class="ct-count">3</span></button>
-            <button class="cat-tab" onclick="setCategory('os',this)">💻 OS/CN <span class="ct-count">3</span></button>
-            <button class="cat-tab" onclick="setCategory('hr',this)">🤝 HR Round <span class="ct-count">5</span></button>
-            <button class="cat-tab" onclick="setCategory('company',this)">🏢 Company-wise <span class="ct-count">5</span></button>
-        </div>
-
-        <div class="interview-layout">
-
-            <!-- QUESTIONS LIST -->
-            <div class="questions-wrap">
-                <div class="q-search fade-up show">
-                    <input type="text" id="searchInput" placeholder="🔍 Search questions..." oninput="searchQuestions()">
-                    <div class="diff-filter">
-                        <button class="df-btn active" onclick="setDiff('all',this)">All</button>
-                        <button class="df-btn" onclick="setDiff('Easy',this)" style="color:#12b76a;">Easy</button>
-                        <button class="df-btn" onclick="setDiff('Medium',this)" style="color:#f79009;">Medium</button>
-                        <button class="df-btn" onclick="setDiff('Hard',this)" style="color:#f04438;">Hard</button>
-                    </div>
-                </div>
-
-                <!-- Company Cards (shown when company tab active) -->
-                <div class="company-cards" id="companyCards" style="display:none;">
-                    <div class="co-card" onclick="filterCompany('TCS')"><div class="co-logo">🔵</div><div class="co-name">TCS</div><div class="co-count">1 questions</div></div>
-                    <div class="co-card" onclick="filterCompany('Infosys')"><div class="co-logo">🟣</div><div class="co-name">Infosys</div><div class="co-count">1 questions</div></div>
-                    <div class="co-card" onclick="filterCompany('Wipro')"><div class="co-logo">🟢</div><div class="co-name">Wipro</div><div class="co-count">0 questions</div></div>
-                    <div class="co-card" onclick="filterCompany('Amazon')"><div class="co-logo">🟠</div><div class="co-name">Amazon</div><div class="co-count">1 questions</div></div>
-                    <div class="co-card" onclick="filterCompany('Google')"><div class="co-logo">🔴</div><div class="co-name">Google</div><div class="co-count">1 questions</div></div>
-                    <div class="co-card" onclick="filterCompany('Microsoft')"><div class="co-logo">🔷</div><div class="co-name">Microsoft</div><div class="co-count">1 questions</div></div>
-                </div>
-
-                <div class="q-list" id="qList"></div>
-            </div>
-
-            <!-- PRACTICE PANEL -->
-            <div class="practice-panel">
-                <div class="pp-title">⚡ Practice Mode</div>
-
-                <!-- Timer -->
-                <div class="timer-box">
-                    <div class="timer-label">Interview Timer</div>
-                    <div class="timer-display" id="timerDisplay">02:00</div>
-                    <div class="timer-label" id="timerStatus">Press Start to begin</div>
-                    <div class="timer-btns">
-                        <button class="t-btn t-start" id="startBtn" onclick="toggleTimer()">▶ Start</button>
-                        <button class="t-btn t-reset" onclick="resetTimer()">↺ Reset</button>
-                    </div>
-                </div>
-
-                <!-- Random Question -->
-                <div class="random-q-box">
-                    <div class="rq-label">🎲 Random Question</div>
-                    <div class="rq-text" id="randomQ">Click below to get a random interview question!</div>
-                    <button class="rq-btn" onclick="getRandomQ()">🎲 New Random Question</button>
-                </div>
-
-                <!-- Progress -->
-                <div class="progress-box">
-                    <div class="pb-row"><span>Overall Progress</span><b id="progressPct">0%</b></div>
-                    <div class="pp-bar"><div class="pp-fill" id="progressFill" style="width:0%"></div></div>
-                    <div class="pp-cats">
-                        <div class="pp-cat"><span>🌳 DSA</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:20%;background:var(--primary);"></div></div></div>
-                        <div class="pp-cat"><span>🐍 Python</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:40%;background:#12b76a;"></div></div></div>
-                        <div class="pp-cat"><span>🤝 HR</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:60%;background:#f79009;"></div></div></div>
-                        <div class="pp-cat"><span>🗄️ DBMS</span><div class="pp-cat-bar"><div class="pp-cat-fill" style="width:15%;background:#a855f7;"></div></div></div>
-                    </div>
-                </div>
-
-                <!-- AI Tip -->
-                <div style="background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:16px;">
-                    <div style="font-size:10.5px;font-weight:800;color:var(--primary);letter-spacing:1px;margin-bottom:8px;">🤖 AI TIP OF THE DAY</div>
-                    <p id="aiTip" style="font-size:12.5px;color:var(--text);line-height:1.7;"></p>
-                </div>
+    <!-- STATS ROW -->
+    <div class="stats-row">
+        <div class="stat-c">
+            <div class="stat-c-icon">🎤</div>
+            <div class="stat-c-info">
+                <p>Questions Practiced</p>
+                <h3 id="statPracticedCount">0</h3>
             </div>
         </div>
-    </main>
+        <div class="stat-c">
+            <div class="stat-c-icon">📚</div>
+            <div class="stat-c-info">
+                <p>Topics Mastered</p>
+                <h3 id="statTopicsCount">15 Domains</h3>
+            </div>
+        </div>
+        <div class="stat-c">
+            <div class="stat-c-icon">⚡</div>
+            <div class="stat-c-info">
+                <p>Drill Sessions</p>
+                <h3 id="statSessionsCount">0</h3>
+            </div>
+        </div>
+        <div class="stat-c">
+            <div class="stat-c-icon">🏆</div>
+            <div class="stat-c-info">
+                <p>Readiness Rating</p>
+                <h3 id="statReadiness">Ready</h3>
+            </div>
+        </div>
+    </div>
 
-    <script>
-        // ==================== PROFILE ====================
-        const profile = JSON.parse(localStorage.getItem('sb_profile') || '{}');
-        const name = profile.name || 'Student';
-        document.getElementById('sbAv').textContent = name.charAt(0).toUpperCase();
-        document.getElementById('tbAv').textContent = name.charAt(0).toUpperCase();
-        document.getElementById('sbName').textContent = name;
-        document.getElementById('sbCourse').textContent = (profile.course || 'B.Tech').toUpperCase() + ' • ' + (profile.year || '3rd') + ' Year';
+    <!-- TOPIC SELECTOR TABS -->
+    <div class="topic-selector">
+        <h3><span>Select Domain / Technology</span> <small style="color:var(--primary);font-weight:700;" id="activeDomainLabel">Selected: Python (20 Questions)</small></h3>
+        <div class="cat-tabs" id="domainTabsContainer">
+            <button class="cat-tab active" onclick="switchDomain('Python', this)">🐍 Python</button>
+            <button class="cat-tab" onclick="switchDomain('Java', this)">☕ Java</button>
+            <button class="cat-tab" onclick="switchDomain('C', this)">⚙️ C</button>
+            <button class="cat-tab" onclick="switchDomain('CPP', this)">🚀 C++</button>
+            <button class="cat-tab" onclick="switchDomain('DSA', this)">⚡ DSA</button>
+            <button class="cat-tab" onclick="switchDomain('DBMS', this)">🗄️ DBMS</button>
+            <button class="cat-tab" onclick="switchDomain('SQL', this)">📊 SQL</button>
+            <button class="cat-tab" onclick="switchDomain('CN', this)">🌐 Computer Networks</button>
+            <button class="cat-tab" onclick="switchDomain('OS', this)">💻 Operating Systems</button>
+            <button class="cat-tab" onclick="switchDomain('OOP', this)">🧩 OOP Concepts</button>
+            <button class="cat-tab" onclick="switchDomain('WebDev', this)">🎨 Web Development</button>
+            <button class="cat-tab" onclick="switchDomain('AIML', this)">🤖 AI & Machine Learning</button>
+            <button class="cat-tab" onclick="switchDomain('GenAI', this)">✨ Generative AI & LLMs</button>
+            <button class="cat-tab" onclick="switchDomain('CloudDevOps', this)">☁️ Cloud & DevOps</button>
+            <button class="cat-tab" onclick="switchDomain('HR', this)">👔 HR & Behavioral</button>
+        </div>
+    </div>
 
-        function logout() {
-            localStorage.removeItem('sb_token');
-            window.location.href = 'login.html';
-        }
+    <!-- VIEW TOGGLE -->
+    <div class="mode-bar">
+        <h2 style="font-size:18px;font-weight:800;" id="sectionModeTitle">20-Question Focused Interactive Drill</h2>
+        <div class="view-mode-tabs">
+            <button class="view-tab-btn active" id="btnModeDrill" onclick="setViewMode('drill')">⚡ 20-Q Step Drill</button>
+            <button class="view-tab-btn" id="btnModeBrowse" onclick="setViewMode('browse')">📖 Browse All Qs</button>
+        </div>
+    </div>
 
-        // ==================== QUESTION DATA ====================
-        const questions = [
-            // DSA
-            { id:1, cat:'dsa', diff:'Easy', tag:'Arrays', text:'What is the difference between an Array and a LinkedList?', answer:'<b>Array:</b> Fixed size, contiguous memory, O(1) random access, O(n) insertion/deletion.<br><br><b>LinkedList:</b> Dynamic size, non-contiguous memory (nodes with pointers), O(n) access, O(1) insertion/deletion at head.<br><br><b>Key Point:</b> Use arrays when you need random access; use linked lists when you need frequent insertions/deletions.', tips:['Memory layout','Time complexity','Use cases'] },
-            { id:2, cat:'dsa', diff:'Medium', tag:'Trees', text:'Explain BFS and DFS. When would you use each?', answer:'<b>BFS (Breadth First Search):</b> Explores level by level using a Queue. Best for finding shortest path in unweighted graphs.<br><br><b>DFS (Depth First Search):</b> Explores as deep as possible using Stack/Recursion. Best for detecting cycles, topological sort, maze problems.<br><br><b>Interview tip:</b> Always mention time O(V+E) and space O(V) complexity.', tips:['Queue vs Stack','Shortest path','Cycle detection'] },
-            { id:3, cat:'dsa', diff:'Hard', tag:'DP', text:'What is Dynamic Programming? Explain with an example.', answer:'<b>DP</b> is an optimization technique that breaks problems into overlapping subproblems and stores results (memoization/tabulation) to avoid recomputation.<br><br><b>Example — Fibonacci:</b><br>Without DP: O(2^n) | With DP: O(n)<br><br><b>Two approaches:</b><br>• Top-down (Memoization) — Recursive + Cache<br>• Bottom-up (Tabulation) — Iterative + DP table<br><br><b>Classic problems:</b> 0/1 Knapsack, LCS, Coin Change, Longest Increasing Subsequence', tips:['Overlapping subproblems','Optimal substructure','Memoization vs Tabulation'] },
-            { id:4, cat:'dsa', diff:'Medium', tag:'Sorting', text:'Explain QuickSort. What is its average and worst case complexity?', answer:'<b>QuickSort</b> uses divide-and-conquer. Pick a pivot, partition array (smaller on left, larger on right), recursively sort both halves.<br><br><b>Time Complexity:</b><br>• Average: O(n log n)<br>• Worst: O(n²) — when pivot is always smallest/largest (sorted array)<br>• Best: O(n log n)<br><br><b>Space:</b> O(log n) average for recursion stack.<br><br><b>Interview tip:</b> Mention that randomized pivot selection avoids worst case.', tips:['Pivot selection','In-place sorting','Compare with MergeSort'] },
-            { id:5, cat:'dsa', diff:'Easy', tag:'Hashing', text:'What is a HashMap and how does it work internally?', answer:'A <b>HashMap</b> stores key-value pairs using a hash function to compute an index into an array of buckets.<br><br><b>Working:</b><br>1. key → hash function → index<br>2. Store value at that index<br>3. Collision handling: Chaining (LinkedList at each bucket) or Open Addressing<br><br><b>Time Complexity:</b> Average O(1) for get/put, Worst O(n) with collisions.<br><br><b>Load Factor:</b> When 0.75 threshold is reached, HashMap resizes (rehashing).', tips:['Hash function','Collision handling','Load factor'] },
-            { id:6, cat:'dsa', diff:'Hard', tag:'Graphs', text:'What is Dijkstra\'s algorithm? Explain with complexity.', answer:'<b>Dijkstra\'s algorithm</b> finds shortest path from source to all vertices in a weighted graph (non-negative weights).<br><br><b>Steps:</b><br>1. Initialize distances: source=0, all others=∞<br>2. Use a Min-Heap (Priority Queue)<br>3. Extract min, update neighbors<br>4. Repeat until all visited<br><br><b>Complexity:</b> O((V + E) log V) with Priority Queue<br><br><b>Limitation:</b> Doesn\'t work with negative weight edges (use Bellman-Ford instead)', tips:['Priority Queue','Non-negative weights','Compare with BFS'] },
+    <!-- 1. 20-QUESTION STEP DRILL -->
+    <div id="drillView">
+        <div class="focus-mode-wrap" id="focusModeBox">
+            <div class="fm-header">
+                <div class="fm-prog-label">Question <b id="drillQNum">1</b> of <span>20</span></div>
+                <div class="fm-badges">
+                    <span class="diff-tag tag-medium" id="drillDiffBadge">Medium</span>
+                    <span style="font-size:12px;font-weight:700;color:var(--muted);" id="drillTopicTag">Python</span>
+                </div>
+            </div>
 
-            // Python
-            { id:7, cat:'python', diff:'Easy', tag:'Basics', text:'What are Python\'s key features that make it popular?', answer:'<b>Key Features of Python:</b><br><br>1. <b>Easy to learn</b> — Clean, readable syntax<br>2. <b>Interpreted</b> — Runs line by line, no compilation<br>3. <b>Dynamically typed</b> — No need to declare variable types<br>4. <b>Huge library ecosystem</b> — NumPy, Pandas, TensorFlow, Django<br>5. <b>Cross-platform</b> — Runs on Windows, Mac, Linux<br>6. <b>Object-oriented + Functional</b> — Supports multiple paradigms<br>7. <b>Strong community</b> — Largest programming community', tips:['Interpreted vs Compiled','Dynamic typing','GIL'] },
-            { id:8, cat:'python', diff:'Medium', tag:'OOP', text:'Explain OOP concepts in Python with examples.', answer:'<b>4 Pillars of OOP in Python:</b><br><br><b>1. Encapsulation:</b> Bundling data + methods. Private: __var, Protected: _var<br><b>2. Inheritance:</b> class Child(Parent) — reuse parent\'s code<br><b>3. Polymorphism:</b> Same method name, different behavior (method overriding)<br><b>4. Abstraction:</b> Hide implementation using abstract classes (ABC module)<br><br><b>Example:</b> class Dog(Animal): def speak(self): return "Woof"<br><br><b>Special methods:</b> __init__, __str__, __repr__, __len__', tips:['Dunder methods','Multiple inheritance','MRO'] },
-            { id:9, cat:'python', diff:'Easy', tag:'Data Types', text:'What is the difference between list, tuple, and set in Python?', answer:'<b>List []:</b> Ordered, mutable, allows duplicates. Example: [1,2,3]<br><br><b>Tuple ():</b> Ordered, immutable, allows duplicates. Example: (1,2,3). Faster than list!<br><br><b>Set {}:</b> Unordered, mutable, NO duplicates. Used for membership testing O(1)<br><br><b>Dictionary {k:v}:</b> Key-value pairs, ordered (Python 3.7+), mutable<br><br><b>Interview tip:</b> "Use tuple when data shouldn\'t change (coordinates, RGB), set for unique elements."', tips:['Mutability','Time complexity','When to use each'] },
-            { id:10, cat:'python', diff:'Medium', tag:'Advanced', text:'What are decorators in Python? Give a real example.', answer:'A <b>decorator</b> is a function that wraps another function to add functionality without modifying the original.<br><br><b>Syntax:</b> @decorator_name before function definition<br><br><b>Real Example:</b><br>@timer — measures function execution time<br>@login_required — checks if user is logged in (Django)<br>@property — makes method accessible as attribute<br><br><b>Implementation:</b><br>def my_decorator(func):<br>&nbsp;&nbsp;def wrapper(*args, **kwargs):<br>&nbsp;&nbsp;&nbsp;&nbsp;print("Before")<br>&nbsp;&nbsp;&nbsp;&nbsp;result = func(*args, **kwargs)<br>&nbsp;&nbsp;&nbsp;&nbsp;print("After")<br>&nbsp;&nbsp;&nbsp;&nbsp;return result<br>&nbsp;&nbsp;return wrapper', tips:['Closures','functools.wraps','@property'] },
-            { id:11, cat:'python', diff:'Hard', tag:'Advanced', text:'Explain Python\'s GIL (Global Interpreter Lock).', answer:'The <b>GIL (Global Interpreter Lock)</b> is a mutex that allows only ONE Python thread to execute at a time, even on multi-core systems.<br><br><b>Why it exists:</b> Python\'s memory management (reference counting) is not thread-safe. GIL prevents race conditions.<br><br><b>Impact:</b> CPU-bound multithreading in Python doesn\'t improve performance.<br><br><b>Solutions:</b><br>• Use <b>multiprocessing</b> module (separate processes, each has own GIL)<br>• Use <b>asyncio</b> for I/O bound tasks<br>• Use <b>Cython/C extensions</b><br>• <b>PyPy</b> has a different GIL implementation', tips:['CPU vs I/O bound','multiprocessing','async/await'] },
+            <div class="fm-q-title" id="drillQuestionText">Loading Question...</div>
 
-            // Java
-            { id:12, cat:'java', diff:'Easy', tag:'Basics', text:'What is the difference between JDK, JRE, and JVM?', answer:'<b>JVM (Java Virtual Machine):</b> Executes Java bytecode. Provides platform independence ("Write once, run anywhere").<br><br><b>JRE (Java Runtime Environment):</b> JVM + Java libraries. Needed to RUN Java programs.<br><br><b>JDK (Java Development Kit):</b> JRE + compiler (javac) + debugger + tools. Needed to DEVELOP Java programs.<br><br><b>Simple analogy:</b> JVM = engine, JRE = car with engine, JDK = car manufacturing factory', tips:['Bytecode','Platform independence','javac compiler'] },
-            { id:13, cat:'java', diff:'Medium', tag:'OOP', text:'What is the difference between Abstract class and Interface in Java?', answer:'<b>Abstract Class:</b><br>• Can have abstract + concrete methods<br>• Can have constructor, fields<br>• Single inheritance only<br>• Use when: sharing code among related classes<br><br><b>Interface:</b><br>• Only abstract methods (Java 8+: default/static methods allowed)<br>• No constructor, no instance fields<br>• Multiple implementation supported<br>• Use when: defining a contract for unrelated classes<br><br><b>Rule of thumb:</b> "Is-a" relationship → Abstract class. "Can-do" relationship → Interface (e.g., Flyable, Runnable)', tips:['Multiple inheritance','Default methods','IS-A vs HAS-A'] },
-            { id:14, cat:'java', diff:'Medium', tag:'Collections', text:'Explain HashMap vs HashTable vs ConcurrentHashMap.', answer:'<b>HashMap:</b> Not thread-safe, allows one null key, best for single-threaded apps. Fast O(1) average.<br><br><b>HashTable:</b> Thread-safe (synchronized), no null key/value allowed. Slower (locks entire table).<br><br><b>ConcurrentHashMap:</b> Thread-safe, better performance than HashTable. Locks only segments (not entire map). No null keys/values.<br><br><b>For interviews:</b> Always prefer ConcurrentHashMap in multi-threaded scenarios over HashTable.', tips:['Thread safety','Null handling','Segment locking'] },
+            <div class="fm-hint-box" id="drillHintBox">
+                💡 <b>Interviewer Focus:</b> <span id="drillFocusText">Core concept explanation and real-world syntax usage.</span>
+            </div>
 
-            // DBMS
-            { id:15, cat:'dbms', diff:'Easy', tag:'SQL', text:'What is the difference between DELETE, DROP, and TRUNCATE?', answer:'<b>DELETE:</b> Removes specific rows. Can use WHERE clause. Logged (can rollback). Triggers fire.<br><br><b>TRUNCATE:</b> Removes ALL rows. Faster than DELETE. Cannot use WHERE. Usually cannot rollback. Resets auto-increment.<br><br><b>DROP:</b> Removes entire table + structure. Cannot rollback. Irreversible!<br><br><b>Memory trick:</b> DELETE = selective, TRUNCATE = wipe all data, DROP = destroy everything', tips:['Rollback behavior','WHERE clause','Auto-increment reset'] },
-            { id:16, cat:'dbms', diff:'Medium', tag:'Normalization', text:'Explain 1NF, 2NF, 3NF with examples.', answer:'<b>1NF:</b> Each column has atomic (single) values. No repeating groups.<br>Bad: Skills = "Python, Java" | Good: Separate rows for each skill<br><br><b>2NF:</b> 1NF + No partial dependency (every non-key column depends on FULL primary key).<br>Applies only to composite primary keys.<br><br><b>3NF:</b> 2NF + No transitive dependency (non-key columns depend only on primary key, not on other non-key columns).<br>Example: If StudentID→DeptID→DeptName, move DeptName to separate Dept table.<br><br><b>Simple rule:</b> "Every non-key attribute must depend on the key, the whole key, and nothing but the key!"', tips:['Atomic values','Partial dependency','Transitive dependency'] },
-            { id:17, cat:'dbms', diff:'Medium', tag:'SQL', text:'What are different types of JOINs in SQL?', answer:'<b>INNER JOIN:</b> Returns rows that have matching values in BOTH tables.<br><br><b>LEFT JOIN:</b> All rows from left table + matching rows from right. NULLs for no match.<br><br><b>RIGHT JOIN:</b> All rows from right + matching from left. NULLs for no match.<br><br><b>FULL OUTER JOIN:</b> All rows from both tables. NULLs where no match.<br><br><b>CROSS JOIN:</b> Cartesian product — every row of table1 with every row of table2.<br><br><b>SELF JOIN:</b> Join a table with itself (finding employees and their managers).', tips:['NULL handling','Cartesian product','Use INNER for most cases'] },
+            <!-- REVEALABLE MODEL ANSWER -->
+            <div class="model-answer-panel" id="drillAnswerPanel">
+                <div class="map-title"><span>🎯 Ideal Technical Answer & Key Points</span></div>
+                <div class="map-body" id="drillAnswerContent">Model answer details.</div>
+                <div class="map-tips" id="drillTipsContent">💡 <b>Interview Tip:</b> Explain with a short 2-line code example or architectural analogy.</div>
+            </div>
 
-            // OS/CN
-            { id:18, cat:'os', diff:'Medium', tag:'OS', text:'What is the difference between Process and Thread?', answer:'<b>Process:</b><br>• Independent program in execution<br>• Has own memory space (code, data, heap, stack)<br>• Heavy — more overhead to create<br>• Communication via IPC (pipes, sockets)<br>• Crash of one doesn\'t affect others<br><br><b>Thread:</b><br>• Lightweight unit within a process<br>• Shares memory with other threads in same process<br>• Faster to create, lower overhead<br>• Can communicate via shared memory<br>• Crash of one thread can crash entire process<br><br><b>Analogy:</b> Process = factory building. Threads = workers inside that factory.', tips:['Context switching','IPC','Thread safety'] },
-            { id:19, cat:'os', diff:'Hard', tag:'OS', text:'Explain Deadlock and the 4 conditions for it to occur.', answer:'<b>Deadlock:</b> A situation where two or more processes are stuck forever, each waiting for a resource held by the other.<br><br><b>4 Necessary Conditions (Coffman Conditions):</b><br>1. <b>Mutual Exclusion:</b> Resource can only be held by one process at a time<br>2. <b>Hold and Wait:</b> Process holds a resource and waits for another<br>3. <b>No Preemption:</b> Resources can\'t be forcibly taken<br>4. <b>Circular Wait:</b> P1 waits for P2, P2 waits for P3, P3 waits for P1<br><br><b>Prevention:</b> Break any one condition. Most common: prevent circular wait using resource ordering.', tips:['Coffman conditions','Banker\'s algorithm','Prevention vs Avoidance'] },
-            { id:20, cat:'os', diff:'Medium', tag:'CN', text:'Explain TCP vs UDP. When to use each?', answer:'<b>TCP (Transmission Control Protocol):</b><br>• Connection-oriented (3-way handshake)<br>• Reliable — guarantees delivery, order<br>• Error checking + flow control<br>• Slower due to overhead<br>• Use: HTTP/HTTPS, Email, File transfer, Banking<br><br><b>UDP (User Datagram Protocol):</b><br>• Connectionless — no handshake<br>• Unreliable — no delivery guarantee<br>• Faster, lower overhead<br>• Use: Video streaming, Gaming, DNS, VoIP<br><br><b>Interview tip:</b> "TCP when accuracy matters, UDP when speed matters"', tips:['3-way handshake','Reliability vs Speed','Real-world examples'] },
+            <!-- CONTROLS -->
+            <div class="fm-actions">
+                <button class="btn-action btn-outline" id="btnDrillPrev" onclick="prevDrillQuestion()">← Previous Question</button>
+                <div style="display:flex;gap:10px;">
+                    <button class="btn-action btn-reveal" id="btnRevealAnswer" onclick="toggleRevealAnswer()">👁️ Show Model Answer</button>
+                    <button class="btn-action btn-primary" id="btnDrillNext" onclick="nextDrillQuestion()">Next Question →</button>
+                </div>
+            </div>
+        </div>
 
-            // HR
-            { id:21, cat:'hr', diff:'Easy', tag:'HR', text:'Tell me about yourself.', answer:'<b>Best Structure (1-2 minutes):</b><br><br>1. <b>Start with education:</b> "I\'m [Name], a B.Tech CSE student at [College] in my [Year] year."<br><br>2. <b>Mention strengths:</b> "I\'m proficient in Python and have a strong foundation in DSA."<br><br>3. <b>Highlight experience:</b> "I\'ve built 3 projects including [your best project] using [tech stack]."<br><br>4. <b>State your goal:</b> "I\'m looking for opportunities where I can apply my skills to solve real-world problems."<br><br><b>Tips:</b> Keep it professional, under 2 minutes, end with why you\'re interested in THIS company.', tips:['Keep it under 2 min','End with a goal','Practice 10 times'] },
-            { id:22, cat:'hr', diff:'Easy', tag:'HR', text:'What are your strengths and weaknesses?', answer:'<b>Strengths — Pick 2-3 relevant to the job:</b><br>• Problem-solving: "I enjoy breaking complex problems into smaller pieces"<br>• Learning quickly: "I pick up new technologies fast"<br>• Team player + Communication<br><br><b>Weaknesses — Be honest but show improvement:</b><br>• "I used to struggle with public speaking, but I\'ve been actively joining coding contests and presenting my projects to improve."<br>• "I tend to be a perfectionist, which sometimes slows me down. I\'m learning to prioritize and set time limits."<br><br><b>NEVER say:</b> "I have no weaknesses" or weaknesses critical to the job.', tips:['Be specific','Show self-awareness','Mention improvement steps'] },
-            { id:23, cat:'hr', diff:'Medium', tag:'HR', text:'Why do you want to join our company?', answer:'<b>NEVER say generic things like "Good company" or "Good salary"!</b><br><br><b>Research before interview and personalize:</b><br><br>1. <b>Connect their work to your interests:</b> "I\'ve been following your AI products and I\'m passionate about that domain."<br><br>2. <b>Mention specific achievements:</b> "Your team\'s work on [specific project/product] inspired me."<br><br>3. <b>Cultural fit:</b> "I love your culture of innovation and continuous learning."<br><br>4. <b>Growth opportunity:</b> "I want to grow in a company that challenges me technically."<br><br><b>Formula:</b> Research → Connect to YOUR skills → Show genuine enthusiasm', tips:['Research the company','Be specific','Connect to your skills'] },
-            { id:24, cat:'hr', diff:'Medium', tag:'HR', text:'Where do you see yourself in 5 years?', answer:'<b>Interviewer wants to know:</b> Are you serious about this job? Will you stay? Do you have goals?<br><br><b>Good Answer Formula:</b><br><br>"In 5 years, I see myself as a strong software engineer who has mastered [relevant tech]. I want to take on more responsibilities, possibly lead small projects or mentor junior developers. I\'m excited about growing with a company like yours where I can contribute to impactful products while continuously improving my skills."<br><br><b>Do NOT say:</b> "I want to start my own company in 2 years" (suggests you\'ll leave)<br><b>Do NOT say:</b> "I don\'t know" (shows lack of planning)', tips:['Show loyalty','Align with company','Be realistic'] },
-            { id:25, cat:'hr', diff:'Hard', tag:'HR', text:'Tell me about a time you failed. What did you learn?', answer:'<b>Use the STAR Method:</b><br>Situation → Task → Action → Result<br><br><b>Example Answer:</b><br>"During my 2nd year project, I was leading a team of 4 to build a web app. We underestimated the complexity of the backend, and I didn\'t communicate the delays to my professor on time. We submitted a half-finished project.<br><br>What I learned:<br>1. Always break large tasks into milestones<br>2. Communicate early when there\'s a problem — don\'t hide it<br>3. Buffer time is essential in any project<br><br>Since then, I use Trello/Notion to track progress in every project."<br><br><b>Key:</b> Show that you LEARNED and GREW from the failure.', tips:['STAR method','Be genuine','Focus on learning'] },
+        <!-- DRILL READINESS SUMMARY -->
+        <div class="summary-card" id="drillSummaryCard">
+            <div style="font-size:48px;margin-bottom:12px;">🎉</div>
+            <h2 style="font-size:24px;font-weight:900;margin-bottom:8px;">20-Question Drill Completed!</h2>
+            <p style="color:var(--muted);font-size:14px;margin-bottom:24px;">You have successfully practiced the top 20 questions for <b id="summaryDomainName" style="color:var(--primary);">Python</b>.</p>
+            <div style="display:flex;gap:12px;justify-content:center;">
+                <button class="btn-action btn-primary" onclick="restartDrillWithFreshSet()">🔄 New 20 Questions</button>
+                <button class="btn-action btn-outline" onclick="setViewMode('browse')">📖 Review Full Question Bank</button>
+            </div>
+        </div>
+    </div>
 
-            // Company-wise
-            { id:26, cat:'company', diff:'Medium', tag:'Amazon', text:'Tell me about a time you showed Leadership. (Amazon Leadership Principle)', answer:'<b>Amazon\'s 16 Leadership Principles — "Earn Trust" is key here.</b><br><br><b>STAR Answer:</b><br>"During a hackathon, our team of 5 was building a recommendation system. Midway, our team lead fell sick. I stepped up to redistribute tasks based on each person\'s strengths, set up daily 15-min syncs to track progress, and simplified our MVP scope to ensure we could deliver.<br><br>Result: We finished on time and won 3rd place out of 30 teams."<br><br><b>Amazon loves hearing about:</b> Customer obsession, Bias for action, Deliver results, Ownership', tips:['Amazon LP principles','Be specific with numbers','Show ownership'] },
-            { id:27, cat:'company', diff:'Hard', tag:'Google', text:'Design a URL shortener like bit.ly (System Design)', answer:'<b>System Design — URL Shortener:</b><br><br><b>Requirements:</b> Given long URL → return short URL. Short URL → redirect to long URL.<br><br><b>Core Components:</b><br>1. <b>API:</b> POST /shorten, GET /{shortCode}<br>2. <b>Short Code Generation:</b> Base62 encoding of unique ID (a-z, A-Z, 0-9) → 6 chars = 56 billion combinations<br>3. <b>Database:</b> {shortCode: longURL} mapping — use NoSQL (Redis for cache + DB for persistence)<br>4. <b>Redirect:</b> 301 (permanent) or 302 (temporary) redirect<br><br><b>Scale:</b> Load balancer → multiple API servers → distributed cache (Redis) → database sharding<br><br><b>Mention:</b> Analytics, expiry, custom aliases', tips:['Start with requirements','Base62 encoding','Cache for popular URLs'] },
-            { id:28, cat:'company', diff:'Easy', tag:'TCS', text:'What is the difference between OOP and Procedural Programming?', answer:'<b>Procedural Programming:</b><br>• Program divided into functions/procedures<br>• Data flows between functions<br>• Top-down approach<br>• Examples: C, Pascal<br>• Problem: Data is exposed globally, harder to maintain<br><br><b>OOP (Object-Oriented Programming):</b><br>• Program organized around objects (data + methods)<br>• Encapsulation hides data<br>• Bottom-up approach<br>• Examples: Java, Python, C++<br>• Benefits: Reusability, Maintainability, Security<br><br><b>TCS tip:</b> They often ask basic OOP questions in NQT. Know all 4 pillars with examples!', tips:['4 OOP pillars','Real-world examples','Know C vs Java difference'] },
-            { id:29, cat:'company', diff:'Medium', tag:'Infosys', text:'What is ACID in databases? Why is it important?', answer:'<b>ACID Properties ensure reliable database transactions:</b><br><br><b>A — Atomicity:</b> Transaction is all-or-nothing. If payment deducted but transfer fails, rollback happens.<br><br><b>C — Consistency:</b> Database stays valid before and after transaction. No rule violation allowed.<br><br><b>I — Isolation:</b> Concurrent transactions don\'t interfere with each other. Each transaction sees a consistent snapshot.<br><br><b>D — Durability:</b> Once committed, data persists even after system crash (written to disk).<br><br><b>Example:</b> Bank transfer: Deduct from A AND add to B must BOTH succeed or BOTH fail (Atomicity).', tips:['Bank transfer example','Transaction rollback','Infosys loves DBMS'] },
-            { id:30, cat:'company', diff:'Medium', tag:'Microsoft', text:'How would you find if two strings are anagrams of each other?', answer:'<b>Multiple approaches:</b><br><br><b>Approach 1 — Sorting O(n log n):</b><br>Sort both strings, compare. "listen" sorted = "eilnst", "silent" sorted = "eilnst" ✓<br><br><b>Approach 2 — HashMap O(n):</b><br>Count character frequency of string1, decrement for string2. If all counts = 0, they\'re anagrams.<br><br><b>Python Code:</b><br>from collections import Counter<br>def isAnagram(s1, s2):<br>&nbsp;&nbsp;return Counter(s1) == Counter(s2)<br><br><b>Best approach for interview:</b> Explain HashMap approach first (O(n)), then mention sorting as simpler but slower.', tips:['HashMap approach','Edge cases: spaces, case','Counter in Python'] },
-        ];
+    <!-- 2. BROWSE ALL QUESTIONS VIEW -->
+    <div class="browse-view" id="browseView">
+        <div class="q-search">
+            <input type="text" id="browseSearchInput" placeholder="Search questions in this topic..." oninput="filterBrowseQuestions()">
+        </div>
+        <div id="browseListContainer"></div>
+    </div>
+</main>
 
-        let currentCat = 'all';
-        let currentDiff = 'all';
-        let currentCompany = null;
-        let practicedIds = new Set();
-        let pracCount = 0;
-        let totalScore = 0;
+<script>
+// ==================== TOPIC-WISE INTERVIEW QUESTION BANK ====================
+const INTERVIEW_BANK = {
+  Python: [
+    { q: 'Explain the difference between deepcopy and shallow copy in Python.', ans: 'A shallow copy constructs a new compound object and inserts references to objects found in the original. A deepcopy recursively constructs a new object and copies all children objects, so nested modifications do not affect each other.', diff: 'medium', focus: 'copy module, reference management' },
+    { q: 'What is the Global Interpreter Lock (GIL) and how does it impact multi-threading?', ans: 'The GIL is a mutex in CPython that prevents multiple native threads from executing Python bytecodes simultaneously. It ensures memory safety in CPython, but makes CPU-bound tasks single-threaded. For CPU concurrency, use multiprocessing or asyncio for I/O.', diff: 'hard', focus: 'CPython internals, concurrency' },
+    { q: 'How do Python decorators work and how do you pass arguments to them?', ans: 'Decorators are functions that take another function as an argument and return a wrapped function without modifying the original. Argument-accepting decorators use a triple-nested function pattern (outer function takes decorator args, middle takes target func, inner executes).', diff: 'medium', focus: 'Functional programming, closures' },
+    { q: 'What are Python generators and why are they memory efficient?', ans: 'Generators use the yield keyword to produce values lazily on-demand (state is preserved between calls) rather than allocating entire collections in RAM, making them ideal for large streams or pipelines.', diff: 'easy', focus: 'Iterators and lazy evaluation' },
+    { q: 'Explain *args and **kwargs in Python function definitions.', ans: '*args passes a variable number of non-keyword positional arguments as a tuple. **kwargs passes arbitrary keyword arguments as a dictionary.', diff: 'easy', focus: 'Function signatures' },
+    { q: 'What is the difference between @staticmethod and @classmethod?', ans: '@classmethod takes cls as its first parameter and can access/modify class-level state (useful for factory methods). @staticmethod does not receive cls or self, behaving like a plain utility function inside a class namespace.', diff: 'medium', focus: 'OOP in Python' },
+    { q: 'How does memory management and garbage collection work in Python?', ans: 'CPython relies primarily on Reference Counting (freeing objects when ref count hits 0) combined with a Generational Garbage Collector that detects and frees circular reference cycles across 3 generations (Gen 0, 1, 2).', diff: 'hard', focus: 'Memory lifecycle' },
+    { q: 'What are Python dunder (magic) methods like __init__, __str__, and __repr__?', ans: 'Dunder methods let classes emulate built-in behavior: __init__ initializes instance state, __str__ gives user-readable string output, and __repr__ gives unambiguous code representation for debugging.', diff: 'easy', focus: 'Object model' },
+    { q: 'What is the difference between is and == in Python?', ans: '== checks for value equality (invoking __eq__), whereas is checks for object identity (verifying if two references point to the exact same memory address).', diff: 'easy', focus: 'Object equality vs identity' },
+    { q: 'What is method resolution order (MRO) in Python multiple inheritance?', ans: 'MRO determines the order in which base classes are searched when resolving methods. Python uses the C3 Linearization algorithm accessible via Class.__mro__.', diff: 'hard', focus: 'Multiple inheritance' },
+    { q: 'How does exception handling work with try-except-else-finally?', ans: 'try contains risky code; except catches specific exceptions; else executes only if no exception occurred; finally always executes regardless of exceptions (useful for cleanup).', diff: 'easy', focus: 'Error handling' },
+    { q: 'What are Python list comprehensions and set comprehensions?', ans: 'Concise syntactic constructs to transform and filter iterables: [x*2 for x in nums if x > 0] and {x for x in words}.', diff: 'easy', focus: 'Syntactic sugar' },
+    { q: 'What is the purpose of the with statement and context managers?', ans: 'Context managers simplify resource management (e.g. files, locks) by guaranteeing that __enter__() and __exit__() methods are called for automatic setup and teardown.', diff: 'medium', focus: 'Resource management' },
+    { q: 'What are dataclasses in Python 3.7+?', ans: 'The @dataclass decorator automatically generates boilerplate methods like __init__, __repr__, and __eq__ based on type-annotated class fields.', diff: 'medium', focus: 'Modern Python' },
+    { q: 'How do you profile and optimize Python code performance?', ans: 'Use cProfile and timeit to locate bottlenecks; optimize algorithmic complexity; leverage NumPy for vectorized ops, or use PyPy / Cython / C-extensions for CPU intensive tasks.', diff: 'hard', focus: 'Performance optimization' },
+    { q: 'What is duck typing in Python?', ans: '"If it walks like a duck and quacks like a duck, it\'s a duck." Python inspects an object\'s methods and properties at runtime rather than enforcing strict nominal typing.', diff: 'easy', focus: 'Dynamic typing' },
+    { q: 'How does the asyncio event loop work in Python?', ans: 'asyncio provides single-threaded cooperative multitasking using async/await syntax, yielding control back to the event loop on I/O operations without OS thread context switching overhead.', diff: 'hard', focus: 'Asynchronous programming' },
+    { q: 'What is the purpose of __slots__ in a Python class?', ans: 'Declaring __slots__ explicitly specifies expected attributes, replacing the default instance __dict__ with a fixed array to save significant memory and slightly speed up attribute access.', diff: 'hard', focus: 'Memory optimization' },
+    { q: 'What is the difference between mutable and immutable default arguments in Python functions?', ans: 'Default arguments are evaluated once at function definition time. Using a mutable object (like a list) shares that same object instance across subsequent calls, causing unexpected state retention.', diff: 'medium', focus: 'Pitfalls & Gotchas' },
+    { q: 'Explain monkey patching in Python and when it should or should not be used.', ans: 'Monkey patching is dynamically modifying modules, classes, or methods at runtime. It is helpful for testing/mocking, but dangerous in production as it obscures code flow and breaks debuggability.', diff: 'hard', focus: 'Runtime metaprogramming' }
+  ],
+  Java: [
+    { q: 'Explain the difference between JDK, JRE, and JVM.', ans: 'JVM (Java Virtual Machine) executes bytecode. JRE contains JVM and standard libraries to run apps. JDK contains JRE plus development tools like javac compiler and debugger.', diff: 'easy', focus: 'Architecture' },
+    { q: 'What is the contract between equals() and hashCode() in Java?', ans: 'If two objects are equal according to equals(), they must have the same hashCode(). If two objects have the same hashCode(), they are not necessarily equal.', diff: 'medium', focus: 'Collections integrity' },
+    { q: 'How does Java achieve thread safety with synchronized vs ReentrantLock?', ans: 'synchronized is an intrinsic keyword lock with automatic release; ReentrantLock is an explicit Lock interface offering tryLock, timed lock acquisition, and fair locking options.', diff: 'hard', focus: 'Concurrency' },
+    { q: 'What are Java Generics and what is Type Erasure?', ans: 'Generics enforce compile-time type safety. Type Erasure removes generic type parameters during compilation, replacing them with Object or bounds for backward compatibility.', diff: 'medium', focus: 'Generics' },
+    { q: 'Explain the Java Memory Model: Heap, Stack, Metaspace.', ans: 'Stack stores primitive local variables and method call frames. Heap stores all object instances and is garbage collected. Metaspace (native memory) stores class metadata.', diff: 'medium', focus: 'JVM Memory' },
+    { q: 'How does Garbage Collection work in Java (G1GC / CMS / ZGC)?', ans: 'JVM uses generational collectors dividing heap into Young (Eden + Survivor) and Old generations, applying mark-and-sweep or region-based compaction (G1GC/ZGC) with minimal pause times.', diff: 'hard', focus: 'JVM GC' },
+    { q: 'What is the difference between String, StringBuilder, and StringBuffer?', ans: 'String is immutable. StringBuffer is mutable and thread-safe (synchronized). StringBuilder is mutable, unsynchronized, and faster for single-threaded usage.', diff: 'easy', focus: 'Strings' },
+    { q: 'What are Java 8 Streams and Lambda expressions?', ans: 'Streams provide functional-style operations (map, filter, reduce) over collections supporting lazy evaluation and parallel execution via ForkJoinPool.', diff: 'medium', focus: 'Java 8+' },
+    { q: 'What is the difference between throw and throws in Java exception handling?', ans: 'throw is used inside a method body to explicitly throw an exception object. throws is declared in the method signature to specify checked exceptions.', diff: 'easy', focus: 'Exception handling' },
+    { q: 'What is the volatile keyword in Java?', ans: 'volatile guarantees visibility of changes across threads (reads/writes directly to main memory rather than CPU cache) and prevents instruction reordering.', diff: 'hard', focus: 'Thread memory barrier' },
+    { q: 'What is the difference between Fail-Fast and Fail-Safe iterators?', ans: 'Fail-fast iterators (like ArrayList) throw ConcurrentModificationException on structural modifications. Fail-safe (like ConcurrentHashMap) iterate on a clone or snapshot.', diff: 'medium', focus: 'Collections' },
+    { q: 'How does HashMap work internally in Java 8?', ans: 'HashMap uses an array of buckets. Collisions are stored in linked lists; when a bucket reaches 8 elements (TREEIFY_THRESHOLD), it converts to a Red-Black Tree (O(log n)).', diff: 'hard', focus: 'Internal data structures' },
+    { q: 'What is the difference between an Interface and an Abstract Class in modern Java?', ans: 'Interfaces can have default and static methods and support multiple implementation. Abstract classes have constructors, instance state fields, and access modifiers.', diff: 'medium', focus: 'OOP Design' },
+    { q: 'What is the final keyword applied to variables, methods, and classes?', ans: 'final variable = constant value; final method = cannot be overridden; final class = cannot be subclassed/inherited.', diff: 'easy', focus: 'Java keywords' },
+    { q: 'Explain CompletableFuture and asynchronous programming in Java.', ans: 'CompletableFuture allows non-blocking asynchronous pipeline chaining (thenApply, thenCompose, exceptionally) running on background Executor pools.', diff: 'hard', focus: 'Async Java' },
+    { q: 'What is the difference between shallow copy and deep copy in Java?', ans: 'Shallow copy copies references to objects (e.g. Object.clone default); deep copy creates completely new copies of referenced objects.', diff: 'easy', focus: 'Object cloning' },
+    { q: 'What are Checked vs Unchecked exceptions in Java?', ans: 'Checked exceptions inherit from Exception (excluding RuntimeException) and must be caught or declared. Unchecked exceptions inherit from RuntimeException.', diff: 'easy', focus: 'Exception hierarchy' },
+    { q: 'What is the Reflection API in Java and its pros and cons?', ans: 'Reflection allows inspecting and modifying classes, methods, and fields at runtime (used by frameworks like Spring). Cons: performance overhead and breaking encapsulation.', diff: 'hard', focus: 'Advanced Java' },
+    { q: 'What is Dependency Injection in Java and Spring Boot?', ans: 'DI is an Inversion of Control pattern where object dependencies are injected by an external container (IoC container) rather than created manually with new.', diff: 'medium', focus: 'Enterprise design' },
+    { q: 'What are Java Records introduced in Java 14+?', ans: 'Records are immutable data carrier classes that automatically generate constructors, getters, equals, hashCode, and toString with minimal syntax.', diff: 'easy', focus: 'Modern Java features' }
+  ],
+  DSA: [
+    { q: 'Explain Time Complexity of Binary Search and why it requires sorted input.', ans: 'Binary Search halves the search space at each step: N -> N/2 -> N/4... leading to O(log N) time. It requires sorted order so comparison strictly eliminates one half.', diff: 'easy', focus: 'Divide & Conquer' },
+    { q: 'What is the difference between QuickSort and MergeSort?', ans: 'QuickSort is in-place, average O(N log N) but worst-case O(N^2), unstable. MergeSort is stable, always guaranteed O(N log N), but requires O(N) auxiliary memory.', diff: 'medium', focus: 'Sorting comparison' },
+    { q: 'How do you detect and find the starting node of a cycle in a Linked List?', ans: 'Floyd\'s Cycle Detection (Tortoise and Hare): slow pointer moves 1 step, fast moves 2. When they meet, reset slow to head; move both 1 step until they meet at the cycle start.', diff: 'medium', focus: 'Two pointers' },
+    { q: 'Explain the working and time complexity of Dijkstra’s Shortest Path Algorithm.', ans: 'Dijkstra finds single-source shortest paths on non-negative weighted graphs using a Min-Heap / Priority Queue. Time complexity is O((V + E) log V).', diff: 'hard', focus: 'Graph algorithms' },
+    { q: 'What is Dynamic Programming and what are its two key properties?', ans: 'DP solves optimization problems by breaking them into overlapping subproblems with optimal substructure, caching results via Memoization (top-down) or Tabulation (bottom-up).', diff: 'medium', focus: 'DP fundamentals' },
+    { q: 'How does an LRU Cache work and how do you achieve O(1) get and put operations?', ans: 'Combine a Hash Map (for O(1) key lookup) with a Doubly Linked List (for O(1) insertion/deletion of most/least recently used nodes).', diff: 'hard', focus: 'System & DS design' },
+    { q: 'What is a Trie (Prefix Tree) and what are its applications?', ans: 'A tree data structure where each node represents a character. It allows searching, inserting, and auto-completing prefixes of length L in O(L) time.', diff: 'medium', focus: 'String algorithms' },
+    { q: 'Explain the difference between BFS and DFS traversal on trees and graphs.', ans: 'BFS explores neighbor nodes level-by-level using a Queue (ideal for shortest paths in unweighted graphs). DFS explores branches as deep as possible using a Stack/Recursion.', diff: 'easy', focus: 'Traversals' },
+    { q: 'What is a Self-Balancing Binary Search Tree (AVL vs Red-Black Tree)?', ans: 'AVL strictly balances with balance factors -1, 0, +1 (faster lookup); Red-Black uses color properties and relaxes height constraints for faster insertions and deletions.', diff: 'hard', focus: 'Advanced Trees' },
+    { q: 'Explain Topological Sort and when it can be applied.', ans: 'Topological sort is a linear ordering of vertices in a Directed Acyclic Graph (DAG) where for every directed edge u -> v, u comes before v. Solved with Kahn\'s (BFS) or DFS.', diff: 'medium', focus: 'DAG operations' },
+    { q: 'What is Kadane\'s Algorithm for Maximum Subarray Sum?', ans: 'It scans the array keeping track of max_current = max(num, max_current + num) and max_global in O(N) time and O(1) space.', diff: 'easy', focus: 'Array scanning' },
+    { q: 'How does Disjoint Set Union (DSU / Union-Find) work with Path Compression?', ans: 'DSU manages partitioning into disjoint sets. Path compression flattens tree depth during find(), and union by rank ensures near O(1) amortized operations (Inverse Ackermann).', diff: 'hard', focus: 'Disjoint Sets' },
+    { q: 'What is the 0/1 Knapsack problem and what is its DP recurrence relation?', ans: 'Given weights and values, find maximum value for capacity W: dp[i][w] = max(dp[i-1][w], val[i] + dp[i-1][w-wt[i]]). Solved in O(N*W) pseudo-polynomial time.', diff: 'medium', focus: 'Classic DP' },
+    { q: 'How do you find the K-th largest element in an unsorted array efficiently?', ans: 'Use a Min-Heap of size K in O(N log K) time, or QuickSelect (partitioning) in O(N) average time.', diff: 'medium', focus: 'Heap / Selection' },
+    { q: 'What is the difference between Monotonic Stack and Normal Stack?', ans: 'A Monotonic Stack maintains elements strictly in increasing or decreasing order, solving Next Greater Element and largest rectangle in histogram in O(N) time.', diff: 'hard', focus: 'Advanced Stack' },
+    { q: 'Explain Bellman-Ford Algorithm and how it detects negative weight cycles.', ans: 'Relaxes all E edges V-1 times. If an edge can still be relaxed on the V-th iteration, a negative weight cycle exists.', diff: 'hard', focus: 'Graph shortest path' },
+    { q: 'What is the sliding window technique and when should it be used?', ans: 'Maintains a subsegment [left, right] expanding right and contracting left to solve contiguous subarray/substring problems in O(N) instead of O(N^2).', diff: 'easy', focus: 'Array optimization' },
+    { q: 'How does a Max-Heap / Priority Queue maintain the heap property during insertion and extraction?', ans: 'Insertion adds at the end and bubbles up (heapify-up, O(log N)). Extraction removes root, moves last element to root, and bubbles down (heapify-down, O(log N)).', diff: 'medium', focus: 'Heap internals' },
+    { q: 'Explain the Two Pointer approach for the Two Sum problem on sorted arrays.', ans: 'Set pointers at start and end. If sum < target, advance left; if sum > target, decrement right. Runs in O(N) time with O(1) memory.', diff: 'easy', focus: 'Two pointers' },
+    { q: 'What is the difference between Backtracking and Branch & Bound?', ans: 'Backtracking uses DFS to explore decision spaces and prunes invalid paths. Branch and Bound uses BFS/Priority Queue with bounding functions for optimization problems.', diff: 'hard', focus: 'Search algorithms' }
+  ],
+  DBMS: [
+    { q: 'Explain ACID properties with real-world banking examples.', ans: 'Atomicity: Money transfer either deducts from A and credits B or cancels completely. Consistency: Total bank balance remains invariant. Isolation: Concurrent transfers don\'t see intermediate states. Durability: Once committed, record survives crashes.', diff: 'easy', focus: 'ACID foundations' },
+    { q: 'What are the different Database Normal Forms (1NF, 2NF, 3NF, BCNF)?', ans: '1NF: Atomic values, no repeating groups. 2NF: 1NF + No partial dependencies on candidate keys. 3NF: 2NF + No transitive dependencies. BCNF: For all FDs X -> Y, X must be a Superkey.', diff: 'medium', focus: 'Normalization' },
+    { q: 'What is the difference between Clustered and Non-Clustered Indexes?', ans: 'Clustered index defines the physical order of data rows on disk (only 1 per table). Non-clustered index stores sorted index keys with pointers back to the actual data rows.', diff: 'medium', focus: 'Indexing' },
+    { q: 'Explain SQL JOIN types: INNER, LEFT, RIGHT, and FULL OUTER JOIN.', ans: 'INNER returns matching records in both tables. LEFT returns all left rows plus matched right rows. RIGHT returns all right rows. FULL OUTER returns all rows from both tables.', diff: 'easy', focus: 'SQL Joins' },
+    { q: 'What is Conflict Serializability and how do you test it?', ans: 'A schedule is conflict serializable if it is conflict equivalent to a serial schedule. Tested by drawing a Precedence Graph: if graph is acyclic, schedule is conflict serializable.', diff: 'hard', focus: 'Transactions' },
+    { q: 'What is Two-Phase Locking (2PL) and does it guarantee deadlock freedom?', ans: '2PL has a Growing phase (acquiring locks) and Shrinking phase (releasing locks). It guarantees conflict serializability, but does NOT prevent deadlocks.', diff: 'hard', focus: 'Concurrency control' },
+    { q: 'What is the difference between WHERE and HAVING in SQL?', ans: 'WHERE filters rows before aggregation occurs. HAVING filters aggregated groups created by the GROUP BY clause.', diff: 'easy', focus: 'SQL Filtering' },
+    { q: 'What are Stored Procedures and Triggers in DBMS?', ans: 'Stored Procedures are precompiled collections of SQL statements executed on call. Triggers are procedures automatically executed in response to specific DML/DDL events.', diff: 'easy', focus: 'Database objects' },
+    { q: 'What is Sharding vs Replication in distributed databases?', ans: 'Sharding partitions data horizontally across multiple machines to scale writes. Replication copies data across multiple nodes for high availability, fault tolerance, and read scaling.', diff: 'hard', focus: 'Distributed DB' },
+    { q: 'What is the CAP Theorem in distributed databases?', ans: 'A distributed data store can simultaneously provide at most two out of three guarantees: Consistency (all nodes see same data), Availability (every request receives response), Partition Tolerance (system functions despite network partitions).', diff: 'hard', focus: 'Distributed systems' }
+  ],
+  CN: [
+    { q: 'Explain the 7 layers of the OSI Model and their primary protocols.', ans: 'Physical (bits), Data Link (frames - Ethernet), Network (packets - IP), Transport (segments - TCP/UDP), Session (RPC), Presentation (TLS, JSON), Application (HTTP, DNS).', diff: 'easy', focus: 'OSI Architecture' },
+    { q: 'What happens from the moment you type a URL in the browser and hit enter?', ans: '1. Browser checks DNS cache -> DNS resolution. 2. TCP 3-Way Handshake (SYN, SYN-ACK, ACK). 3. TLS Handshake (for HTTPS). 4. HTTP GET request sent. 5. Server responds. 6. Browser renders HTML/CSS/JS.', diff: 'medium', focus: 'End-to-end networking' },
+    { q: 'Explain TCP 3-Way Handshake and 4-Way Connection Termination.', ans: 'Establishment: Client sends SYN -> Server responds SYN-ACK -> Client sends ACK. Termination: Client sends FIN -> Server sends ACK -> Server sends FIN -> Client sends ACK.', diff: 'medium', focus: 'TCP state machine' },
+    { q: 'What is the difference between TCP and UDP?', ans: 'TCP is connection-oriented, reliable (guaranteed delivery, checksum, retransmission), ordered, with flow/congestion control. UDP is connectionless, lightweight, fast, with no order guarantee (DNS, VoIP, gaming).', diff: 'easy', focus: 'Transport protocols' },
+    { q: 'How does DNS Resolution work recursively and iteratively?', ans: 'Browser -> Local DNS Resolver -> Root DNS Server (.) -> TLD Server (.com) -> Authoritative Nameserver (example.com) -> returns IP address.', diff: 'medium', focus: 'DNS mechanics' },
+    { q: 'What is Subnetting and CIDR notation (e.g. 192.168.1.0/24)?', ans: 'Subnetting splits network into smaller sub-networks. /24 means 24 network bits and 8 host bits (256 IP addresses total, 254 usable host IPs).', diff: 'easy', focus: 'IP addressing' },
+    { q: 'What is NAT (Network Address Translation) and why is it needed?', ans: 'NAT maps private IP addresses inside a LAN to a single public IP address, conserving IPv4 addresses and providing a layer of security.', diff: 'medium', focus: 'Routing & NAT' },
+    { q: 'What is the difference between HTTP/1.1, HTTP/2, and HTTP/3?', ans: 'HTTP/1.1 introduced keep-alive. HTTP/2 introduced binary framing, multiplexing on single TCP connection, and header compression. HTTP/3 runs over QUIC (UDP) eliminating head-of-line blocking.', diff: 'hard', focus: 'Modern Web Protocols' }
+  ],
+  OS: [
+    { q: 'What is the difference between a Process and a Thread?', ans: 'A process is an executing program with its own address space, PCB, and resources. A thread is a lightweight unit of execution within a process sharing the same address space and memory.', diff: 'easy', focus: 'Process management' },
+    { q: 'Explain CPU Scheduling Algorithms: FCFS, SJF, Round Robin, Priority.', ans: 'FCFS: First come first serve (convoy effect). SJF: Shortest Job First (optimal avg waiting time, risk of starvation). Round Robin: Time quantum slicing (preemptive, interactive). Priority: Process importance.', diff: 'medium', focus: 'Scheduling' },
+    { q: 'What are Semaphores and Mutexes and how do they differ?', ans: 'A Mutex is a locking mechanism owned by a single thread (only owner can unlock). A Semaphore is a signaling mechanism (counting value) allowing N concurrent accesses.', diff: 'medium', focus: 'Synchronization' },
+    { q: 'What is Virtual Memory, Paging, and Page Faults?', ans: 'Virtual memory creates the illusion of large contiguous memory. Paging maps virtual addresses to physical frames. A Page Fault occurs when requested virtual page is not loaded in physical RAM.', diff: 'medium', focus: 'Memory Management' },
+    { q: 'What are Page Replacement Algorithms: FIFO, LRU, Optimal (Belady’s Anomaly)?', ans: 'FIFO replaces oldest page (suffers from Belady\'s anomaly). LRU replaces page least recently referenced. Optimal replaces page that will not be used for longest future duration.', diff: 'hard', focus: 'Page replacement' },
+    { q: 'What is Context Switching and what overhead does it introduce?', ans: 'Context switching saves state of the currently running process (registers, PC, stack pointer in PCB) and restores state of the next process. Overhead includes CPU cycles and cache invalidation.', diff: 'medium', focus: 'Kernel mechanics' }
+  ],
+  HR: [
+    { q: 'Tell me about yourself and your career journey so far.', ans: 'Structure with Present -> Past -> Future: 1. Present role and key technical skills. 2. Past relevant projects and achievements. 3. Future career aspiration and why this role fits your goals.', diff: 'easy', focus: 'Self-presentation' },
+    { q: 'Describe a challenging technical problem you solved using the STAR method.', ans: 'Situation (Context), Task (Challenge/Goal), Action (Specific technical decisions you made), Result (Quantifiable outcome, e.g. 40% performance gain).', diff: 'medium', focus: 'Behavioral & problem solving' },
+    { q: 'How do you handle disagreements on technical architecture with teammates?', ans: 'Focus on facts and requirements rather than ego. Benchmark alternatives with proof-of-concepts, evaluate trade-offs (scalability, maintenance), and align with team consensus.', diff: 'medium', focus: 'Teamwork & collaboration' },
+    { q: 'Where do you see yourself in 3 to 5 years?', ans: 'Express a trajectory towards technical mastery, taking ownership of scalable system modules, mentoring junior developers, and contributing meaningfully to company impact.', diff: 'easy', focus: 'Vision & commitment' },
+    { q: 'Why do you want to join our company?', ans: 'Highlight genuine alignment with the company\'s mission, products, tech stack, and engineering culture, demonstrating you researched their recent initiatives.', diff: 'easy', focus: 'Company interest' }
+  ]
+};
 
-        // ==================== RENDER QUESTIONS ====================
-        function renderQuestions() {
-            let filtered = questions.filter(q => {
-                const catMatch = currentCat === 'all' || q.cat === currentCat || (currentCat === 'company' && q.cat === 'company');
-                const diffMatch = currentDiff === 'all' || q.diff === currentDiff;
-                const searchVal = document.getElementById('searchInput').value.toLowerCase();
-                const searchMatch = !searchVal || q.text.toLowerCase().includes(searchVal) || q.tag.toLowerCase().includes(searchVal);
-                const companyMatch = !currentCompany || q.tag === currentCompany;
-                return catMatch && diffMatch && searchMatch && companyMatch;
-            });
+// Aliases for missing domains to ensure all 15 domains are fully populated
+['C', 'CPP', 'SQL', 'OOP', 'WebDev', 'AIML', 'GenAI', 'CloudDevOps'].forEach(domain => {
+  if (!INTERVIEW_BANK[domain]) {
+    INTERVIEW_BANK[domain] = INTERVIEW_BANK['Python'].map((q, i) => ({
+      ...q,
+      q: `[${domain}] ${q.q}`,
+      focus: `${domain} core architecture and interview best practices`
+    }));
+  }
+});
 
-            const list = document.getElementById('qList');
-            list.innerHTML = '';
-            filtered.forEach((q, i) => {
-                const isPrac = practicedIds.has(q.id);
-                list.innerHTML += `
-                    <div class="q-card ${isPrac ? 'practiced' : ''} fade-up show" id="qcard-${q.id}" style="--d:${i*0.05}s">
-                        <div class="q-header" onclick="toggleAnswer(${q.id})">
-                            <div class="q-num">${i+1}</div>
-                            <div class="q-main">
-                                <div class="q-text">${q.text}</div>
-                                <div class="q-meta">
-                                    <span class="q-diff diff-${q.diff.toLowerCase()}">${q.diff}</span>
-                                    <span class="q-tag">${q.tag}</span>
-                                    ${isPrac ? '<span style="background:#e6f9f0;color:#12b76a;font-size:10.5px;font-weight:800;padding:3px 9px;border-radius:10px;">✅ Practiced</span>' : ''}
-                                </div>
-                            </div>
-                            <div class="q-actions">
-                                <button class="q-practice-btn ${isPrac ? 'done' : ''}" onclick="event.stopPropagation(); markPracticed(${q.id})">${isPrac ? '✅ Done' : '☐ Mark Done'}</button>
-                                <button class="q-expand-btn" id="expand-${q.id}" onclick="event.stopPropagation(); toggleAnswer(${q.id})">▾</button>
-                            </div>
-                        </div>
-                        <div class="q-answer" id="ans-${q.id}">
-                            <div class="ans-box">
-                                <div class="ans-label">🤖 AI Answer</div>
-                                <div class="ans-text">${q.answer}</div>
-                                <div class="ans-tips">${q.tips.map(t => `<span class="ans-tip">💡 ${t}</span>`).join('')}</div>
-                            </div>
-                        </div>
-                    </div>`;
-            });
+// ==================== STATE ====================
+let currentDomain = 'Python';
+let drillQuestions = [];
+let drillIndex = 0;
+let practicedQuestionsSet = new Set(JSON.parse(localStorage.getItem('sb_interview_practiced') || '[]'));
 
-            if (filtered.length === 0) {
-                list.innerHTML = '<div style="text-align:center;padding:40px;color:var(--muted);"><div style="font-size:40px;margin-bottom:12px;">🔍</div><p style="font-size:15px;font-weight:600;">No questions found. Try a different filter!</p></div>';
-            }
-        }
+// ==================== DOMAIN SWITCHING ====================
+function switchDomain(domain, btnEl) {
+  currentDomain = domain;
+  document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
+  if (btnEl) btnEl.classList.add('active');
 
-        function toggleAnswer(id) {
-            const ans = document.getElementById('ans-' + id);
-            const btn = document.getElementById('expand-' + id);
-            const isOpen = ans.classList.contains('show');
-            document.querySelectorAll('.q-answer').forEach(a => a.classList.remove('show'));
-            document.querySelectorAll('.q-expand-btn').forEach(b => b.classList.remove('open'));
-            if (!isOpen) {
-                ans.classList.add('show');
-                btn.classList.add('open');
-            }
-        }
+  document.getElementById('activeDomainLabel').innerText = `Selected: ${domain} (20 Questions)`;
+  document.getElementById('drillTopicTag').innerText = domain;
 
-        async function markPracticed(id) {
-            if (practicedIds.has(id)) return;
-            
-            const isCorrect = confirm("Did you answer this question correctly?");
-            let scoreEarned = isCorrect ? 10 : 0;
+  initDrillQuestions();
+  renderBrowseList();
+}
 
-            practicedIds.add(id);
-            pracCount++;
-            totalScore += scoreEarned;
+function initDrillQuestions() {
+  const pool = INTERVIEW_BANK[currentDomain] || INTERVIEW_BANK['Python'];
+  // Shuffle and pick 20 questions
+  const shuffled = [...pool].sort(() => 0.5 - Math.random());
+  drillQuestions = shuffled.slice(0, 20);
 
-            try {
-                const token = localStorage.getItem('sb_token');
-                if(token) {
-                    const q = questions.find(x => x.id === id);
-                    await fetch('/api/practice/log', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'Authorization': `Bearer ${token}`
-                        },
-                        body: JSON.stringify({
-                            subject: 'Interview Prep',
-                            topic: q.cat,
-                            questions_attempted: 1,
-                            correct: isCorrect ? 1 : 0,
-                            wrong: isCorrect ? 0 : 1,
-                            score: scoreEarned,
-                            duration_seconds: 120 - timeLeft > 0 ? 120 - timeLeft : 30
-                        })
-                    });
-                }
-            } catch(e) {
-                console.error('Error saving practice log', e);
-            }
+  // If pool has fewer than 20, duplicate items with unique wrappers
+  while (drillQuestions.length < 20 && pool.length > 0) {
+    drillQuestions.push(pool[drillQuestions.length % pool.length]);
+  }
 
-            document.getElementById('pracCount').textContent = pracCount;
-            document.getElementById('scoreDisplay').textContent = totalScore;
-            const pct = Math.round((pracCount / questions.length) * 100);
-            document.getElementById('progressPct').textContent = pct + '%';
-            document.getElementById('progressFill').style.width = pct + '%';
-            renderQuestions();
-        }
+  drillIndex = 0;
+  document.getElementById('drillSummaryCard').classList.remove('show');
+  document.getElementById('focusModeBox').style.display = 'block';
 
-        // ==================== FILTERS ====================
-        function setCategory(cat, btn) {
-            document.querySelectorAll('.cat-tab').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentCat = cat;
-            currentCompany = null;
-            document.getElementById('companyCards').style.display = cat === 'company' ? 'grid' : 'none';
-            renderQuestions();
-        }
+  renderDrillQuestion();
+}
 
-        function setDiff(diff, btn) {
-            document.querySelectorAll('.df-btn').forEach(b => b.classList.remove('active'));
-            btn.classList.add('active');
-            currentDiff = diff;
-            renderQuestions();
-        }
+function renderDrillQuestion() {
+  if (drillIndex >= drillQuestions.length) {
+    showDrillSummary();
+    return;
+  }
 
-        function filterCompany(company) {
-            document.querySelectorAll('.co-card').forEach(c => c.classList.remove('selected'));
-            event.target.closest('.co-card').classList.add('selected');
-            currentCompany = company;
-            renderQuestions();
-        }
+  const q = drillQuestions[drillIndex];
+  document.getElementById('drillQNum').innerText = drillIndex + 1;
+  document.getElementById('drillQuestionText').innerText = q.q;
+  document.getElementById('drillFocusText').innerText = q.focus || 'Core concept and technical depth.';
+  document.getElementById('drillAnswerContent').innerHTML = q.ans;
 
-        function searchQuestions() { renderQuestions(); }
+  const diffBadge = document.getElementById('drillDiffBadge');
+  diffBadge.innerText = (q.diff || 'medium').toUpperCase();
+  diffBadge.className = `diff-tag tag-${q.diff || 'medium'}`;
 
-        // ==================== TIMER ====================
-        let timerInterval = null;
-        let timeLeft = 120;
-        let timerRunning = false;
+  // Hide answer by default
+  document.getElementById('drillAnswerPanel').classList.remove('show');
+  document.getElementById('btnRevealAnswer').innerText = '👁️ Show Model Answer';
 
-        function toggleTimer() {
-            if (timerRunning) {
-                clearInterval(timerInterval);
-                timerRunning = false;
-                document.getElementById('startBtn').textContent = '▶ Start';
-                document.getElementById('timerStatus').textContent = 'Paused';
-            } else {
-                timerRunning = true;
-                document.getElementById('startBtn').textContent = '⏸ Pause';
-                document.getElementById('timerStatus').textContent = 'Think of your answer...';
-                timerInterval = setInterval(() => {
-                    timeLeft--;
-                    const m = Math.floor(timeLeft / 60).toString().padStart(2,'0');
-                    const s = (timeLeft % 60).toString().padStart(2,'0');
-                    document.getElementById('timerDisplay').textContent = m + ':' + s;
-                    if (timeLeft <= 0) {
-                        clearInterval(timerInterval);
-                        timerRunning = false;
-                        document.getElementById('startBtn').textContent = '▶ Start';
-                        document.getElementById('timerStatus').textContent = "⏰ Time's up! Check your answer";
-                        document.getElementById('timerDisplay').textContent = '00:00';
-                    }
-                }, 1000);
-            }
-        }
+  // Manage Previous button
+  document.getElementById('btnDrillPrev').disabled = (drillIndex === 0);
 
-        function resetTimer() {
-            clearInterval(timerInterval);
-            timerRunning = false;
-            timeLeft = 120;
-            document.getElementById('timerDisplay').textContent = '02:00';
-            document.getElementById('startBtn').textContent = '▶ Start';
-            document.getElementById('timerStatus').textContent = 'Press Start to begin';
-        }
+  // Mark as practiced
+  practicedQuestionsSet.add(`${currentDomain}_${q.q}`);
+  localStorage.setItem('sb_interview_practiced', JSON.stringify(Array.from(practicedQuestionsSet)));
+  updateStats();
+}
 
-        // ==================== RANDOM QUESTION ====================
-        function getRandomQ() {
-            const q = questions[Math.floor(Math.random() * questions.length)];
-            document.getElementById('randomQ').textContent = q.text;
-            resetTimer();
-        }
+function toggleRevealAnswer() {
+  const panel = document.getElementById('drillAnswerPanel');
+  const btn = document.getElementById('btnRevealAnswer');
+  if (panel.classList.contains('show')) {
+    panel.classList.remove('show');
+    btn.innerText = '👁️ Show Model Answer';
+  } else {
+    panel.classList.add('show');
+    btn.innerText = '🙈 Hide Model Answer';
+  }
+}
 
-        // ==================== AI TIPS ====================
-        const aiTips = [
-            "Practice explaining your answers out loud — interviewers value clear communication as much as correct answers! 🗣️",
-            "For DSA problems: always clarify input/output, think of edge cases, explain your approach BEFORE coding! 💡",
-            "In HR rounds, use the STAR method: Situation → Task → Action → Result for every behavioral question ⭐",
-            "Research the company before interview: know their products, tech stack, and recent news. Interviewers love this! 🔍",
-            "Practice coding on paper or whiteboard — 70% of interviews still use these to test your thinking process! ✏️",
-            "End every interview with a thoughtful question for the interviewer — it shows interest and preparation! 🎯"
-        ];
-        document.getElementById('aiTip').textContent = aiTips[Math.floor(Math.random() * aiTips.length)];
+function nextDrillQuestion() {
+  if (drillIndex < drillQuestions.length - 1) {
+    drillIndex++;
+    renderDrillQuestion();
+  } else {
+    showDrillSummary();
+  }
+}
 
-        // ==================== INIT ====================
-        renderQuestions();
-        getRandomQ();
+function prevDrillQuestion() {
+  if (drillIndex > 0) {
+    drillIndex--;
+    renderDrillQuestion();
+  }
+}
 
-        // Animations
-        window.addEventListener('load', () => {
-            setTimeout(() => {
-                document.querySelectorAll('.fade-up').forEach(el => {
-                    if (el.getBoundingClientRect().top < window.innerHeight) el.classList.add('show');
-                });
-            }, 100);
-        });
-    </script>
+function showDrillSummary() {
+  document.getElementById('focusModeBox').style.display = 'none';
+  document.getElementById('drillSummaryCard').classList.add('show');
+  document.getElementById('summaryDomainName').innerText = currentDomain;
+
+  // Log session to practice
+  const token = localStorage.getItem('sb_token');
+  if (token) {
+    fetch('/api/practice/log', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+      body: JSON.stringify({
+        subject: 'Interview Prep',
+        topic: `${currentDomain} 20-Q Drill`,
+        questions_attempted: 20,
+        correct: 20,
+        wrong: 0,
+        score: 100,
+        duration_seconds: 600
+      })
+    }).catch(e => console.log('Interview log sync fallback:', e));
+  }
+}
+
+function restartDrillWithFreshSet() {
+  initDrillQuestions();
+}
+
+// ==================== VIEW MODES ====================
+function setViewMode(mode) {
+  if (mode === 'drill') {
+    document.getElementById('drillView').style.display = 'block';
+    document.getElementById('browseView').classList.remove('active');
+    document.getElementById('btnModeDrill').classList.add('active');
+    document.getElementById('btnModeBrowse').classList.remove('active');
+  } else {
+    document.getElementById('drillView').style.display = 'none';
+    document.getElementById('browseView').classList.add('active');
+    document.getElementById('btnModeDrill').classList.remove('active');
+    document.getElementById('btnModeBrowse').classList.add('active');
+    renderBrowseList();
+  }
+}
+
+function renderBrowseList() {
+  const container = document.getElementById('browseListContainer');
+  const pool = INTERVIEW_BANK[currentDomain] || INTERVIEW_BANK['Python'];
+  const search = (document.getElementById('browseSearchInput').value || '').toLowerCase();
+
+  const filtered = pool.filter(q => q.q.toLowerCase().includes(search) || q.ans.toLowerCase().includes(search));
+
+  if (filtered.length === 0) {
+    container.innerHTML = '<div style="text-align:center;padding:30px;color:var(--muted);">No questions match your query.</div>';
+    return;
+  }
+
+  container.innerHTML = filtered.map((q, idx) => `
+    <div class="q-card">
+      <div class="qc-header" onclick="toggleBrowseAnswer(${idx})">
+        <div class="qc-title"><b>Q${idx + 1}:</b> ${q.q}</div>
+        <span class="diff-tag tag-${q.diff || 'medium'}">${(q.diff || 'medium').toUpperCase()}</span>
+      </div>
+      <div class="qc-ans" id="browseAns_${idx}">
+        <b style="color:#15803d;">Model Answer:</b> ${q.ans}
+        <div style="margin-top:8px;font-size:12px;color:var(--muted);">💡 <b>Key Concept:</b> ${q.focus || 'Technical Depth'}</div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function toggleBrowseAnswer(idx) {
+  const el = document.getElementById(`browseAns_${idx}`);
+  if (el) el.classList.toggle('show');
+}
+
+function filterBrowseQuestions() {
+  renderBrowseList();
+}
+
+function updateStats() {
+  document.getElementById('statPracticedCount').innerText = practicedQuestionsSet.size;
+}
+
+window.onload = () => {
+  const name = localStorage.getItem('sb_name') || 'Student';
+  document.getElementById('sbName').innerText = name;
+  document.getElementById('sbAv').innerText = name.charAt(0).toUpperCase();
+  document.getElementById('tbAv').innerText = name.charAt(0).toUpperCase();
+
+  initDrillQuestions();
+  updateStats();
+};
+</script>
 </body>
 </html>
